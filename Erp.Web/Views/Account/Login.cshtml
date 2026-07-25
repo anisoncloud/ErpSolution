@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Erp.Web.Models.LoginViewModel
+<h2>Login</h2>
+<form asp-action="Login" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Password</label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-check mb-3">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label class="form-check-label">Remember me</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

@@ -1,0 +1,19 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Erp.Web.Models.AssignRoleViewModel
+<h2>Assign Roles - @Model.UserEmail</h2>
+<form asp-action="AssignRole" method="post">
+    <input type="hidden" asp-for="UserId" />
+    @foreach (var role in Model.AllRoles)
+    {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="SelectedRoles"
+                   value="@role" checked="@Model.SelectedRoles.Contains(role)" />
+            <label class="form-check-label">@role</label>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+</form>

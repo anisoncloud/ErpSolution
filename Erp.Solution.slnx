@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Erp.Core/Erp.Core.csproj" />
+  <Project Path="Erp.Infrastructure/Erp.Infrastructure.csproj" />
+  <Project Path="Erp.Modules.Accounting/Erp.Modules.Accounting.csproj" />
+  <Project Path="Erp.Modules.HRM/Erp.Modules.HRM.csproj" />
+  <Project Path="Erp.Modules.Inventory/Erp.Modules.Inventory.csproj" />
+  <Project Path="Erp.Web/Erp.Web.csproj" />
+</Solution>

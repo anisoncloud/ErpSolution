@@ -1,0 +1,19 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Erp.Web.Models.CreateRoleViewModel
+<h2>Create Role</h2>
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label>Role Name</label>
+        <input asp-for="RoleName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
