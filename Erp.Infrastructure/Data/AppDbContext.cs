@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Erp.Modules.HRM.Entities;
+using Erp.Modules.HRM.Data;
 
 namespace Erp.Infrastructure.Data
 {
@@ -16,7 +18,9 @@ namespace Erp.Infrastructure.Data
         { 
         
         }
-
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Designation> Designations { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +38,7 @@ namespace Erp.Infrastructure.Data
             // builder.Entity<Employee>().ToTable("Employees", "hrm");
             // builder.Entity<Invoice>().ToTable("Invoices", "accounting");
             // builder.Entity<Product>().ToTable("Products", "inventory");
+            builder.ApplyHrmModule();
         }
     }    
 
