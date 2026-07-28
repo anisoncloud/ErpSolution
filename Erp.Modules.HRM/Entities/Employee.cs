@@ -1,6 +1,7 @@
 ﻿using Erp.Modules.HRM.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Erp.Modules.HRM.Entities
@@ -28,6 +29,7 @@ namespace Erp.Modules.HRM.Entities
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
 
         public DateTime JoiningDate { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal? Salary { get; set; }
 
         public bool IsActive { get; set; } = true;
