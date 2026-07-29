@@ -1,0 +1,39 @@
+﻿@model Erp.Web.Areas.HRM.Models.EmployeeFormViewModel
+<h2>Create Employee</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3"><label>Employee Code</label><input asp-for="EmployeeCode" class="form-control" /></div>
+    <div class="mb-3"><label>Full Name</label><input asp-for="FullName" class="form-control" /></div>
+    <div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control" /></div>
+    <div class="mb-3"><label>Phone</label><input asp-for="Phone" class="form-control" /></div>
+
+    <div class="mb-3">
+        <label>Department</label>
+        <select asp-for="DepartmentId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))">
+            <option value="">-- Select Department --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Designation</label>
+        <select asp-for="DesignationId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Designations, "Id", "Title"))">
+            <option value="">-- Select Designation --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Level (drives access role)</label>
+        <select asp-for="Level" class="form-control"
+                asp-items="Html.GetEnumSelectList<ERP.Modules.HRM.Enums.EmployeeLevel>()"></select>
+    </div>
+
+    <div class="mb-3"><label>Joining Date</label><input asp-for="JoiningDate" class="form-control" type="date" /></div>
+    <div class="mb-3"><label>Salary</label><input asp-for="Salary" class="form-control" /></div>
+    <div class="mb-3"><label>Temporary Password</label><input asp-for="TemporaryPassword" class="form-control" /></div>
+
+    <button type="submit" class="btn btn-primary">Create Employee</button>
+</form>

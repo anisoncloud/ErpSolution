@@ -1,0 +1,37 @@
+﻿@model List<Erp.Modules.HRM.Entities.Employee>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h2>Employees</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("HR"))
+{
+    <a asp-action="Create" class="btn btn-primary mb-3">+ New Employee</a>
+}
+
+<table class="table">
+    <thead>
+        <tr><th>Code</th><th>Name</th><th>Department</th><th>Designation</th><th>Level</th><th></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.EmployeeCode</td>
+                <td>@e.FullName</td>
+                <td>@e.Department?.Name</td>
+                <td>@e.Designation?.Title</td>
+                <td>@e.Level</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@e.Id" class="btn btn-sm btn-secondary">View</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("HR"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

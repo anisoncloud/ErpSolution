@@ -1,0 +1,50 @@
+﻿@model Erp.Modules.HRM.Entities.Employee
+<h2>@Model.FullName</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Employee Code</dt>
+    <dd class="col-sm-9">@Model.EmployeeCode</dd>
+    <dt class="col-sm-3">Department</dt>
+    <dd class="col-sm-9">@Model.Department?.Name</dd>
+    <dt class="col-sm-3">Designation</dt>
+    <dd class="col-sm-9">@Model.Designation?.Title</dd>
+    <dt class="col-sm-3">Level</dt>
+    <dd class="col-sm-9">@Model.Level</dd>
+    <dt class="col-sm-3">Joining Date</dt>
+    <dd class="col-sm-9">@Model.JoiningDate.ToShortDateString()</dd>
+</dl>
+
+@* Salary section only visible to Admin / HR / Manager — Executives can't see it *@
+@if ((bool)ViewBag.CanSeeSalary)
+{
+    <div class="card mt-3">
+        <div class="card-header bg-warning">Compensation (Restricted)</div>
+        <div class="card-body">
+            <strong>Salary:</strong> @Model.Salary?.ToString("N2")
+        </div>
+    </div>
+}
+
+@* Manager-only section: team actions *@
+@if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+{
+    <div class="card mt-3">
+        <div class="card-header bg-info">Manager Actions</div>
+        <div class="card-body">
+            <a href="#" class="btn btn-sm btn-outline-primary">Approve Leave Requests</a>
+            <a href="#" class="btn btn-sm btn-outline-primary">Assign Tasks</a>
+        </div>
+    </div>
+}
+
+@* Executive-only section: self-service items *@
+@if (User.IsInRole("Executive"))
+{
+    <div class="card mt-3">
+        <div class="card-header bg-light">My Self-Service</div>
+        <div class="card-body">
+            <a href="#" class="btn btn-sm btn-outline-secondary">Apply for Leave</a>
+            <a href="#" class="btn btn-sm btn-outline-secondary">View My Attendance</a>
+        </div>
+    </div>
+}
