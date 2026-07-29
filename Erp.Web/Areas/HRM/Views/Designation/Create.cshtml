@@ -1,0 +1,24 @@
+﻿@model Erp.Modules.HRM.Entities.Designation
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "_Layout";
+}
+<h1>Create Designation</h1>
+<hr />
+<form asp-action="Create">
+    @Html.AntiForgeryToken();
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Designation</label>
+    <input asp-for="Title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation">
+</div>
+@* <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div> *@
+<button type="submit" class="btn btn-primary">Create Designation</button>
+</form>
