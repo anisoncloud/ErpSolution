@@ -1,5 +1,8 @@
 ﻿using Erp.Core.Identity;
 using Erp.Infrastructure.Data;
+using Erp.Modules.HRM.Entities;
+using Erp.Modules.HRM.Enums;
+using Erp.Web.Areas.HRM.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +55,67 @@ namespace Erp.Web.Areas.HRM.Controllers
         {
             await PopulateDropdows();
             return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(EmployeeFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                await PopulateDropdows();
+                return View(model);
+            }
+            // Begin the transaction block
+            using var transaction = await _db.Database.BeginTransactionAsync();
+            // 1. Create the login (ApplicationUser) for the employee
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FullName = model.FullName,
+                Department = model.DepartmentName,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var createResult = await _userManager.CreateAsync(user, model.TemporaryPassword);
+            if (!createResult.Succeeded)
+            {
+                foreach (var err in createResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, err.Description);
+                    await PopulateDropdows();
+                    return View(model);
+                }
+            }
+
+            // 2. Assign the Identity role based on selected level (drives section access)
+            var rollName = model.Level == EmployeeLevel.Manager ? "Manager" : "Executive";
+            await _userManager.AddToRoleAsync(user, rollName);
+
+            // 3. Create the HRM employee record, linked via UserId
+            var employee = new Employee
+            {
+                UserId = user.Id,
+                EmployeeCode = model.EmployeeCode,
+                FullName = model.FullName,
+                Email = model.Email,
+                Phone = model.Phone,
+                DepartmentId = model.DepartmentId,
+                DesignationId = model.DesignationId,
+                Level = model.Level,
+                JoiningDate = model.JoiningDate,
+                Salary = model.Salary,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+            _db.Employees.Add(employee);
+            await _db.SaveChangesAsync();
+
+            // 6. Commit transaction if both steps succeeded
+            await transaction.CommitAsync();
+
+            TempData["Success"] = "Employee created successfully.";
+            return RedirectToAction(nameof(Index));
         }
 
     }

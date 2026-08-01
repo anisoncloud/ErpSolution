@@ -2,41 +2,39 @@
 using Erp.Modules.HRM.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Erp.Web.Areas.HRM.Controllers
 {
     [Area("HRM")]
-    public class DesignationController : Controller
+    public class DepartmentController : Controller
     {
         private readonly AppDbContext _db;
-        public DesignationController(AppDbContext db)
+        public DepartmentController(AppDbContext db)
         {
             _db = db;
         }
-
         public async Task<IActionResult> Index()
         {
-            var designatins = await _db.Designations.OrderBy(x => x.Title).ToListAsync();
-            return View(designatins);
+            var departments = await _db.Departments.OrderBy(x => x.Name).ToListAsync();
+            return View(departments);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new Designation() );
+            return View(new Department());
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(Designation model)
+        public IActionResult Create(Department model)
         {
             if (ModelState.IsValid)
             {
-                _db.Designations.Add(model);
+                _db.Departments.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            
+
             return View(model);
         }
     }

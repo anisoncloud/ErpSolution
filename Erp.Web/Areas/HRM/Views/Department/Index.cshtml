@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Erp.Modules.HRM.Entities.Designation>
+﻿@model IEnumerable<Erp.Modules.HRM.Entities.Department>
 @{
     Layout = "_Layout";
 }
@@ -11,7 +11,7 @@
     <div class="list-group-item">
         <!-- Grid Row inside the item -->
         <div class="row align-items-center">
-            <div class="col-6 col-md-4"><strong>Designation</strong></div>
+            <div class="col-6 col-md-4"><strong>Department</strong></div>
             <div class="col-3 col-md-4 text-muted">SKU: 12345</div>
             <div class="col-3 col-md-4 text-end">$49.99</div>
         </div>
@@ -20,11 +20,11 @@
     {
         <div class="list-group-item">
             <div class="row align-items-center">
-                <div class="col-6 col-md-4"><strong>@item.Title</strong></div>
+                <div class="col-6 col-md-4"><strong>@item.Name</strong></div>
                 <div class="col-3 col-md-4 text-muted">SKU: 67890</div>
                 <div class="col-3 col-md-4 text-end">$19.99</div>
             </div>
         </div>
     }
-
+    
 </div>
