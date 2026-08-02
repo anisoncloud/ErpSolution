@@ -3,6 +3,7 @@ using Erp.Infrastructure.Data;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Enums;
 using Erp.Web.Areas.HRM.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,15 +21,29 @@ namespace Erp.Web.Areas.HRM.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var employees = await _db.Employees
+            if (IsPriviledgeViewer())
+            {
+                var employees = await _db.Employees
                 .Include(e => e.Department)
                 .Include(e => e.Designation)
                 .OrderBy(e => e.FullName)
                 .ToListAsync();
-            return View(employees);
+                return View(employees);
+            }
+            // Non-Admin/HR (Manager, Executive) never see the full list —
+            // send them straight to their own profile instead
+            var myRecord = await GetCurrentEmployeeAsync();
+            if (myRecord==null)
+            {
+                return NotFound("No Employee profile linked to this account");
+            }
+            return RedirectToAction(nameof(Details), new { id = myRecord.Id });
+
         }
+        [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
             var employee = await _db.Employees
@@ -39,7 +54,22 @@ namespace Erp.Web.Areas.HRM.Controllers
             {
                 return NotFound();
             }
-            ViewBag.CanSeeSalary = User.IsInRole("Admin") || User.IsInRole("HR") || User.IsInRole("Manager");
+            // ---- Resource-based check: Admin/HR bypass, everyone else must own the record ----
+            if (!IsPriviledgeViewer())
+            {
+                var userId = _userManager.GetUserId(User);
+                var isOwner = employee.UserId.HasValue
+                              && userId != null
+                              && employee.UserId.Value == Guid.Parse(userId);
+
+                if (!isOwner)
+                    return Forbid(); // 403 — logged in, but not authorized for this specific record
+            }
+
+            ViewBag.CanSeeSalary = IsPriviledgeViewer() || User.IsInRole("Manager");
+            ViewBag.IsOwnProfile = employee.UserId.HasValue
+                && _userManager.GetUserId(User) == employee.UserId.Value.ToString();
+
             return View(employee);
         }
 
@@ -118,5 +148,22 @@ namespace Erp.Web.Areas.HRM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        private async Task<Employee?> GetCurrentEmployeeAsync()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+            return await _db.Employees
+                .Include(x => x.Department)
+                .Include(x => x.Designation)
+                .FirstOrDefaultAsync(e => e.UserId == Guid.Parse(userId));
+        }
+
+        private bool IsPriviledgeViewer()
+        {
+            return User.IsInRole("Admin") || User.IsInRole("HR");
+        }
     }
 }
