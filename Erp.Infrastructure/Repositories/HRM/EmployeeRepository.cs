@@ -2,6 +2,7 @@
 using Erp.Infrastructure.Repositories.Generic;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,29 +13,36 @@ namespace Erp.Infrastructure.Repositories.HRM
     {
         public EmployeeRepository(AppDbContext context) : base(context) { }
 
-        public Task<bool> EmployeeCodeExistsAsync(string code)
+        public async Task<bool> EmployeeCodeExistsAsync(string code)
         {
-            throw new NotImplementedException();
+            return await _dbSet.AnyAsync(x=>x.EmployeeCode == code);
         }
 
-        public Task<IReadOnlyList<Employee>> GetAllWithDetailsAsync()
+        public async Task<IReadOnlyList<Employee>> GetAllWithDetailsAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet
+                .Include(x => x.Department)
+                .Include(x => x.Designation)
+                .OrderBy(x=>x.FullName)
+                .ToListAsync();
         }
 
-        public Task<Employee?> GetByIdWithDetailsAsync(Guid id)
+        public async Task<Employee?> GetByIdWithDetailsAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbSet
+                .Include(x=> x.Department)
+                .Include (x=> x.Designation)
+                .FirstOrDefaultAsync(x=>x.Id == id);
         }
 
-        public Task<IReadOnlyList<Employee>> GetByManagerIdAsync(Guid managerId)
+        public async Task<IReadOnlyList<Employee>> GetByManagerIdAsync(Guid managerId)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(new List<Employee>());
         }
 
-        public Task<Employee?> GetByUserIdAsync(Guid userId)
+        public async Task<Employee?> GetByUserIdAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstAsync(x=>x.UserId == userId);
         }
     }
 }

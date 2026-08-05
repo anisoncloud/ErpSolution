@@ -9,5 +9,6 @@ namespace Erp.Modules.HRM.Repositories
     {
         Task<IReadOnlyList<Department>> GetAllAsync();
         Task<Department?> GetByIdAsync(Guid id);
+        Task<Department?> GetDepartmentWithAllEmployye(Guid id);
     }
 }
