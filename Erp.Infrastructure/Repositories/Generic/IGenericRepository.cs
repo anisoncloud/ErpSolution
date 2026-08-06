@@ -15,6 +15,5 @@ namespace Erp.Infrastructure.Repositories.Generic
         void Update(T entity);
         void Remove(T entity);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
-        Task<int> SaveChangesAsync();
     }
 }

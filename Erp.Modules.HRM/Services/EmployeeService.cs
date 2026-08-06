@@ -1,4 +1,5 @@
-﻿using Erp.Modules.HRM.DTOs;
+﻿using Erp.Core.Interfaces;
+using Erp.Modules.HRM.DTOs;
 using Erp.Modules.HRM.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Erp.Modules.HRM.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IDesignationRepository _designationRepository;
+        private readonly IUnitOfWork _uow;
 
         public EmployeeService(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository, IDesignationRepository designationRepository)
         {

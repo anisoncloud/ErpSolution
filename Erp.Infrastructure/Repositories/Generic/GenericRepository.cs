@@ -49,12 +49,7 @@ namespace Erp.Infrastructure.Repositories.Generic
         public void Remove(T entity)
         {
             _dbSet.Remove(entity);
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync();
-        }
+        }        
 
         public void Update(T entity)
         {
