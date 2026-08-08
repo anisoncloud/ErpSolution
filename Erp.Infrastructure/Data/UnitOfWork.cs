@@ -9,14 +9,12 @@ using System.Text;
 
 namespace Erp.Infrastructure.Data
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IHrmUnitOfWork, IDisposable
     {
         private readonly AppDbContext _context;
         private IDbContextTransaction _transaction;
         public IDesignationRepository Designations { get; }
-
         public IDepartmentRepository Departments { get; }
-
         public IEmployeeRepository Employees { get; }
         public UnitOfWork(AppDbContext context)
         {
@@ -71,7 +69,12 @@ namespace Erp.Infrastructure.Data
                 _transaction = null;
             }
         }
-
+        /// <summary>
+        /// Preferred entry point for any multi-repository or cross-module write.
+        /// Uses EF Core's execution strategy so this remains correct even if
+        /// EnableRetryOnFailure() is later turned on for SqlServer — a raw
+        /// BeginTransaction() call would throw under a retrying strategy.
+        /// </summary>
         public async Task<TResult> ExecuteInTransactionAsync<TResult>(Func<Task<TResult>> operation)
         {
             var strategy = _context.Database.CreateExecutionStrategy();

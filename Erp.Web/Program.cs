@@ -1,5 +1,10 @@
 using Erp.Core.Identity;
+using Erp.Core.Interfaces;
 using Erp.Infrastructure.Data;
+using Erp.Infrastructure.Repositories.Generic;
+using Erp.Infrastructure.Repositories.HRM;
+using Erp.Modules.HRM.Repositories;
+using Erp.Modules.HRM.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +36,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
 });
+// ---- Generic repository ----
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddScoped<IHrmUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<IHrmUnitOfWork>());
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+//builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+//builder.Services.AddScoped<IDesignationService, DesignationService>();
 
 var app = builder.Build();
 

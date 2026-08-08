@@ -1,7 +1,9 @@
 ﻿using Erp.Core.Identity;
+using Erp.Core.Interfaces;
 using Erp.Infrastructure.Data;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Enums;
+using Erp.Modules.HRM.Services;
 using Erp.Web.Areas.HRM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +15,17 @@ namespace Erp.Web.Areas.HRM.Controllers
     [Area("HRM")]
     public class EmployeeController : Controller
     {
+        
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
-        public EmployeeController(AppDbContext db, UserManager<ApplicationUser> userManager)
+        private readonly IEmployeeService _employeeService;
+        private readonly IUnitOfWork _uow;
+        public EmployeeController(AppDbContext db, UserManager<ApplicationUser> userManager, IEmployeeService employeeService, IUnitOfWork uow)
         {
             _db = db;
             _userManager = userManager;
+            _employeeService = employeeService;
+            _uow = uow;
         }
 
         [Authorize]

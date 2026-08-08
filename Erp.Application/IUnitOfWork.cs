@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Erp.Infrastructure.Repositories.HRM.IRepository;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Erp.Core.Interfaces
+namespace Erp.Application
 {
     public interface IUnitOfWork : IDisposable
     {

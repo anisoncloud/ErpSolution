@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="Erp.Core/Erp.Core.csproj" />
-  <Project Path="Erp.DataStore/Erp.DataStore.csproj" Id="1a328fd9-d764-4643-9728-6d4ee3827f5f" />
   <Project Path="Erp.Infrastructure/Erp.Infrastructure.csproj" />
   <Project Path="Erp.Modules.Accounting/Erp.Modules.Accounting.csproj" />
   <Project Path="Erp.Modules.HRM/Erp.Modules.HRM.csproj" />

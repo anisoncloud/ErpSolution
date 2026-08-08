@@ -15,6 +15,5 @@ namespace Erp.Modules.HRM.Repositories
         Task<bool> EmployeeCodeExistsAsync(string code);
         Task AddAsync(Employee employee);
         void Update(Employee employee);
-        Task<int> SaveChangesAsync();
     }
 }
