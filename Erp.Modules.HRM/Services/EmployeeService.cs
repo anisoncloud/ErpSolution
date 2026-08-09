@@ -23,15 +23,15 @@ namespace Erp.Modules.HRM.Services
 
         public async Task<(bool Success, string? Error, Guid EmployeeId)> CreateAsync(EmployeeCreateDto dto)
         {
-            if (await _employeeRepo.EmployeeCodeExistsAsync(dto.EmployeeCode))
+            if (await _uow.Employees.EmployeeCodeExistsAsync(dto.EmployeeCode))
             {
                 return (false, "Employee code is already exists", Guid.Empty);
             }
-            if (await _departmentRepo.GetByIdAsync(dto.DepartmentId)==null)
+            if (await _uow.Departments.GetByIdAsync(dto.DepartmentId)==null)
             {
                 return (false, "Selected department does not exist.", Guid.Empty);
             }
-            if (await _designationRepo.GetByIdAsync(dto.DesignationId) == null)
+            if (await _uow.Designations.GetByIdAsync(dto.DesignationId) == null)
             {
                 return (false, "Selected designation does not exist.", Guid.Empty);
             }
@@ -54,7 +54,7 @@ namespace Erp.Modules.HRM.Services
             // (Multi-repo/cross-module orchestration happens one level up, in the controller —
             // see Section 6, where this call gets wrapped in ExecuteInTransactionAsync alongside
             // the Identity user creation.)
-            await _employeeRepo.AddAsync(employee);
+            await _uow.Employees.AddAsync(employee);
             await _uow.SaveChangesAsync();
             return (true, null, employee.Id);
         }
