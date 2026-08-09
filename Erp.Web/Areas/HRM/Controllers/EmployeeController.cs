@@ -19,13 +19,11 @@ namespace Erp.Web.Areas.HRM.Controllers
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmployeeService _employeeService;
-        private readonly IUnitOfWork _uow;
         public EmployeeController(AppDbContext db, UserManager<ApplicationUser> userManager, IEmployeeService employeeService, IUnitOfWork uow)
         {
             _db = db;
             _userManager = userManager;
             _employeeService = employeeService;
-            _uow = uow;
         }
 
         [Authorize]
