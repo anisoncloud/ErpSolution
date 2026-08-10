@@ -14,7 +14,7 @@ namespace Erp.Modules.HRM.Services
             _uow = uow;
         }
 
-        public Task<DesignationDto> CreateDesignation(DesignationCreateDto dto)
+        public async Task<DesignationDto> CreateDesignation(DesignationCreateDto dto)
         {
             throw new NotImplementedException();
         }
