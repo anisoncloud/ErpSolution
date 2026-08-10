@@ -6,10 +6,7 @@ namespace Erp.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        //IGenericRepository<Designation> Designations { get; }
-        /*IDesignationRepository Designations { get; }
-        IDepartmentRepository Departments { get; }
-        IEmployeeRepository Employees { get; }*/
+        
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
