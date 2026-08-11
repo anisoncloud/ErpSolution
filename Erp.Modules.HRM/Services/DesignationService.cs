@@ -1,4 +1,5 @@
 ﻿using Erp.Modules.HRM.DTOs;
+using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,17 @@ namespace Erp.Modules.HRM.Services
 
         public async Task<DesignationDto> CreateDesignation(DesignationCreateDto dto)
         {
-            throw new NotImplementedException();
+            var isExists = await _uow.Designations.GetByNameAsync(dto.Title);
+            if (isExists != null)
+            {
+                throw new InvalidOperationException(
+                   $"A branch with the name'{dto.Title}' is already exists");
+            }
+            var designation = new Designation
+            {
+                Title = dto.Title,
+            };
+            await _uow.Designations.
         }
 
         public Task<DesignationDto> GetDesignationAsync()

@@ -44,7 +44,7 @@ builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequired
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 //builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-//builder.Services.AddScoped<IDesignationService, DesignationService>();
+builder.Services.AddScoped<IDesignationService, DesignationService>();
 
 var app = builder.Build();
 

@@ -8,5 +8,7 @@ namespace Erp.Modules.HRM.Repositories
     public interface IDesignationRepository
     {
         Task<Designation?> GetDesignationWithAllEmployee(Guid id);
+        Task<Designation?> GetByIdAsync(Guid id);
+        Task<Designation?> GetByNameAsync(string name);
     }
 }

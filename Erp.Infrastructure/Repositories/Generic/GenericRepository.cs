@@ -16,6 +16,8 @@ namespace Erp.Infrastructure.Repositories.Generic
             _context = context;
             _dbSet = context.Set<T>();
         }
+
+        
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);

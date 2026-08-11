@@ -19,5 +19,14 @@ namespace Erp.Infrastructure.Repositories.HRM
         {
             return await _dbSet.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);
         }
+        public async Task<Designation?> GetByNameAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+            return await _dbSet
+                .FirstOrDefaultAsync(b => b.Title.ToLower() == name.ToLower());
+        }
     }
 }
