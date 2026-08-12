@@ -7,7 +7,7 @@ namespace Erp.Modules.HRM.Services
 {
     public interface IDesignationService
     {
-        Task<DesignationDto> GetDesignationAsync();
+        Task<IEnumerable<DesignationDto>> GetDesignationAsync();
         Task<bool> CreateDesignation(DesignationCreateDto dto);
     }
 }

@@ -39,7 +39,7 @@ namespace Erp.Infrastructure.Repositories.Generic
             return await _dbSet.FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }

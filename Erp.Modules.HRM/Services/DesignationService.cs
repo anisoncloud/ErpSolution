@@ -1,4 +1,5 @@
 ﻿using Erp.Modules.HRM.DTOs;
+using Erp.Modules.HRM.MappingDto;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Repositories;
 using System;
@@ -32,9 +33,11 @@ namespace Erp.Modules.HRM.Services
             return true;
         }
 
-        public async Task<DesignationDto> GetDesignationAsync()
+        public async Task<IEnumerable<DesignationDto>> GetDesignationAsync()
         {
-            await _uow.Designations.GetAllAsync();
+            var designations = await _uow.Designations.GetAllAsync();
+            return designations.Tode;
+
         }
     }
 }
