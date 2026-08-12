@@ -1,4 +1,5 @@
-﻿using Erp.Infrastructure.Data;
+﻿using Erp.Core.Interfaces;
+using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

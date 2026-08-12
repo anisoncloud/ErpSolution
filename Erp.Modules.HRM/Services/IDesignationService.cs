@@ -8,6 +8,6 @@ namespace Erp.Modules.HRM.Services
     public interface IDesignationService
     {
         Task<DesignationDto> GetDesignationAsync();
-        Task<DesignationDto> CreateDesignation(DesignationCreateDto dto);
+        Task<bool> CreateDesignation(DesignationCreateDto dto);
     }
 }

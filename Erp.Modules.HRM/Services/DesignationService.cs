@@ -15,7 +15,7 @@ namespace Erp.Modules.HRM.Services
             _uow = uow;
         }
 
-        public async Task<DesignationDto> CreateDesignation(DesignationCreateDto dto)
+        public async Task<bool> CreateDesignation(DesignationCreateDto dto)
         {
             var isExists = await _uow.Designations.GetByNameAsync(dto.Title);
             if (isExists != null)
@@ -27,12 +27,14 @@ namespace Erp.Modules.HRM.Services
             {
                 Title = dto.Title,
             };
-            await _uow.Designations.
+            await _uow.Designations.AddAsync(designation);
+            await _uow.SaveChangesAsync();
+            return true;
         }
 
-        public Task<DesignationDto> GetDesignationAsync()
+        public async Task<DesignationDto> GetDesignationAsync()
         {
-            throw new NotImplementedException();
+            await _uow.Designations.GetAllAsync();
         }
     }
 }
