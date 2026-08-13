@@ -16,5 +16,11 @@ namespace Erp.Modules.HRM.MappingDto
                 Title = model.Title,
             };
         }
+
+
+        public static List<DesignationDto> ToListDesignationDto(this IEnumerable<Designation> model)
+        {
+            return model.Select(x=>x.ToDesignationDto()).ToList();
+        }
     }
 }

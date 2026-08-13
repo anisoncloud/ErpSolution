@@ -7,7 +7,6 @@ namespace Erp.Modules.HRM.Repositories
 {
     public interface IDepartmentRepository
     {
-        Task<IReadOnlyList<Department>> GetAllAsync();
         Task<Department?> GetByIdAsync(Guid id);
         Task<Department?> GetDepartmentWithAllEmployye(Guid id);
     }

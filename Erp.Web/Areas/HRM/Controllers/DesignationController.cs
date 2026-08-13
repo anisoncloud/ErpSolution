@@ -19,11 +19,11 @@ namespace Erp.Web.Areas.HRM.Controllers
 
         }
 
-        /*public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var designatins = await _db.Designations.OrderBy(x => x.Title).ToListAsync();
-            return View(designatins);
-        }*/
+            var dto = await _designationService.GetDesignationAsync();
+            return View(dto);
+        }
 
         [HttpGet]
         public IActionResult Create()

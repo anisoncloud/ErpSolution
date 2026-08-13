@@ -36,7 +36,7 @@ namespace Erp.Modules.HRM.Services
         public async Task<IEnumerable<DesignationDto>> GetDesignationAsync()
         {
             var designations = await _uow.Designations.GetAllAsync();
-            return designations.Tode;
+            return designations.ToListDesignationDto();
 
         }
     }
