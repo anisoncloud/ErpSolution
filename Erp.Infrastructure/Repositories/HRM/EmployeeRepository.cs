@@ -27,12 +27,17 @@ namespace Erp.Infrastructure.Repositories.HRM
                 .ToListAsync();
         }
 
-        public async Task<Employee?> GetByIdWithDetailsAsync(Guid id)
+        public async Task<Employee?> GetByIdWithDetailsAsync(int id)
         {
             return await _dbSet
                 .Include(x=> x.Department)
                 .Include (x=> x.Designation)
                 .FirstOrDefaultAsync(x=>x.Id == id);
+        }
+
+        public Task<Employee?> GetByIdWithDetailsAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IReadOnlyList<Employee>> GetByManagerIdAsync(Guid managerId)

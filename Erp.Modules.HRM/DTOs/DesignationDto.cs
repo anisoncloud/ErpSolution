@@ -6,7 +6,8 @@ namespace Erp.Modules.HRM.DTOs
 {
     public class DesignationDto
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid PublicId { get; set; }
+        public int Id { get; set; } = new();
         public string Title { get; set; } = string.Empty;
     }
 }

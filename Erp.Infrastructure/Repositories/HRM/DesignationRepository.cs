@@ -15,7 +15,7 @@ namespace Erp.Infrastructure.Repositories.HRM
         {
         }
 
-        public async Task<Designation?> GetDesignationWithAllEmployee(Guid id)
+        public async Task<Designation?> GetDesignationWithAllEmployee(int id)
         {
             return await _dbSet.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -27,6 +27,11 @@ namespace Erp.Infrastructure.Repositories.HRM
             }
             return await _dbSet
                 .FirstOrDefaultAsync(b => b.Title.ToLower() == name.ToLower());
+        }
+
+        public Task<Designation?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

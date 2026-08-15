@@ -8,8 +8,8 @@ namespace Erp.Modules.HRM.Repositories
 {
     public interface IDesignationRepository : IGenericRepository<Designation>
     {
-        Task<Designation?> GetDesignationWithAllEmployee(Guid id);
-        Task<Designation?> GetByIdAsync(Guid id);
+        Task<Designation?> GetDesignationWithAllEmployee(int id);
+        Task<Designation?> GetByIdAsync(int id);
         Task<Designation?> GetByNameAsync(string name);
     }
 }

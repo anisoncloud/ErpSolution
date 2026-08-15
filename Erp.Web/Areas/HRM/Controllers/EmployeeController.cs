@@ -49,7 +49,7 @@ namespace Erp.Web.Areas.HRM.Controllers
 
         }
         [Authorize]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(int id)
         {
             var employee = await _db.Employees
                 .Include(e=> e.Department)

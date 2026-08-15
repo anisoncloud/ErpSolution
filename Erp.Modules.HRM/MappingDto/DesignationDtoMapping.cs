@@ -13,6 +13,7 @@ namespace Erp.Modules.HRM.MappingDto
             return new()
             {
                 Id = model.Id,
+                PublicId = model.PublicId,
                 Title = model.Title,
             };
         }

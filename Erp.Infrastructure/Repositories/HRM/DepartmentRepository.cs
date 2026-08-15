@@ -15,7 +15,12 @@ namespace Erp.Infrastructure.Repositories.HRM
         {
         }
 
-        public async Task<Department?> GetDepartmentWithAllEmployye(Guid id)
+        public Task<Department?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Department?> GetDepartmentWithAllEmployye(int id)
         {
             return await _dbSet
                 .Include(x=>x.Employees)

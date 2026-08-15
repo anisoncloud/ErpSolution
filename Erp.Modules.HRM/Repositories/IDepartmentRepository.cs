@@ -7,7 +7,7 @@ namespace Erp.Modules.HRM.Repositories
 {
     public interface IDepartmentRepository
     {
-        Task<Department?> GetByIdAsync(Guid id);
-        Task<Department?> GetDepartmentWithAllEmployye(Guid id);
+        Task<Department?> GetByIdAsync(int id);
+        Task<Department?> GetDepartmentWithAllEmployye(int id);
     }
 }

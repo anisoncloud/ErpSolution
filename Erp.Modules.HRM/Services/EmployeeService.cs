@@ -56,7 +56,7 @@ namespace Erp.Modules.HRM.Services
             // the Identity user creation.)
             await _uow.Employees.AddAsync(employee);
             await _uow.SaveChangesAsync();
-            return (true, null, employee.Id);
+            return (true, null, employee.PublicId);
         }
 
         public Task<(bool Success, string? Error)> DeactivateAsync(Guid id)
