@@ -20,15 +20,13 @@ namespace Erp.Modules.HRM.Entities
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; }
-
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
-
         public int DesignationId { get; set; }
         public Designation? Designation { get; set; }
-
+        public int CompanyId {  get; set; }
+        public Company? Company { get; set; }
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
-
         public DateTime JoiningDate { get; set; } = DateTime.UtcNow;
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? Salary { get; set; }

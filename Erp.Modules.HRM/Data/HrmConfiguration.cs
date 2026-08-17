@@ -12,7 +12,8 @@ namespace Erp.Modules.HRM.Data
     public class HrmConfiguration : 
         IEntityTypeConfiguration<Department>,
         IEntityTypeConfiguration<Designation>,
-        IEntityTypeConfiguration<Employee>        
+        IEntityTypeConfiguration<Employee>,
+        IEntityTypeConfiguration<Company>
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
@@ -21,6 +22,14 @@ namespace Erp.Modules.HRM.Data
         public void Configure(EntityTypeBuilder<Designation> builder)
         {
             builder.ToTable("Designations", "hrm");
+        }
+        public void Configure(EntityTypeBuilder<Company> builder)
+        {
+            builder.ToTable("Companies", "hrm");
+            builder.HasMany(p => p.Employees)
+                .WithOne(p=>p.Company)
+                .HasForeignKey(p=>p.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
         public void Configure(EntityTypeBuilder<Employee> builder) 
         {

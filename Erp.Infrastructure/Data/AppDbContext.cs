@@ -21,6 +21,7 @@ namespace Erp.Infrastructure.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,10 +35,7 @@ namespace Erp.Infrastructure.Data
             builder.Entity<IdentityUserToken<Guid>>(e => e.ToTable("UserTokens", "identity"));
 
             // ---- Module entities -> their own schema ----
-            // Example (add these once module entities exist):
-            // builder.Entity<Employee>().ToTable("Employees", "hrm");
-            // builder.Entity<Invoice>().ToTable("Invoices", "accounting");
-            // builder.Entity<Product>().ToTable("Products", "inventory");
+            
             builder.ApplyHrmModule();
         }
     }    
