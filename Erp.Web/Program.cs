@@ -43,7 +43,7 @@ builder.Services.AddScoped<IHrmUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<IHrmUnitOfWork>());
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-//builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IDesignationService, DesignationService>();
 
 var app = builder.Build();

@@ -1,0 +1,24 @@
+﻿@model Erp.Modules.HRM.DTOs.CompanyCreateDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "_Layout";
+}
+<h1>Create Company</h1>
+<hr />
+<form asp-action="Create">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company</label>
+        <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Company will be goes in here">
+    </div>
+    @* <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div> *@
+    <button type="submit" class="btn btn-primary">Create Company</button>
+</form>

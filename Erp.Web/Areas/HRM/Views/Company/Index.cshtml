@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Erp.Modules.HRM.DTOs.CompanyDto>
+@{
+    Layout = "_Layout";
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="list-group">
+    <div class="list-group-item">
+        <!-- Grid Row inside the item -->
+        <div class="row align-items-center">
+            <div class="col-6 col-md-4"><strong>Company Name</strong></div>
+            <div class="col-3 col-md-4 text-muted">SKU: 12345</div>
+            <div class="col-3 col-md-4 text-end">$49.99</div>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col-6 col-md-4"><strong>@item.Name</strong></div>
+                <div class="col-3 col-md-4 text-muted">SKU: 67890</div>
+                <div class="col-3 col-md-4 text-end">$19.99</div>
+            </div>
+        </div>
+    }
+
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Web.Areas.HRM.Controllers
 {
+    [Area("hrm")]
     public class CompanyController : Controller
     {
         private readonly ICompanyService _companyService;
