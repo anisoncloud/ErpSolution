@@ -15,5 +15,6 @@ namespace Erp.Modules.HRM.Repositories
         IEmployeeRepository Employees { get; }
         IDepartmentRepository Departments { get; }
         IDesignationRepository Designations { get; }
+        ICompanyRepository Companies {  get; }
     }
 }

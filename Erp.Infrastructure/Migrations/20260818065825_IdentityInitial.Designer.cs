@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Erp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260814162009_TblDeptDesigEmp")]
-    partial class TblDeptDesigEmp
+    [Migration("20260818065825_IdentityInitial")]
+    partial class IdentityInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,6 +72,9 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
@@ -90,6 +93,9 @@ namespace Erp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -121,6 +127,12 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -136,6 +148,47 @@ namespace Erp.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", "identity");
+                });
+
+            modelBuilder.Entity("Erp.Modules.HRM.Entities.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CompanyLogo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies", "hrm");
                 });
 
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Department", b =>
@@ -229,6 +282,9 @@ namespace Erp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -247,6 +303,9 @@ namespace Erp.Infrastructure.Migrations
 
                     b.Property<string>("EmployeeCode")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployeePhoto")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
@@ -285,9 +344,13 @@ namespace Erp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("DesignationId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Employees", "hrm");
                 });
@@ -397,6 +460,12 @@ namespace Erp.Infrastructure.Migrations
 
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Employee", b =>
                 {
+                    b.HasOne("Erp.Modules.HRM.Entities.Company", "Company")
+                        .WithMany("Employees")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Erp.Modules.HRM.Entities.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
@@ -409,9 +478,17 @@ namespace Erp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Erp.Core.Identity.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Company");
+
                     b.Navigation("Department");
 
                     b.Navigation("Designation");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -463,6 +540,11 @@ namespace Erp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Erp.Modules.HRM.Entities.Company", b =>
+                {
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Department", b =>

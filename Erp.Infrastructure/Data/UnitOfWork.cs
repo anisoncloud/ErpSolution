@@ -16,12 +16,14 @@ namespace Erp.Infrastructure.Data
         public IDesignationRepository Designations { get; }
         public IDepartmentRepository Departments { get; }
         public IEmployeeRepository Employees { get; }
+        public ICompanyRepository Companies { get; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Designations = new DesignationRepository(context);
             Departments = new DepartmentRepository(context);
             Employees = new EmployeeRepository(context);
+            Companies = new CompanyRepository(context);
         }
 
         public Task<int> SaveChangesAsync()
