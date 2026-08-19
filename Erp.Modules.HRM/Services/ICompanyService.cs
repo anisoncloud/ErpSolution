@@ -8,6 +8,6 @@ namespace Erp.Modules.HRM.Services
     public interface ICompanyService 
     {
         Task<IEnumerable<CompanyDto>> GetCompanyAsync();
-        Task<bool> CreateCompany(CompanyCreateDto dto);
+        Task<CompanyDto> CreateCompany(CompanyCreateDto dto);
     }
 }

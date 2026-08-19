@@ -30,12 +30,21 @@ namespace Erp.Web.Areas.HRM.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CompanyCreateDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+            try
             {
                 await _companyService.CreateCompany(dto);
-                return RedirectToAction("Index");
+                TempData["Success"] = $"Branch '{dto.Name}' created successfully.";
+                return RedirectToAction(nameof(Index));
             }
-            return View(dto);
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(nameof(dto.Name), ex.Message);
+                return View(dto);
+            }            
         }
     }
 }

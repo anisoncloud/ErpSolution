@@ -26,7 +26,7 @@ namespace Erp.Infrastructure.Repositories.HRM
                 return null;
             }
             return await _dbSet
-                .FirstOrDefaultAsync(b => b.Name.ToLower() == name.ToLower());
+                .FirstOrDefaultAsync(b => b.Name.ToLower().Replace(" ", "") == name.ToLower().Replace(" ", ""));
         }
 
         public Task<Company?> GetByIdAsync(int id)

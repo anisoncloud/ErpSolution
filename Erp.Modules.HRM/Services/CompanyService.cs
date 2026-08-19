@@ -16,21 +16,29 @@ namespace Erp.Modules.HRM.Services
             _uow = uow;
         }
 
-        public async Task<bool> CreateCompany(CompanyCreateDto dto)
+        public async Task<CompanyDto> CreateCompany(CompanyCreateDto dto)
         {
+            if (dto==null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+            if (string.IsNullOrWhiteSpace(dto.Name))
+            {
+                throw new ArgumentException("Company name can not be empty", nameof(dto.Name));
+            }
             var isExists = await _uow.Companies.GetByNameAsync(dto.Name);
             if (isExists != null)
             {
                 throw new InvalidOperationException(
-                   $"A branch with the name'{dto.Name}' is already exists");
+                   $"A Company with the name {dto.Name.ToUpper()} is already exists!");
             }
             var model = new Company
             {
-                Name = dto.Name,
+                Name = dto.Name                
             };
             await _uow.Companies.AddAsync(model);
             await _uow.SaveChangesAsync();
-            return true;
+            return model.ToDto();
         }
 
         public async Task<IEnumerable<CompanyDto>> GetCompanyAsync()

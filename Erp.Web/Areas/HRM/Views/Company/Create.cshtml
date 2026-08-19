@@ -15,6 +15,7 @@
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Company</label>
         <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Company will be goes in here">
+        <span asp-validation-for="Name" class="text-danger small"></span>
     </div>
     @* <div class="mb-3">
     <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
