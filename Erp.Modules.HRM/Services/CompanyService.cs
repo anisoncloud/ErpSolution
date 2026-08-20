@@ -32,9 +32,17 @@ namespace Erp.Modules.HRM.Services
                 throw new InvalidOperationException(
                    $"A Company with the name {dto.Name.ToUpper()} is already exists!");
             }
+            var isCodeExists = await _uow.Companies.GetByCodeAsync(dto.CompanyCode);
+            if (isCodeExists != null)
+            {
+                throw new InvalidOperationException(
+                   $"A Company Code with the name {dto.CompanyCode.ToUpper()} is already exists!");
+            }
             var model = new Company
             {
-                Name = dto.Name                
+                Name = dto.Name.Trim(),
+                CompanyCode = dto.CompanyCode.Trim(),
+                Description = dto.Description.Trim()
             };
             await _uow.Companies.AddAsync(model);
             await _uow.SaveChangesAsync();
@@ -46,6 +54,11 @@ namespace Erp.Modules.HRM.Services
             var model = await _uow.Companies.GetAllAsync();
             return model.ToListDto();
 
+        }
+        public async Task<CompanyEditDto?> GetCompanyByIdAsync(int id)
+        {
+            var model = await _uow.Companies.GetByIdAsync(id);
+            return model.ToEditDto();
         }
     }
 }

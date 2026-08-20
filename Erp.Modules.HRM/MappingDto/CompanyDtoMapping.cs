@@ -14,6 +14,7 @@ namespace Erp.Modules.HRM.MappingDto
             {
                 Id = model.Id,
                 Name = model.Name,
+                CompanyCode = model.CompanyCode,
                 Description = model.Description,
             };
         }
@@ -22,6 +23,17 @@ namespace Erp.Modules.HRM.MappingDto
         public static List<CompanyDto> ToListDto(this IEnumerable<Company> model)
         {
             return model.Select(x => x.ToDto()).ToList();
+        }
+
+        public static CompanyEditDto ToEditDto(this Company model)
+        {
+            return new()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                CompanyCode = model.CompanyCode,
+                Description = model.Description,
+            };
         }
     }
 }

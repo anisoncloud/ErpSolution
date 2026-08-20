@@ -46,5 +46,11 @@ namespace Erp.Web.Areas.HRM.Controllers
                 return View(dto);
             }            
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var dto = await _companyService.GetCompanyByIdAsync(id);
+            return View(dto);
+        }
     }
 }

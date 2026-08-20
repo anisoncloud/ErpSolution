@@ -11,5 +11,6 @@ namespace Erp.Modules.HRM.Repositories
         Task<Company?> GetCompanyWithAllEmployee(int id);
         Task<Company?> GetByIdAsync(int id);
         Task<Company?> GetByNameAsync(string name);
+        Task<Company?> GetByCodeAsync(string code);
     }
 }

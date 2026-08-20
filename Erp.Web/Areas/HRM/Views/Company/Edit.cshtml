@@ -1,4 +1,4 @@
-﻿@model Erp.Modules.HRM.DTOs.CompanyCreateDto
+﻿@model Erp.Modules.HRM.DTOs.CompanyEditDto
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -9,7 +9,7 @@
 }
 <h1>Create Company</h1>
 <hr />
-<form asp-action="Create">
+<form asp-action="Edit">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
     <div class="mb-3">
@@ -23,7 +23,7 @@
         <span asp-validation-for="CompanyCode" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
+        <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
         <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         <span asp-validation-for="Description" class="text-danger small"></span>
     </div>

@@ -9,5 +9,6 @@ namespace Erp.Modules.HRM.Services
     {
         Task<IEnumerable<CompanyDto>> GetCompanyAsync();
         Task<CompanyDto> CreateCompany(CompanyCreateDto dto);
+        Task<CompanyEditDto?> GetCompanyByIdAsync(int id);
     }
 }
