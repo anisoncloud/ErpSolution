@@ -6,35 +6,35 @@ using System.Text;
 
 namespace Erp.Modules.HRM.MappingDto
 {
-    public static class CompanyDtoMapping
+    public static class DepartmentDtoMapping
     {
-        public static CompanyDto ToDto(this Company model)
+        public static DepartmentDto ToDto(this Department model)
         {
             return new()
             {
                 Id = model.Id,
                 Name = model.Name,
-                CompanyCode = model.CompanyCode,
+                DepartmentCode = model.DepartmentCode,
                 Description = model.Description,
                 IsActive = model.IsActive
             };
         }
 
 
-        public static List<CompanyDto> ToListDto(this IEnumerable<Company> model)
+        public static List<DepartmentDto> ToListDto(this IEnumerable<Department> model)
         {
             return model.Select(x => x.ToDto()).ToList();
         }
 
-        public static CompanyUpdateDto ToEditDto(this Company model)
+        public static DepartmentUpdateDto ToEditDto(this Department model)
         {
             return new()
             {
                 Id = model.Id,
                 Name = model.Name,
-                CompanyCode = model.CompanyCode,
+                DepartmentCode = model.DepartmentCode,
                 Description = model.Description,
-                IsActive=model.IsActive
+                IsActive = model.IsActive
 
             };
         }

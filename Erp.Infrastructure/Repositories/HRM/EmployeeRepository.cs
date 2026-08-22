@@ -27,6 +27,11 @@ namespace Erp.Infrastructure.Repositories.HRM
                 .ToListAsync();
         }
 
+        public Task<Employee?> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Employee?> GetByIdWithDetailsAsync(int id)
         {
             return await _dbSet
@@ -48,6 +53,11 @@ namespace Erp.Infrastructure.Repositories.HRM
         public async Task<Employee?> GetByUserIdAsync(Guid userId)
         {
             return await _dbSet.FirstAsync(x=>x.UserId == userId);
+        }
+
+        public void Update(Employee employee)
+        {
+            throw new NotImplementedException();
         }
     }
 }

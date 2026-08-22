@@ -10,15 +10,22 @@
 <h1>Create Designation</h1>
 <hr />
 <form asp-action="Create">
-    @Html.AntiForgeryToken();
+    @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
-<div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label">Designation</label>
-    <input asp-for="Title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation">
-</div>
-@* <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Designation</label>
+        <input asp-for="Title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation will be goes in here">
+        <span asp-validation-for="Title" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Designation Code</label>
+        <input asp-for="DesignationCode" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Department Code be goes in here">
+        <span asp-validation-for="DesignationCode" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
         <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-</div> *@
-<button type="submit" class="btn btn-primary">Create Designation</button>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Designation</button>
 </form>

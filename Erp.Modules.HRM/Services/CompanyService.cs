@@ -55,10 +55,25 @@ namespace Erp.Modules.HRM.Services
             return model.ToListDto();
 
         }
-        public async Task<CompanyEditDto?> GetCompanyByIdAsync(int id)
+        public async Task<CompanyDto?> GetCompanyByIdAsync(int id)
         {
             var model = await _uow.Companies.GetByIdAsync(id);
-            return model.ToEditDto();
+            return model.ToDto();
         }
+
+        public async Task<CompanyDto> UpdateCompanyAsync(int id, CompanyUpdateDto dto)
+        {
+            var company = await _uow.Companies.GetByIdAsync(id);
+            company.Name = dto.Name.Trim();
+            company.Description = dto.Description;
+            company.CompanyCode = dto.CompanyCode;
+            company.IsActive = dto.IsActive;
+            
+            await _uow.Companies.UpdateAsync(company);
+            await _uow.SaveChangesAsync();
+            return company.ToDto();
+        }
+
+       
     }
 }

@@ -1,4 +1,5 @@
-﻿using Erp.Core.Interfaces;
+﻿using Erp.Core;
+using Erp.Core.Interfaces;
 using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Erp.Infrastructure.Repositories.Generic
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
@@ -44,18 +45,29 @@ namespace Erp.Infrastructure.Repositories.Generic
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdGuidAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public void Remove(T entity)
+        public async Task<T?> GetByIdAsync(int id)
         {
-            _dbSet.Remove(entity);
-        }        
+            return await _dbSet.FindAsync(id);
+        }
 
-        public void Update(T entity)
+        public async Task DeleteAsync(int id)
         {
+            var entity = await GetByIdAsync(id);
+            if (entity != null)
+            {
+                entity.IsDeleted = true;
+            }
+
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
         }
     }

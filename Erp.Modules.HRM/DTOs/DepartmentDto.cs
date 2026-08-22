@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Erp.Modules.HRM.DTOs
 {
-    public class DesignationCreateDto
+    public class DepartmentDto
     {
-        public int Id { get; set; } = new();
-        public string Title { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string? Description { get; set; }
-        public string? DesignationCode {  get; set; }
+        public string? DepartmentCode { get; set; }
         public bool IsActive { get; set; }
-    }
+        }
 }

@@ -12,6 +12,7 @@ namespace Erp.Modules.HRM.DTOs
         public string? CompanyCode { get; set; }
         public string? Description { get; set; }
         public string? CompanyLogo { get; set; }
+        public bool IsActive {  get; set; }
         public ICollection<EmployeeDto> Employees { get; set; } = new List<EmployeeDto>();
     }
 }

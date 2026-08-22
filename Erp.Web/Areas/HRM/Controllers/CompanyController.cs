@@ -37,7 +37,7 @@ namespace Erp.Web.Areas.HRM.Controllers
             try
             {
                 await _companyService.CreateCompany(dto);
-                TempData["Success"] = $"Branch '{dto.Name}' created successfully.";
+                TempData["Success"] = $"Company '{dto.Name}' created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (InvalidOperationException ex)
@@ -49,8 +49,29 @@ namespace Erp.Web.Areas.HRM.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var dto = await _companyService.GetCompanyByIdAsync(id);
+            var company = await _companyService.GetCompanyByIdAsync(id);
+            var dto = new CompanyUpdateDto
+            {
+                Id = id,
+                Name = company.Name,
+                Description = company.Description,
+                CompanyCode = company.CompanyCode,
+                IsActive = company.IsActive,
+            };
             return View(dto);
         }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CompanyUpdateDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+            await _companyService.UpdateCompanyAsync(id, dto);
+            TempData["Success"] = $"Company '{dto.Name}' Updated successfully.";
+            return RedirectToAction("Index");
+
+        }
+
     }
 }

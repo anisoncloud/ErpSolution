@@ -9,6 +9,7 @@ namespace Erp.Modules.HRM.Entities
     {
         public Guid PublicId { get; set; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;      // e.g. "Sr. Software Engineer"
+        public string? DesignationCode {  get; set; }
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

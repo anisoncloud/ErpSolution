@@ -27,6 +27,8 @@ namespace Erp.Modules.HRM.Services
             var designation = new Designation
             {
                 Title = dto.Title,
+                DesignationCode=dto.DesignationCode,
+                IsActive = dto.IsActive,
             };
             await _uow.Designations.AddAsync(designation);
             await _uow.SaveChangesAsync();
