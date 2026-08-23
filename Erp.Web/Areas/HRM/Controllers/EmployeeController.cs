@@ -19,7 +19,9 @@ namespace Erp.Web.Areas.HRM.Controllers
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(AppDbContext db, UserManager<ApplicationUser> userManager, IEmployeeService employeeService, IUnitOfWork uow)
+        public EmployeeController(AppDbContext db, 
+            UserManager<ApplicationUser> userManager, 
+            IEmployeeService employeeService, IUnitOfWork uow)
         {
             _db = db;
             _userManager = userManager;
@@ -80,6 +82,7 @@ namespace Erp.Web.Areas.HRM.Controllers
 
         private async Task PopulateDropdows()
         {
+            ViewBag.Companies = await _db.Companies.OrderBy(d=>d.Name).ToListAsync();
             ViewBag.Departments = await _db.Departments.OrderBy(d=>d.Name).ToListAsync();
             ViewBag.Designations = await _db.Designations.OrderBy(d=>d.Title).ToListAsync();
         }
