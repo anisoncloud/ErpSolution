@@ -25,13 +25,32 @@ namespace Erp.Infrastructure.Repositories.HRM
             {
                 return null;
             }
+            var clearName = name.Replace(" ", "").ToLower().TrimEnd('.');
             return await _dbSet
-                .FirstOrDefaultAsync(b => b.Title.ToLower() == name.ToLower());
+                .FirstOrDefaultAsync(b =>
+                        (b.Title.Replace(" ", "").ToLower().EndsWith(".")
+                        ? b.Title.Replace(" ", "").ToLower().Substring(0, b.Title.Replace(" ", "").Length - 1)
+                        : b.Title.Replace(" ", "").ToLower())
+                            == clearName);
+        }
+        public async Task<Designation?> GetByCodeAsync(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+            var clearCode = code.Replace(" ", "").ToLower().TrimEnd('.');
+            return await _dbSet
+                .FirstOrDefaultAsync(b =>
+                        (b.DesignationCode.Replace(" ", "").ToLower().EndsWith(".")
+                        ? b.DesignationCode.Replace(" ", "").ToLower().Substring(0, b.DesignationCode.Replace(" ", "").Length - 1)
+                        : b.DesignationCode.Replace(" ", "").ToLower())
+                            == clearCode);
         }
 
-        public Task<Designation?> GetByIdAsync(int id)
+        public async Task<Designation?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

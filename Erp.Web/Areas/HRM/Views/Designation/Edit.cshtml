@@ -1,0 +1,38 @@
+﻿@model Erp.Modules.HRM.DTOs.DesignationUpdateDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "_Layout";
+}
+<h1>Edit Designation</h1>
+<hr />
+
+<form asp-action="Edit">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company</label>
+        <input asp-for="Title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation will be goes in here">
+        <span asp-validation-for="Title" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Designation Code</label>
+        <input asp-for="DesignationCode" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation Code be goes in here">
+        <span asp-validation-for="DesignationCode" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Designaton Description</label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="IsActive" />
+            <label class="form-check-label" asp-for="IsActive">Account Status (Active)</label>
+        </label>
+    </div>
+    <button type="submit" class="btn btn-warning">Update Designation</button>
+</form>

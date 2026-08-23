@@ -1,10 +1,6 @@
-﻿using Erp.Infrastructure.Data;
-using Erp.Modules.HRM.DTOs;
-using Erp.Modules.HRM.Entities;
+﻿using Erp.Modules.HRM.DTOs;
 using Erp.Modules.HRM.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Erp.Web.Areas.HRM.Controllers
 {
@@ -34,12 +30,47 @@ namespace Erp.Web.Areas.HRM.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DesignationCreateDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _designationService.CreateDesignation(dto);                
-                return RedirectToAction("Index");
-            }            
+                return View(dto);
+            }
+            try
+            {
+                await _designationService.CreateDesignation(dto);
+                TempData["Success"] = $"Designation '{dto.Title}' created successfully.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(nameof(dto.Title), ex.Message);
+                return View(dto);
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var company = await _designationService.GetDesignationByIdAsync(id);
+            var dto = new DesignationUpdateDto
+            {
+                Id = id,
+                Title = company.Title,
+                Description = company.Description,
+                DesignationCode = company.DesignationCode,
+                IsActive = company.IsActive,
+            };
             return View(dto);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, DesignationUpdateDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+            await _designationService.UpdateDesignationAsync(id, dto);
+            TempData["Success"] = $"Title '{dto.Title}' Updated successfully.";
+            return RedirectToAction("Index");
+
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Erp.Modules.HRM.Repositories
         Task<Designation?> GetDesignationWithAllEmployee(int id);
         Task<Designation?> GetByIdAsync(int id);
         Task<Designation?> GetByNameAsync(string name);
+        Task<Designation?> GetByCodeAsync(string code);
     }
 }

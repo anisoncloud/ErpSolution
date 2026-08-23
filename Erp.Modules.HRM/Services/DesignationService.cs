@@ -16,30 +16,61 @@ namespace Erp.Modules.HRM.Services
             _uow = uow;
         }
 
-        public async Task<bool> CreateDesignation(DesignationCreateDto dto)
+        public async Task<DesignationDto> CreateDesignation(DesignationCreateDto dto)
         {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+            if (string.IsNullOrWhiteSpace(dto.Title))
+            {
+                throw new ArgumentException("Designation name can not be empty", nameof(dto.Title));
+            }
             var isExists = await _uow.Designations.GetByNameAsync(dto.Title);
             if (isExists != null)
             {
                 throw new InvalidOperationException(
-                   $"A branch with the name'{dto.Title}' is already exists");
+                   $"A Company with the name {dto.Title.ToUpper()} is already exists!");
             }
-            var designation = new Designation
+            var isCodeExists = await _uow.Designations.GetByCodeAsync(dto.DesignationCode);
+            if (isCodeExists != null)
             {
-                Title = dto.Title,
-                DesignationCode=dto.DesignationCode,
+                throw new InvalidOperationException(
+                   $"A Company Code with the name {dto.DesignationCode.ToUpper()} is already exists!");
+            }
+            var model = new Designation
+            {
+                Title = dto.Title.Trim(),
+                DesignationCode = dto.DesignationCode,
                 IsActive = dto.IsActive,
             };
-            await _uow.Designations.AddAsync(designation);
+            await _uow.Designations.AddAsync(model);
             await _uow.SaveChangesAsync();
-            return true;
+            return model.ToDto();
         }
 
         public async Task<IEnumerable<DesignationDto>> GetDesignationAsync()
         {
-            var designations = await _uow.Designations.GetAllAsync();
-            return designations.ToListDesignationDto();
+            var model = await _uow.Designations.GetAllAsync();
+            return model.ToListDto();
 
+        }
+        public async Task<DesignationDto?> GetDesignationByIdAsync(int id)
+        {
+            var model = await _uow.Designations.GetByIdAsync(id);
+            return model.ToDto();
+        }
+
+        public async Task<DesignationDto> UpdateDesignationAsync(int id, DesignationUpdateDto dto)
+        {
+            var designation = await _uow.Designations.GetByIdAsync(id);
+            designation.Title = dto.Title.Trim();
+            designation.DesignationCode = dto.DesignationCode;
+            designation.IsActive = dto.IsActive;
+
+            await _uow.Designations.UpdateAsync(designation);
+            await _uow.SaveChangesAsync();
+            return designation.ToDto();
         }
     }
 }

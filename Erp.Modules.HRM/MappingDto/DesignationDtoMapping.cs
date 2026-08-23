@@ -8,20 +8,22 @@ namespace Erp.Modules.HRM.MappingDto
 {
     public static class DesignationDtoMapping
     {
-        public static DesignationDto ToDesignationDto(this Designation model)
+        public static DesignationDto ToDto(this Designation model)
         {
             return new()
             {
                 Id = model.Id,
                 PublicId = model.PublicId,
                 Title = model.Title,
+                DesignationCode = model.DesignationCode,
+                IsActive = model.IsActive,
             };
         }
 
 
-        public static List<DesignationDto> ToListDesignationDto(this IEnumerable<Designation> model)
+        public static List<DesignationDto> ToListDto(this IEnumerable<Designation> model)
         {
-            return model.Select(x=>x.ToDesignationDto()).ToList();
+            return model.Select(x=>x.ToDto()).ToList();
         }
     }
 }
