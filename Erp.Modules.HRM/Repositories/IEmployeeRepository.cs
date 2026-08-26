@@ -13,7 +13,8 @@ namespace Erp.Modules.HRM.Repositories
         Task<IReadOnlyList<Employee>> GetAllWithDetailsAsync();
         Task<IReadOnlyList<Employee>> GetByManagerIdAsync(Guid managerId); // future: team view
         Task<bool> EmployeeCodeExistsAsync(string code);
-        Task AddAsync(Employee employee);
-        void Update(Employee employee);
+        Task<Employee> AddAsync(Employee entity);
+
+
     }
 }
