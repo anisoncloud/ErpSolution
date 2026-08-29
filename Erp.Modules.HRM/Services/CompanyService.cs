@@ -55,6 +55,11 @@ namespace Erp.Modules.HRM.Services
             return model.ToListDto();
 
         }
+        public async Task<IEnumerable<CompanyDto>> GetCompanyAscSortNameAsync()
+        {
+            var model = await _uow.Companies.GetAllAsync(c=>c.OrderBy(d=>d.Name));
+            return model.ToListDto();
+        }
         public async Task<CompanyDto?> GetCompanyByIdAsync(int id)
         {
             var model = await _uow.Companies.GetByIdAsync(id);

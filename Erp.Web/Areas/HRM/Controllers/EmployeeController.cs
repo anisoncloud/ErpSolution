@@ -3,8 +3,9 @@ using Erp.Core.Interfaces;
 using Erp.Infrastructure.Data;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Enums;
+using Erp.Modules.HRM.MappingDto;
 using Erp.Modules.HRM.Services;
-using Erp.Web.Areas.HRM.Models;
+using Erp.Modules.HRM.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,24 @@ namespace Erp.Web.Areas.HRM.Controllers
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmployeeService _employeeService;
+        private readonly ICompanyService _companyService;
+        private readonly IDepartmentService _departmentSerive;
+        private readonly IDesignationService _designationService;
         public EmployeeController(AppDbContext db, 
             UserManager<ApplicationUser> userManager, 
-            IEmployeeService employeeService, IUnitOfWork uow)
+            IEmployeeService employeeService,
+            ICompanyService companyService,
+            IDepartmentService departmentService,
+            IDesignationService designationService,
+            IUnitOfWork uow
+            )
         {
             _db = db;
             _userManager = userManager;
             _employeeService = employeeService;
+            _companyService = companyService;
+            _departmentSerive = departmentService;
+            _designationService = designationService;
         }
 
         [Authorize]
@@ -82,9 +94,12 @@ namespace Erp.Web.Areas.HRM.Controllers
 
         private async Task PopulateDropdows()
         {
-            ViewBag.Companies = await _db.Companies.OrderBy(d=>d.Name).ToListAsync();
-            ViewBag.Departments = await _db.Departments.OrderBy(d=>d.Name).ToListAsync();
-            ViewBag.Designations = await _db.Designations.OrderBy(d=>d.Title).ToListAsync();
+            ViewBag.Companies = await _companyService.GetCompanyAscSortNameAsync();
+            //ViewBag.Companies = await _db.Companies.OrderBy(d=>d.Name).ToListAsync();
+            //ViewBag.Departments = await _db.Departments.OrderBy(d=>d.Name).ToListAsync();
+            ViewBag.Departments = await _departmentSerive.GetDepartmentAscSortNameAsync();
+            //ViewBag.Designations = await _db.Designations.OrderBy(d=>d.Title).ToListAsync();
+            ViewBag.Designations = await _designationService.GetDesignationAscSortNameAsync();
         }
 
         // Create Employee
@@ -129,9 +144,13 @@ namespace Erp.Web.Areas.HRM.Controllers
             // 2. Assign the Identity role based on selected level (drives section access)
             var rollName = model.Level == EmployeeLevel.Manager ? "Manager" : "Executive";
             await _userManager.AddToRoleAsync(user, rollName);
+            model.UserId = user.Id;
+            var dto = model.ToCreateDto();
+            await _employeeService.CreateEmployeeAsync(dto);
 
             // 3. Create the HRM employee record, linked via UserId
-            var employee = new Employee
+
+            /*var employee = new Employee
             {
                 UserId = user.Id,
                 EmployeeCode = model.EmployeeCode,
@@ -145,9 +164,9 @@ namespace Erp.Web.Areas.HRM.Controllers
                 Salary = model.Salary,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
-            };
-            _db.Employees.Add(employee);
-            await _db.SaveChangesAsync();
+            };*/
+            //_db.Employees.Add(dto);
+            //await _db.SaveChangesAsync();
 
             // 6. Commit transaction if both steps succeeded
             await transaction.CommitAsync();

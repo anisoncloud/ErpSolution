@@ -8,6 +8,7 @@ namespace Erp.Modules.HRM.Services
     public interface ICompanyService 
     {
         Task<IEnumerable<CompanyDto>> GetCompanyAsync();
+        Task<IEnumerable<CompanyDto>> GetCompanyAscSortNameAsync();
         Task<CompanyDto> CreateCompany(CompanyCreateDto dto);
         Task<CompanyDto?> GetCompanyByIdAsync(int id);
         Task<CompanyDto> UpdateCompanyAsync(int id, CompanyUpdateDto dto);

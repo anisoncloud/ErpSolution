@@ -11,5 +11,6 @@ namespace Erp.Modules.HRM.Services
         Task<DesignationDto> CreateDesignation(DesignationCreateDto dto);
         Task<DesignationDto?> GetDesignationByIdAsync(int id);
         Task<DesignationDto> UpdateDesignationAsync(int id, DesignationUpdateDto dto);
+        Task<IEnumerable<DesignationDto>> GetDesignationAscSortNameAsync();
     }
 }

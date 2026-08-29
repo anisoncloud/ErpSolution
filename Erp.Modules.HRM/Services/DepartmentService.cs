@@ -48,7 +48,11 @@ namespace Erp.Modules.HRM.Services
             await _uow.SaveChangesAsync();
             return model.ToDto();
         }
-
+        public async Task<IEnumerable<DepartmentDto>> GetDepartmentAscSortNameAsync()
+        {
+            var model = await _uow.Departments.GetAllAsync(c => c.OrderBy(d => d.Name));
+            return model.ToListDto();
+        }
         public async Task<IEnumerable<DepartmentDto>> GetDepartmentAsync()
         {
             var model = await _uow.Departments.GetAllAsync();

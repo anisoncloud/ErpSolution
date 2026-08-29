@@ -13,7 +13,7 @@ namespace Erp.Modules.HRM.Services
     public class EmployeeService : IEmployeeService
     {
         
-        private readonly UserManager<ApplicationUser> _userManager;
+        //private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHrmUnitOfWork _uow;
 
         public EmployeeService(IHrmUnitOfWork uow)
@@ -21,7 +21,7 @@ namespace Erp.Modules.HRM.Services
             _uow = uow;
         }
 
-        public async Task<(bool Success, string? Error, Guid EmployeeId)> CreateAsync(EmployeeCreateDto dto)
+        public async Task<(bool Success, string? Error, Guid EmployeeId)> CreateEmployeeAsync(EmployeeCreateDto dto)
         {
             if (await _uow.Employees.EmployeeCodeExistsAsync(dto.EmployeeCode))
             {
@@ -44,6 +44,7 @@ namespace Erp.Modules.HRM.Services
                 Phone = dto.Phone,
                 DepartmentId = dto.DepartmentId,
                 DesignationId = dto.DesignationId,
+                CompanyId = dto.CompanyId,
                 Level = dto.Level,
                 JoiningDate = dto.JoiningDate,
                 Salary = dto.Salary,
@@ -58,6 +59,8 @@ namespace Erp.Modules.HRM.Services
             await _uow.SaveChangesAsync();
             return (true, null, employee.PublicId);
         }
+
+        
 
         public Task<(bool Success, string? Error)> DeactivateAsync(Guid id)
         {
@@ -84,7 +87,7 @@ namespace Erp.Modules.HRM.Services
             throw new NotImplementedException();
         }
 
-        public Task<(bool Success, string? Error)> UpdateAsync(EmployeeUpdateDto dto)
+        public Task<(bool Success, string? Error)> UpdateEmployeeAsync(EmployeeUpdateDto dto)
         {
             throw new NotImplementedException();
         }

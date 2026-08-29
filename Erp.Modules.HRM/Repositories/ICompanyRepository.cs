@@ -12,5 +12,6 @@ namespace Erp.Modules.HRM.Repositories
         Task<Company?> GetByIdAsync(int id);
         Task<Company?> GetByNameAsync(string name);
         Task<Company?> GetByCodeAsync(string code);
+        //Task<IEnumerable<Company>> GetCompaniesOrderByName(string name);
     }
 }

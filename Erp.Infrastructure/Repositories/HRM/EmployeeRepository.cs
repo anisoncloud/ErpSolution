@@ -27,9 +27,9 @@ namespace Erp.Infrastructure.Repositories.HRM
                 .ToListAsync();
         }
 
-        public Task<Employee?> GetByIdAsync(Guid id)
+        public async Task<Employee?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(x => x.PublicId == id);
         }
 
         public async Task<Employee?> GetByIdWithDetailsAsync(int id)
@@ -50,9 +50,11 @@ namespace Erp.Infrastructure.Repositories.HRM
                 .FirstOrDefaultAsync(x => x.UserId == id);
         }
 
-        public async Task<IReadOnlyList<Employee>> GetByManagerIdAsync(Guid managerId)
+        public async Task<IReadOnlyList<Employee>> GetByManagerIdAsync(int managerId)
         {
-            return await Task.FromResult(new List<Employee>());
+            return await _context.Employees
+                         .Where(e => e.ManagerId == managerId)
+                         .ToListAsync();
         }
 
         public async Task<Employee?> GetByUserIdAsync(Guid userId)
@@ -60,9 +62,9 @@ namespace Erp.Infrastructure.Repositories.HRM
             return await _dbSet.FirstAsync(x=>x.UserId == userId);
         }
 
-        Task<Employee> IEmployeeRepository.AddAsync(Employee entity)
+        /*Task<Employee> IEmployeeRepository.AddAsync(Employee entity)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

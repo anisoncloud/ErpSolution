@@ -10,9 +10,10 @@ namespace Erp.Modules.HRM.Services
         Task<IReadOnlyList<EmployeeDto>> GetAllAsync();
         Task<EmployeeDto?> GetByIdAsync(Guid id);
         Task<EmployeeDto?> GetByUserIdAsync(Guid userId);
-        Task<(bool Success, string? Error, Guid EmployeeId)> CreateAsync(EmployeeCreateDto dto);
-        Task<(bool Success, string? Error)> UpdateAsync(EmployeeUpdateDto dto);
+        Task<(bool Success, string? Error, Guid EmployeeId)> CreateEmployeeAsync(EmployeeCreateDto dto);
+        Task<(bool Success, string? Error)> UpdateEmployeeAsync(EmployeeUpdateDto dto);
         Task<(bool Success, string? Error)> DeactivateAsync(Guid id);
         Task<bool> IsOwnerAsync(Guid employeeId, Guid userId);
+        //Task<EmployeeDto> CreateEmployee(EmployeeCreateDto dto);
     }
 }

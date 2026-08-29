@@ -30,5 +30,7 @@ namespace Erp.Modules.HRM.DTOs
         [Required]
         public decimal? Salary { get; set; }
         public Guid UserId { get; set; }   // set after Identity user is created
+        public bool IsActive {  get; set; }
+        public DateTime CreatedAt {  get; set; }
     }
 }
