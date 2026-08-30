@@ -32,6 +32,14 @@ namespace Erp.Modules.HRM.Entities
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
         public DateTime JoiningDate { get; set; } = DateTime.UtcNow;
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal? Salary { get; set; }        
+        public decimal? Salary { get; set; }
+        public ICollection<EmployeeAttendance> EmployeeAttendances { get; set; }
+        public string? GanderId { get; set; }
+        public Gender? Gender { get; set; }
+        public ICollection<LeaveRequest> LeaveRequests { get; set; }
+        public ApplicationUser? Manager { get; set; }
+        public int? EmployeeTypeId { get; set; }
+        public EmployeeType? EmployeeType { get; set; }
+
     }
 }
