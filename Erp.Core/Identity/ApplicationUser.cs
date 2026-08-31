@@ -16,6 +16,6 @@ namespace Erp.Core.Identity
         public string? CreatedBy { get; set;  }
         public DateTime? UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;        
     }
 }
