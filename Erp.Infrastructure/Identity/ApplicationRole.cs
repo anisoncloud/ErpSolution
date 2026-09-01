@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Erp.Core.Identity
+namespace Erp.Infrastructure.Identity
 {
-    public class ApplicationRole : IdentityRole<Guid>
+    public class ApplicationRole : IdentityRole
     {
         public string? Description { get; set; }
     }
