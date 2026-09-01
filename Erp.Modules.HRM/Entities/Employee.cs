@@ -3,6 +3,7 @@ using Erp.Core.Identity;
 using Erp.Modules.HRM.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -14,10 +15,13 @@ namespace Erp.Modules.HRM.Entities
         // Loose coupling to Identity: store the ApplicationUser's Id as a plain Guid.
         // HRM module does NOT reference ERP.Core.Identity — no FK constraint, no navigation.
         // This keeps HRM's schema self-contained and swappable.
-        public Guid? UserId { get; set; }
+        [Key]
+        public string UserId { get; set; }
         public ApplicationUser? User { get; set; }
         public string EmployeeCode { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
+        public DateTime JoiningDate { get; set; } = DateTime.UtcNow;
+        public DateTime ConfirmationDate { get; set; }
         public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; }
         public string? EmployeePhoto {  get; set; }
