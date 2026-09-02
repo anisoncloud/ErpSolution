@@ -36,8 +36,7 @@ namespace Erp.Modules.HRM.Entities
         public EmployeeType EmployeeType { get; set; }
         public DutyType DutyType { get; set; }
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal? Salary { get; set; }
+        
         /*public ICollection<EmployeeAttendance> EmployeeAttendances { get; set; }
         public string? GanderId { get; set; }
         public Gender? Gender { get; set; }

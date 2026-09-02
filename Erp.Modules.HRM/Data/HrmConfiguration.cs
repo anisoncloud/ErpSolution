@@ -42,6 +42,7 @@ namespace Erp.Modules.HRM.Data
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DesignationId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
         }
     }
 }
