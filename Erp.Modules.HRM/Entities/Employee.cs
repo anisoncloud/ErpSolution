@@ -33,6 +33,7 @@ namespace Erp.Modules.HRM.Entities
         public Designation? Designation { get; set; }
         public int CompanyId {  get; set; }
         public Company? Company { get; set; }
+        public int EmployeeTypeId {  get; set; }
         public EmployeeType EmployeeType { get; set; }
         public DutyType DutyType { get; set; }
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
