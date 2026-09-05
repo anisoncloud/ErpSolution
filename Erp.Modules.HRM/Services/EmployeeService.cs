@@ -47,7 +47,6 @@ namespace Erp.Modules.HRM.Services
                 CompanyId = dto.CompanyId,
                 Level = dto.Level,
                 JoiningDate = dto.JoiningDate,
-                Salary = dto.Salary,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };

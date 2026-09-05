@@ -16,9 +16,11 @@
     <ProjectReference Include="..\Erp.Modules.Accounting\Erp.Modules.Accounting.csproj" />
     <ProjectReference Include="..\Erp.Modules.HRM\Erp.Modules.HRM.csproj" />
     <ProjectReference Include="..\Erp.Modules.Inventory\Erp.Modules.Inventory.csproj" />
+    <ProjectReference Include="..\Erp.Modules.TPM\Erp.Modules.TPM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\TPM\" />
     <Folder Include="Views\Shared\Account\" />
   </ItemGroup>
 

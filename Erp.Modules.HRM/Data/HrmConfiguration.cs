@@ -13,7 +13,8 @@ namespace Erp.Modules.HRM.Data
         IEntityTypeConfiguration<Department>,
         IEntityTypeConfiguration<Designation>,
         IEntityTypeConfiguration<Employee>,
-        IEntityTypeConfiguration<Company>
+        IEntityTypeConfiguration<Company>,
+        IEntityTypeConfiguration<EmployeeAttendance>
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
@@ -42,7 +43,22 @@ namespace Erp.Modules.HRM.Data
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DesignationId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+            builder.HasOne(p => p.User)                // EmployeeProfile has one User
+                .WithOne()                          // Left empty because User has no 'Profile' property
+                .HasForeignKey<Employee>(p => p.UserId) // Explicitly declare the FK owner
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(p=>p.EmployeeAttendances)
+                .WithOne(p=>p.Employee)
+                .HasForeignKey(p=>p.EmployeeId)
+                .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
+        }
+        public void Configure(EntityTypeBuilder<EmployeeAttendance> builder)
+        {
+            builder.ToTable("EmployeeAttendances", "hrm");
+            /*builder.HasOne(p=>p.Employee)
+                .WithMany(p=>p.EmployeeAttendances)
+                .HasForeignKey(p=>p.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);*/
         }
     }
 }

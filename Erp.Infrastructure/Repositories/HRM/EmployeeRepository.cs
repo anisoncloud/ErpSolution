@@ -29,7 +29,7 @@ namespace Erp.Infrastructure.Repositories.HRM
 
         public async Task<Employee?> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FirstOrDefaultAsync(x => x.PublicId == id);
+            return await _dbSet.FirstOrDefaultAsync(x => x.UserId == id);
         }
 
         public async Task<Employee?> GetByIdWithDetailsAsync(int id)
@@ -53,7 +53,7 @@ namespace Erp.Infrastructure.Repositories.HRM
         public async Task<IReadOnlyList<Employee>> GetByManagerIdAsync(int managerId)
         {
             return await _context.Employees
-                         .Where(e => e.ManagerId == managerId)
+                         .Where(e => e.EmpManagerId == managerId)
                          .ToListAsync();
         }
 

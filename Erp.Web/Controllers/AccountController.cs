@@ -42,7 +42,8 @@ namespace Erp.Web.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                Department = model.Department,
+                DepartmentId = model.DepartmentId,
+                CompanyId = model.CompanyId,
                 CreatedAt = DateTime.UtcNow,
             };
             var result = await _userManager.CreateAsync(user, model.Password);

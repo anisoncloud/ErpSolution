@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Data;
+using Microsoft.CodeAnalysis;
+using Erp.Modules.TPM.Data;
 
 namespace Erp.Infrastructure.Data
 {
@@ -22,6 +24,8 @@ namespace Erp.Infrastructure.Data
         public DbSet<Designation> Designations { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<EmployeeAttendance> EmployeeAttendances { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,10 +37,12 @@ namespace Erp.Infrastructure.Data
             builder.Entity<IdentityUserLogin<Guid>>(e => e.ToTable("UserLogins", "identity"));
             builder.Entity<IdentityRoleClaim<Guid>>(e => e.ToTable("RoleClaims", "identity"));
             builder.Entity<IdentityUserToken<Guid>>(e => e.ToTable("UserTokens", "identity"));
+            
 
             // ---- Module entities -> their own schema ----
             
             builder.ApplyHrmModule();
+            builder.ApplyTpmModule();
         }
     }    
 

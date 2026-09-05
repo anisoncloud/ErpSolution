@@ -4,5 +4,6 @@
   <Project Path="Erp.Modules.Accounting/Erp.Modules.Accounting.csproj" />
   <Project Path="Erp.Modules.HRM/Erp.Modules.HRM.csproj" />
   <Project Path="Erp.Modules.Inventory/Erp.Modules.Inventory.csproj" />
+  <Project Path="Erp.Modules.TPM/Erp.Modules.TPM.csproj" Id="05da115a-efd2-40c0-a257-3f4dac91e66e" />
   <Project Path="Erp.Web/Erp.Web.csproj" />
 </Solution>

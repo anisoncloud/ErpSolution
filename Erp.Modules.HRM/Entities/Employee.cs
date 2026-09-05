@@ -15,8 +15,7 @@ namespace Erp.Modules.HRM.Entities
         // Loose coupling to Identity: store the ApplicationUser's Id as a plain Guid.
         // HRM module does NOT reference ERP.Core.Identity — no FK constraint, no navigation.
         // This keeps HRM's schema self-contained and swappable.
-        [Key]
-        public string UserId { get; set; }
+        public Guid? UserId { get; set; }
         public ApplicationUser? User { get; set; }
         public string EmployeeCode { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
@@ -25,7 +24,8 @@ namespace Erp.Modules.HRM.Entities
         public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; }
         public string? EmployeePhoto {  get; set; }
-        public int? ManagerId { get; set; }
+        public int? EmpManagerId { get; set; }
+        public ApplicationUser? Manager { get; set; }
         public string? ManagerEmail {  get; set; }
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
@@ -33,18 +33,14 @@ namespace Erp.Modules.HRM.Entities
         public Designation? Designation { get; set; }
         public int CompanyId {  get; set; }
         public Company? Company { get; set; }
-        public int EmployeeTypeId {  get; set; }
-        public EmployeeType EmployeeType { get; set; }
+        public EmployeeType EmployeeType { get; set; } = EmployeeType.Probation;
         public DutyType DutyType { get; set; }
         public EmployeeLevel Level { get; set; } = EmployeeLevel.Executive;
+        public Gender Gender { get; set; }        
+        public ICollection<EmployeeAttendance> EmployeeAttendances { get; set; } = new List<EmployeeAttendance>();
+       
+        //public ICollection<LeaveRequest> LeaveRequests { get; set; }
         
-        /*public ICollection<EmployeeAttendance> EmployeeAttendances { get; set; }
-        public string? GanderId { get; set; }
-        public Gender? Gender { get; set; }
-        public ICollection<LeaveRequest> LeaveRequests { get; set; }
-        public ApplicationUser? Manager { get; set; }
-        public int? EmployeeTypeId { get; set; }
-        public EmployeeType? EmployeeType { get; set; }*/
 
     }
 }

@@ -126,7 +126,8 @@ namespace Erp.Web.Areas.HRM.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                Department = model.DepartmentName,
+                DepartmentId = model.DepartmentId,
+                CompanyId = model.CompanyId,
                 CreatedAt = DateTime.UtcNow
             };
 

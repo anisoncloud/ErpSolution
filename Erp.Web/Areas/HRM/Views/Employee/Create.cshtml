@@ -1,4 +1,5 @@
-﻿@model Erp.Modules.HRM.ViewModels.EmployeeFormViewModel
+﻿@using Erp.Modules.HRM.Enums
+@model Erp.Modules.HRM.ViewModels.EmployeeFormViewModel
 @{
     Layout = "_Layout";
 }
@@ -7,8 +8,6 @@
 <form asp-action="Create" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="mb-3"><label>Employee Code</label><input asp-for="EmployeeCode" class="form-control" /></div>
-    <div class="mb-3"><label>Full Name</label><input asp-for="FullName" class="form-control" /></div>
     <div class="mb-3">
         <label>Company</label>
         <select asp-for="CompanyId" class="form-control"
@@ -28,6 +27,21 @@
         <select asp-for="DesignationId" class="form-control"
                 asp-items="@(new SelectList(ViewBag.Designations, "Id", "Title"))">
             <option value="">-- Select Designation --</option>
+        </select>
+    </div>
+    <div class="mb-3"><label>Employee Code</label><input asp-for="EmployeeCode" class="form-control" /></div>
+    <div class="mb-3"><label>Full Name</label><input asp-for="FullName" class="form-control" /></div>
+    
+    <div class="form-group">
+        <label asp-for="EmployeeType" class="control-label"></label>
+        <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
+            <option value="">-- Select Type --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="DutyType" class="control-label"></label>
+        <select asp-for="DutyType" asp-items="Html.GetEnumSelectList<DutyType>()" class="form-control">
+            <option value="">-- Select Duty Type --</option>
         </select>
     </div>
     <div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control" /></div>
