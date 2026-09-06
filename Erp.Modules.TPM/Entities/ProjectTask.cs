@@ -13,7 +13,7 @@ namespace Erp.Modules.TPM.Entities
 
         // Links the task to a specific project
         public int ProjectId { get; set; }
-        public Project Project { get; set; } = null!;
+        public ProjectItem ProjectItem { get; set; } = null!;
 
         // Current workflow status
         public ProjectTaskStatus Status { get; set; } = ProjectTaskStatus.Backlog;

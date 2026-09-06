@@ -9,6 +9,7 @@ using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Data;
 using Microsoft.CodeAnalysis;
 using Erp.Modules.TPM.Data;
+using Erp.Modules.TPM.Entities;
 
 namespace Erp.Infrastructure.Data
 {
@@ -25,7 +26,9 @@ namespace Erp.Infrastructure.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<EmployeeAttendance> EmployeeAttendances { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectItem> ProjectItems { get; set; }
+        public DbSet<ProjectTask> ProjectTasks { get; set; }
+        public DbSet<TaskRevision> TaskRevisions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

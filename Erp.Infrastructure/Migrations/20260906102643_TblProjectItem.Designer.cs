@@ -4,6 +4,7 @@ using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Erp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260906102643_TblProjectItem")]
+    partial class TblProjectItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -512,115 +515,6 @@ namespace Erp.Infrastructure.Migrations
                     b.ToTable("ProjectItems", "tpm");
                 });
 
-            modelBuilder.Entity("Erp.Modules.TPM.Entities.ProjectTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProjectItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("TaskDeliveryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TaskGivenDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectItemId");
-
-                    b.ToTable("ProjectTasks", "tpm");
-                });
-
-            modelBuilder.Entity("Erp.Modules.TPM.Entities.TaskRevision", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FeedbackAddedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FeedbackCreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FeedbackNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsResolved")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProjectTaskId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ResolvedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectTaskId");
-
-                    b.ToTable("TaskRevisions", "tpm");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -774,28 +668,6 @@ namespace Erp.Infrastructure.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("Erp.Modules.TPM.Entities.ProjectTask", b =>
-                {
-                    b.HasOne("Erp.Modules.TPM.Entities.ProjectItem", "ProjectItem")
-                        .WithMany()
-                        .HasForeignKey("ProjectItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectItem");
-                });
-
-            modelBuilder.Entity("Erp.Modules.TPM.Entities.TaskRevision", b =>
-                {
-                    b.HasOne("Erp.Modules.TPM.Entities.ProjectTask", "ProjectTask")
-                        .WithMany("Revisions")
-                        .HasForeignKey("ProjectTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectTask");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Erp.Core.Identity.ApplicationRole", null)
@@ -865,11 +737,6 @@ namespace Erp.Infrastructure.Migrations
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Employee", b =>
                 {
                     b.Navigation("EmployeeAttendances");
-                });
-
-            modelBuilder.Entity("Erp.Modules.TPM.Entities.ProjectTask", b =>
-                {
-                    b.Navigation("Revisions");
                 });
 #pragma warning restore 612, 618
         }

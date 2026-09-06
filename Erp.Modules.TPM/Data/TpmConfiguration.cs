@@ -8,16 +8,21 @@ using System.Text;
 namespace Erp.Modules.TPM.Data
 {
     public class TpmConfiguration : 
-        IEntityTypeConfiguration<Project>, 
-        IEntityTypeConfiguration<ProjectTask>
+        IEntityTypeConfiguration<ProjectItem>,
+        IEntityTypeConfiguration<ProjectTask>,
+        IEntityTypeConfiguration<TaskRevision>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public void Configure(EntityTypeBuilder<ProjectItem> builder)
         {
-            builder.ToTable("Projects", "project");
+            builder.ToTable("ProjectItems", "tpm");
+        }
+        public void Configure(EntityTypeBuilder<TaskRevision> builder)
+        {
+            builder.ToTable("TaskRevisions", "tpm");
         }
         public void Configure(EntityTypeBuilder<ProjectTask> builder)
         {
-            builder.ToTable("ProjectTasks", "project");
+            builder.ToTable("ProjectTasks", "tpm");
 
             // One Task has Many Revisions
             builder.HasMany(t => t.Revisions)
