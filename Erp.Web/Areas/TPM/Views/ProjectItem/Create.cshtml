@@ -1,0 +1,76 @@
+﻿@model Erp.Modules.TPM.DTOs.ProjectItemCreateDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "_Layout";
+}
+<h1>Create Project</h1>
+<hr />
+<form asp-action="Create" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="Name"></label>
+                <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="@Html.DisplayNameFor(m => m.Name)">
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="WorkOrderDate"></label>
+                <input type="date"  asp-for="WorkOrderDate" class="form-control" id="exampleFormControlInput1">
+                <span asp-validation-for="WorkOrderDate" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="DemoStartDate"></label>
+                <input asp-for="DemoStartDate" type="date" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="DemoStartDate" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectDeliveryDate"></label>
+                <input asp-for="ProjectDeliveryDate" type="date" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="ProjectDeliveryDate" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectValue"></label>
+                <input asp-for="ProjectValue" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="ProjectValue" class="text-danger small"></span>
+            </div>
+            
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="Advanced"></label>
+                <input asp-for="Advanced" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="Advanced" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectDays"></label>
+                <input asp-for="ProjectDays" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="ProjectDays" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="Proposal"></label>
+                <input asp-for="Proposal" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="Proposal" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="WorkOrder"></label>
+                <input asp-for="WorkOrder" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="WorkOrder" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" asp-for="SoftwareRequirement"></label>
+                <input asp-for="SoftwareRequirement" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <span asp-validation-for="SoftwareRequirement" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <button type="submit" class="btn btn-primary">Create Project</button>
+</form>

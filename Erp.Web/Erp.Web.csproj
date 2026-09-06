@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\TPM\" />
+    <Folder Include="Areas\TPM\Models\" />
     <Folder Include="Views\Shared\Account\" />
   </ItemGroup>
 

@@ -5,6 +5,8 @@ using Erp.Infrastructure.Repositories.Generic;
 using Erp.Infrastructure.Repositories.HRM;
 using Erp.Modules.HRM.Repositories;
 using Erp.Modules.HRM.Services;
+using Erp.Modules.TPM.Repositories;
+using Erp.Modules.TPM.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,12 +42,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<IHrmUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITpmUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<IHrmUnitOfWork>());
+builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<ITpmUnitOfWork>());
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IProjectItemService, ProjectItemService>();
 
 var app = builder.Build();
 

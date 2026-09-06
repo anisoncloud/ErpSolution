@@ -1,6 +1,8 @@
 ﻿using Erp.Core.Interfaces;
 using Erp.Infrastructure.Repositories.HRM;
+using Erp.Infrastructure.Repositories.TPM;
 using Erp.Modules.HRM.Repositories;
+using Erp.Modules.TPM.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -9,7 +11,7 @@ using System.Text;
 
 namespace Erp.Infrastructure.Data
 {
-    public class UnitOfWork : IHrmUnitOfWork, IDisposable
+    public class UnitOfWork : IHrmUnitOfWork, ITpmUnitOfWork, IDisposable
     {
         private readonly AppDbContext _context;
         private IDbContextTransaction _transaction;
@@ -17,6 +19,7 @@ namespace Erp.Infrastructure.Data
         public IDepartmentRepository Departments { get; }
         public IEmployeeRepository Employees { get; }
         public ICompanyRepository Companies { get; }
+        public IProjectItemRepository ProjectItems { get; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -24,6 +27,7 @@ namespace Erp.Infrastructure.Data
             Departments = new DepartmentRepository(context);
             Employees = new EmployeeRepository(context);
             Companies = new CompanyRepository(context);
+            ProjectItems = new ProjectItemRepository(context);
         }
 
         public Task<int> SaveChangesAsync()
