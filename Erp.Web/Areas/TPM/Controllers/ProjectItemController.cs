@@ -13,9 +13,10 @@ namespace Erp.Web.Areas.TPM.Controllers
         {
             _projectItemService = projectItemService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var dto = await _projectItemService.GetCompanyAsync();
+            return View(dto);
         }
         [HttpGet]
         public IActionResult Create()

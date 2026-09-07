@@ -8,5 +8,6 @@ namespace Erp.Modules.TPM.Services
     public interface IProjectItemService
     {
         Task<ProjectItemDto> CreateProjectItem(ProjectItemCreateDto dto);
+        Task<IEnumerable<ProjectItemDto>> GetCompanyAsync();
     }
 }

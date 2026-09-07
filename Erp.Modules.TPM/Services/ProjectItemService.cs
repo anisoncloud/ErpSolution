@@ -45,5 +45,10 @@ namespace Erp.Modules.TPM.Services
             await _uow.SaveChangesAsync();
             return model.ToDto();
         }
+        public async Task<IEnumerable<ProjectItemDto>> GetCompanyAsync()
+        {
+            var model = await _uow.ProjectItems.GetAllAsync();
+            return model.ToListDto();
+        }
     }
 }
