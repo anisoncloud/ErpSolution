@@ -1,4 +1,5 @@
-﻿using Erp.Modules.TPM.DTOs;
+﻿using Erp.Core.Interfaces;
+using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Entities;
 using Erp.Modules.TPM.MappingDto;
 using Erp.Modules.TPM.Repositories;
@@ -12,12 +13,27 @@ namespace Erp.Modules.TPM.Services
     public class ProjectItemService : IProjectItemService
     {
         private readonly ITpmUnitOfWork _uow;
-        public ProjectItemService(ITpmUnitOfWork uow)
+        private readonly IFileStorageService _fileStorageService;
+        public ProjectItemService(ITpmUnitOfWork uow, IFileStorageService fileStorageService)
         {
             _uow = uow;
+            _fileStorageService = fileStorageService; 
         }
         public async Task<ProjectItemDto> CreateProjectItem(ProjectItemCreateDto dto)
         {
+            string? fileUrl = null;
+            if (dto.Proposal != null && dto.Proposal.Length > 0)
+            {
+                // Upload via the shared service layer
+                fileUrl = await _fileStorageService.UploadFileAsync(
+                    file: dto.Proposal,
+                    moduleName: "tpm",
+                    subFolder: "ProjectItems",
+                    //customFileName: $"item_{dto.ItemCode}", // Rename to match item code
+                    customFileName: $"item_{dto.Proposal}", // Rename to match item code
+                    allowedExtensions: new[] { ".pdf", ".jpg", ".png" }
+                );
+            }
             if (dto == null)
             {
                 throw new ArgumentNullException(nameof(dto));
@@ -37,7 +53,7 @@ namespace Erp.Modules.TPM.Services
                 ProjectValue = dto.ProjectValue,
                 Advanced = dto.Advanced,
                 ProjectDetails = dto.ProjectDetails,
-                Proposal = dto.Proposal,
+                Proposal = fileUrl,
                 WorkOrder = dto.WorkOrder,
                 SoftwareRequirement = dto.SoftwareRequirement
             };
