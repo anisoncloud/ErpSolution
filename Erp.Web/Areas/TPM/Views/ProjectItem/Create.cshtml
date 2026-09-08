@@ -1,4 +1,5 @@
-﻿@model Erp.Modules.TPM.DTOs.ProjectItemCreateDto
+﻿@using Erp.Modules.TPM.Enums
+@model Erp.Modules.TPM.DTOs.ProjectItemCreateDto
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -54,23 +55,26 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="Proposal"></label>
-                <input asp-for="Proposal" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="Proposal" type="file" class="form-control" id="exampleFormControlInput1" accept="application/pdf" placeholder="Pdf file of Proposal">
                 <span asp-validation-for="Proposal" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="WorkOrder"></label>
-                <input asp-for="WorkOrder" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="WorkOrder" type="file" class="form-control" id="exampleFormControlInput1" accept="application/pdf" placeholder="Pdf file of Work Order">
                 <span asp-validation-for="WorkOrder" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="SoftwareRequirement"></label>
-                <input asp-for="SoftwareRequirement" type="file" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="SoftwareRequirement" type="file" class="form-control" id="exampleFormControlInput1" accept="application/pdf" placeholder="Pdf file of Software Requirement">
                 <span asp-validation-for="SoftwareRequirement" class="text-danger small"></span>
             </div>
+            <div class="form-group">
+    <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<ProjectTaskStatus>()" class="form-control">
+        <option value="">-- Select Type --</option>
+    </select>
+</div>
         </div>
     </div>
-    
-    
-
     <button type="submit" class="btn btn-primary">Create Project</button>
 </form>

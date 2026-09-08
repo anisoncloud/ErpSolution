@@ -11,14 +11,16 @@
     <thead>
         <tr>
             <th>Project Name</th>
-            <th>Persons</th>
-            <th>Developer</th>
-            <th>Order Date</th>
+            <th>WODate</th>
             <th>Value</th>
-            <th>Adv</th>
-            <th>Due</th>
+            <th>Advanced </th>
+            <th>Due Payment</th>
             <th>Days</th>
-            <th>Delivery</th>
+            <th>DeliveryDate</th>
+            <th>Proposal</th>
+            <th>Work Order</th>
+            <th>What to do</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -41,24 +43,32 @@
                 <td>@project.DuePayment</td>
                 <td>@project.ProjectDays</td>
                 <td>@project.ProjectDeliveryDate?.ToString("dd MMM yyyy")</td>
-                @* <td>
-                    <a asp-action="PeopleAssign" asp-route-id="@project.Id">Project Assign</a>
-                </td> *@
+                <td><a target="_blank" href="@project.Proposal">Proposal</a></td>
+                <td><a target="_blank" href="@project.WorkOrder">Work Order</a></td>
+                <td><a target="_blank" href="@project.SoftwareRequirement">Requirement</a></td>
+                <td>Status</td>
+                <td>
+                    <a class="btn btn-warning btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Edit</a>
+                    <a class="btn btn-primary btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Details</a>
+                    <a class="btn btn-danger btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Devs</a>
+                </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
             <th>Project Name</th>
-            <th>Persons</th>
-            <th>Developer</th>
-            <th>Order Date</th>
+            <th>WODate</th>
             <th>@Model.Sum(p => p.ProjectValue)</th>
-            <th>Adv</th>
-            <th>Due</th>
+            <th>@Model.Sum(p => p.Advanced) </th>
+            <th>@Model.Sum(p => p.DuePayment)</th>
             <th>Days</th>
-            <th>Delivery</th>
-            <th>Action</th>
+            <th>DeliveryDate</th>
+            <th>Proposal</th>
+            <th>Work Order</th>
+            <th>What to do</th>
+            <th>Status</th>      
+            <th>Action</th>      
 
         </tr>
     </tfoot>

@@ -1,5 +1,6 @@
 using Erp.Core.Identity;
 using Erp.Core.Interfaces;
+using Erp.Core.Services;
 using Erp.Infrastructure.Data;
 using Erp.Infrastructure.Repositories.Generic;
 using Erp.Infrastructure.Repositories.HRM;
@@ -51,6 +52,7 @@ builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IProjectItemService, ProjectItemService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Erp.Modules.TPM.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -28,5 +29,6 @@ namespace Erp.Modules.TPM.DTOs
         public string? Proposal { get; set; }
         public string? WorkOrder { get; set; }
         public string? SoftwareRequirement { get; set; }
+        public ProjectTaskStatus Status { get; set; }
     }
 }

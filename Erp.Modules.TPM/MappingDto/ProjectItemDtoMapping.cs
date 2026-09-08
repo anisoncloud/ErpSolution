@@ -57,9 +57,9 @@ namespace Erp.Modules.TPM.MappingDto
                 ProjectValue = model.ProjectValue,
                 Advanced = model.Advanced,
                 ProjectDetails = model.ProjectDetails,
-                Proposal = model.Proposal,
+                /*Proposal = model.Proposal,
                 WorkOrder = model.WorkOrder,
-                SoftwareRequirement = model.SoftwareRequirement
+                SoftwareRequirement = model.SoftwareRequirement*/
             };
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Erp.Modules.TPM.Enums;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -37,8 +39,12 @@ namespace Erp.Modules.TPM.DTOs
                 return ProjectValue - Advanced;
             }
         }
-        public string? Proposal { get; set; }
-        public string? WorkOrder { get; set; }
-        public string? SoftwareRequirement { get; set; }
+        //public string? Proposal { get; set; }
+        //public string? WorkOrder { get; set; }
+        //public string? SoftwareRequirement { get; set; }
+        public IFormFile? WorkOrder { get; set; }
+        public IFormFile? Proposal { get; set; }
+        public IFormFile? SoftwareRequirement { get; set; }
+        public ProjectTaskStatus Status { get; set; }
     }
 }

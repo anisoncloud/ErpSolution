@@ -21,16 +21,16 @@ namespace Erp.Modules.TPM.Services
         }
         public async Task<ProjectItemDto> CreateProjectItem(ProjectItemCreateDto dto)
         {
-            string? fileUrl = null;
+            string? proposalFileUrl = null;
             if (dto.Proposal != null && dto.Proposal.Length > 0)
             {
                 // Upload via the shared service layer
-                fileUrl = await _fileStorageService.UploadFileAsync(
+                proposalFileUrl = await _fileStorageService.UploadFileAsync(
                     file: dto.Proposal,
                     moduleName: "tpm",
                     subFolder: "ProjectItems",
                     //customFileName: $"item_{dto.ItemCode}", // Rename to match item code
-                    customFileName: $"item_{dto.Proposal}", // Rename to match item code
+                    customFileName: $"item_{dto.Name}", // Rename to match item code
                     allowedExtensions: new[] { ".pdf", ".jpg", ".png" }
                 );
             }
@@ -53,9 +53,9 @@ namespace Erp.Modules.TPM.Services
                 ProjectValue = dto.ProjectValue,
                 Advanced = dto.Advanced,
                 ProjectDetails = dto.ProjectDetails,
-                Proposal = fileUrl,
-                WorkOrder = dto.WorkOrder,
-                SoftwareRequirement = dto.SoftwareRequirement
+                Proposal = proposalFileUrl,
+                //WorkOrder = dto.WorkOrder,
+                //SoftwareRequirement = dto.SoftwareRequirement
             };
             await _uow.ProjectItems.AddAsync(model);
             await _uow.SaveChangesAsync();
