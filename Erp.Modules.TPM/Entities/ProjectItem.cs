@@ -29,5 +29,6 @@ namespace Erp.Modules.TPM.Entities
         public string? Proposal { get; set; }
         public string? WorkOrder { get; set; }
         public string? SoftwareRequirement { get; set; }
+        public ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
     }
 }

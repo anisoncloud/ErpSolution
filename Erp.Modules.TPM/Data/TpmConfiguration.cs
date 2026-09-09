@@ -25,9 +25,9 @@ namespace Erp.Modules.TPM.Data
             builder.ToTable("ProjectTasks", "tpm");
 
             // One Task has Many Revisions
-            builder.HasMany(t => t.Revisions)
-                   .WithOne(r => r.ProjectTask)
-                   .HasForeignKey(r => r.ProjectTaskId)
+            builder.HasOne(t=>t.ProjectItem)
+                   .WithMany(t => t.ProjectTasks)
+                   .HasForeignKey(r => r.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade); // If a task is deleted, delete its history
         }
     }
