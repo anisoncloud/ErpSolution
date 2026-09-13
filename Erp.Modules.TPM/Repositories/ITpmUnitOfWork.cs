@@ -8,5 +8,6 @@ namespace Erp.Modules.TPM.Repositories
     public interface ITpmUnitOfWork : IUnitOfWork
     {
         IProjectItemRepository ProjectItems { get; }
+        IProjectTaskRepository ProjectTasks { get; }
     }
 }
