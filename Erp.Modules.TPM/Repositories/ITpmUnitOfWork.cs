@@ -9,5 +9,6 @@ namespace Erp.Modules.TPM.Repositories
     {
         IProjectItemRepository ProjectItems { get; }
         IProjectTaskRepository ProjectTasks { get; }
+        ITaskRevisionRepository TaskRevisions { get; }
     }
 }

@@ -1,0 +1,97 @@
+﻿@model Erp.Modules.TPM.DTOs.TaskDetailsDto
+
+<div class="container mt-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>@Model.Title</h2>
+                <span class="badge bg-primary fs-5">Status: @Model.Status</span>
+            </div>
+            <p class="text-muted">Created on @Model.CreatedAt.ToString("g")</p>
+            <p class="lead">@Model.Description</p>
+
+            <hr />
+
+            <!-- Dynamic Workflow Controls -->
+            <div class="d-flex gap-2">
+                @if (Model.Status == "Backlog")
+                {
+                    <form asp-action="StartDevelopment" asp-route-id="@Model.Id" method="post">
+                        <button class="btn btn-warning">⚡ Start Development</button>
+                    </form>
+                }
+                @if (Model.Status == "InDevelopment" || Model.Status == "ClientFeedback")
+                {
+                    <form asp-action="SubmitForReview" asp-route-id="@Model.Id" method="post">
+                        <button class="btn btn-info text-white">📤 Send to Client for Review</button>
+                    </form>
+                }
+                @if (Model.Status == "ReadyForReview")
+                {
+                    <form asp-action="CompleteTask" asp-route-id="@Model.Id" method="post">
+                        <button class="btn btn-success">✅ Final Client Approval (Complete)</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Client Update Requests / Revision Loop Form -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">Request Further Changes (Client)</div>
+                <div class="card-body">
+                    <form asp-action="AddFeedback" method="post">
+                        <input type="hidden" name="taskId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label">What needs to be updated or fixed?</label>
+                            <textarea class="form-control" name="feedbackNotes" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">🚩 Submit Change Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Historical Revision Log Timeline -->
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">Revision & Update History</div>
+                <div class="card-body">
+                    @if (!Model.Revisions.Any())
+                    {
+                        <p class="text-muted text-center my-3">No change requests log recorded yet.</p>
+                    }
+                    else
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var rev in Model.Revisions.OrderByDescending(r => r.CreatedAt))
+                            {
+                                <li class="list-group-item px-0 py-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-1 text-danger">⚠️ Requested Changes</h6>
+                                        @if (!rev.IsResolved)
+                                        {
+                                            <form asp-action="ResolveUpdate" asp-route-id="@rev.Id" asp-route-taskId="@Model.Id" method="post">
+                                                <button class="btn btn-sm btn-outline-success">Mark as Done</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Done</span>
+                                        }
+                                    </div>
+                                    <p class="mb-1 bg-light p-2 rounded border-start border-danger border-3 text-secondary">
+                                        @rev.FeedbackNotes
+                                    </p>
+                                    <small class="text-muted">By @rev.CreatedBy at @rev.CreatedAt.ToString("g")</small>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

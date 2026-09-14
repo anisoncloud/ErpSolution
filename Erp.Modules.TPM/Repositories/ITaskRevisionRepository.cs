@@ -6,9 +6,7 @@ using System.Text;
 
 namespace Erp.Modules.TPM.Repositories
 {
-    public interface IProjectTaskRepository : IGenericRepository<ProjectTask>
+    public interface ITaskRevisionRepository : IGenericRepository<TaskRevision>
     {
-        Task<ProjectTask?> GetProjectTaskWithRevisionAsync(int taskId);
-       
     }
 }

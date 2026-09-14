@@ -1,5 +1,6 @@
 ﻿using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Entities;
+using Erp.Modules.TPM.Enums;
 using Erp.Modules.TPM.MappingDto;
 using Erp.Modules.TPM.Repositories;
 using System;
@@ -11,15 +12,25 @@ namespace Erp.Modules.TPM.Services
     public class ProjectTaskService : IProjectTaskService
     {
         private readonly ITpmUnitOfWork _uow;
+        
 
         public ProjectTaskService(ITpmUnitOfWork uow)
         {
-            _uow = uow;
+            _uow = uow;           
         }
 
-        public Task<bool> AddClientFeedbackAsync(FeedbackCreateDto dto)
+        public async Task<bool> AddClientFeedbackAsync(FeedbackCreateDto dto)
         {
-            throw new NotImplementedException();
+            var projectTask = await _uow.ProjectTasks.GetByIdAsync(dto.ProjectTaskId);
+            if (projectTask == null)
+            {
+                return false;
+            }
+            projectTask.Status = ProjectTaskStatus.ClientFeedback;
+            TaskRevision taskRevision = dto.ToModel();
+            await _uow.TaskRevisions.AddAsync(taskRevision);
+            await _uow.SaveChangesAsync();
+            return true;
         }
 
         public async Task<int> CreateTaskAsync(TaskCreateDto dto)
@@ -32,19 +43,37 @@ namespace Erp.Modules.TPM.Services
 
         public async Task<TaskDetailsDto?> GetTaskDetailsAsync(int taskId)
         {
-            var task = await _uow.ProjectTasks
-                
-            throw new NotImplementedException();
+            var task = await _uow.ProjectTasks.GetProjectTaskWithRevisionAsync(taskId);
+            if (task==null)
+            {
+                return null;
+            }
+            return task.ToDetailsDto();
         }
 
-        public Task<bool> ResolveRevisionAsync(int revisionId)
+        public async Task<bool> ResolveRevisionAsync(int revisionId)
         {
-            throw new NotImplementedException();
+            var revision = await _uow.TaskRevisions.GetByIdAsync(revisionId);
+            if (revision == null)
+            {
+                return false;
+            }
+            revision.IsResolved = true;
+            revision.ResolvedAt = DateTime.UtcNow;
+            await _uow.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> UpdateStatusAsync(int taskId, TaskStatus newStatus)
+        public async Task<bool> UpdateStatusAsync(int taskId, ProjectTaskStatus newStatus)
         {
-            throw new NotImplementedException();
+            var projectTask = await _uow.ProjectTasks.GetByIdAsync(taskId);
+            if (projectTask == null)
+            {
+                return false;
+            }
+            projectTask.Status = newStatus;
+            await _uow.SaveChangesAsync();
+            return true;
         }
     }
 }

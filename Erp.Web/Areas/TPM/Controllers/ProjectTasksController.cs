@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Web.Areas.TPM.Controllers
 {
+    [Area("TPM")]
     public class ProjectTasksController : Controller
     {
         private readonly IProjectTaskService _projectTaskService;
