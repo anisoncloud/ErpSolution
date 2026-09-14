@@ -19,12 +19,15 @@ namespace Erp.Web.Areas.TPM.Controllers
         }
 
         // GET: Tasks/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var task = await _projectTaskService.GetTaskDetailsAsync(id);
-            if (task == null) return NotFound();
-
-            return View(task);
+            var projectTask = await _projectTaskService.GetTaskDetailsAsync(id);
+            if (projectTask == null)
+            {
+                return NotFound();
+            }
+            return View(projectTask);
         }
 
         // POST: Tasks/StartDevelopment/5

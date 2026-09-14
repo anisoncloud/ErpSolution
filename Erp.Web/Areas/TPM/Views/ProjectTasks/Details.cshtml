@@ -1,4 +1,4 @@
-﻿@model Erp.Modules.TPM.DTOs.TaskDetailsDto
+﻿@model Erp.Modules.TPM.DTOs.TaskDetailsDto  
 
 <div class="container mt-4">
     <div class="card shadow-sm mb-4">
@@ -12,6 +12,7 @@
 
             <hr />
 
+            <!-- Dynamic Workflow Controls -->
             <!-- Dynamic Workflow Controls -->
             <div class="d-flex gap-2">
                 @if (Model.Status == "Backlog")
