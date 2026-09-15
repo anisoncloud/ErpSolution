@@ -12,6 +12,7 @@ namespace Erp.Modules.TPM.MappingDto
         {
             return new()
             {
+                Id = model.Id,
                 Name = model.Name.Trim(),
                 DemoStartDate = model.DemoStartDate,
                 WorkOrderDate = model.WorkOrderDate,

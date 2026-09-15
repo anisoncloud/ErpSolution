@@ -50,5 +50,14 @@ namespace Erp.Web.Areas.TPM.Controllers
                 return View(dto);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> TaskLogs(int id)
+        {
+            var projectDashboard = await _projectItemService.GetProjectTaskLogsAsync(id);
+            if (projectDashboard == null) return NotFound();
+
+            return View(projectDashboard);
+        }
     }
 }

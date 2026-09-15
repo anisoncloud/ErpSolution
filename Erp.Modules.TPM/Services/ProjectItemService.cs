@@ -73,5 +73,14 @@ namespace Erp.Modules.TPM.Services
             var projectItems = await _uow.ProjectItems.GetAllProjectItemWithTasks();
             return projectItems.Select(p => p.ToDashboardDto()).ToList();
         }
+        public async Task<ProjectDashboardDto?> GetProjectTaskLogsAsync(int projectId)
+        {
+            var projectItem = await _uow.ProjectItems.GetProjectTaskLogsAsync(projectId);
+            if (projectItem ==null)
+            {
+                return null;
+            }
+            return projectItem.ToDashboardDto();
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Erp.Modules.TPM.DTOs
 {
     public class ProjectItemDto
     {
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public DateOnly? DemoStartDate { get; set; }
         public DateOnly? WorkOrderDate { get; set; }
