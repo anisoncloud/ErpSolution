@@ -18,6 +18,11 @@ namespace Erp.Web.Areas.TPM.Controllers
             return View();
         }
 
+        /*[HttpGet]
+        public async Task<IActionResult> CreateBackLog()
+        {
+
+        }*/
         // GET: Tasks/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int id)

@@ -9,5 +9,6 @@ namespace Erp.Modules.TPM.Repositories
 {
     public interface IProjectItemRepository : IGenericRepository<ProjectItem>
     {
+        Task<List<ProjectItem>> GetAllProjectItemWithTasks();
     }
 }

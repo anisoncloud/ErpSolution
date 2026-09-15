@@ -9,5 +9,6 @@ namespace Erp.Modules.TPM.Services
     {
         Task<ProjectItemDto> CreateProjectItem(ProjectItemCreateDto dto);
         Task<IEnumerable<ProjectItemDto>> GetCompanyAsync();
+        Task<List<ProjectDashboardDto>> GetAllProjectsWithTasksAsync();
     }
 }

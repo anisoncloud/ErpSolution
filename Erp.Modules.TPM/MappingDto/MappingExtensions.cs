@@ -60,5 +60,17 @@ namespace Erp.Modules.TPM.MappingDto
                     .ToList()
             );
         }
+        public static ProjectDashboardDto ToDashboardDto(this ProjectItem project)
+        {
+            return new ProjectDashboardDto(
+                Id: project.Id,
+                Name: project.Name,
+
+                // Loop through each task assigned to this project and manually map it
+                TasksDetails: project.ProjectTasks != null
+                    ? project.ProjectTasks.Select(t => t.ToDetailsDto()).ToList()
+                    : new List<TaskDetailsDto>()
+            );
+        }
     }
 }

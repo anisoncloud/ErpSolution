@@ -1,6 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Erp.Modules.TPM.DTOs.TaskCreateDto
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow border-0 rounded-3">
+                <div class="card-header bg-dark text-white p-4">
+                    <h3 class="mb-0 fw-bold">📋 Create Backlog Item</h3>
+                    <small class="text-muted text-light-50">Log client requirements directly into a project backlog matrix.</small>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-controller="Projects" asp-action="CreateBacklog" method="post">
+
+                        <!-- Security Token Protection -->
+                        @Html.AntiForgeryToken()
+
+                        <!-- Form Dropdown Select: Project Assignment -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Assign to Target Project</label>
+                            <select name="ProjectId" class="form-select form-select-lg border-2" required asp-items="ViewBag.ProjectList">
+                                <option value="">-- Choose Workspace Project --</option>
+                            </select>
+                            <span class="text-danger small" data-valmsg-for="ProjectId"></span>
+                        </div>
+
+                        <!-- Form Input: Task Title -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Task Title / User Story Summary</label>
+                            <input type="text" name="Title" class="form-control border-2"
+                                   placeholder="e.g., Integrate payment gateways (SSLCommerz, Stripe)" required maxlength="200" />
+                            <span class="text-danger small" data-valmsg-for="Title"></span>
+                        </div>
+
+                        <!-- Form Input: Task Description -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Detailed System Requirements</label>
+                            <textarea name="Description" class="form-control border-2" rows="6"
+                                      placeholder="Break down the exact specifications given by the client..." required></textarea>
+                            <span class="text-danger small" data-valmsg-for="Description"></span>
+                        </div>
+
+                        <!-- Form Input: Expected Target Date -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Expected Completion Target (Optional)</label>
+                            <input type="date" name="TargetDate" class="form-control border-2"
+                                   min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" />
+                            <span class="text-danger small" data-valmsg-for="TargetDate"></span>
+                        </div>
+
+                        <hr class="my-4 text-muted" />
+
+                        <!-- Form Control Actions -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="javascript:history.back()" class="btn btn-outline-secondary px-4">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4 shadow-sm fw-bold">
+                                🚀 Add to Backlog
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Partial view containing client-side validation libraries -->
+    <partial name="_ValidationScriptsPartial" />
 }
-Test

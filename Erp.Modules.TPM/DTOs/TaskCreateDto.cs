@@ -4,5 +4,10 @@ using System.Text;
 
 namespace Erp.Modules.TPM.DTOs
 {
-    public record TaskCreateDto(string Title, string Description, int ProjectId, DateTime? TargetDate);
+    public record TaskCreateDto(
+        string Title, 
+        string Description, 
+        int ProjectId, 
+        DateTime? TargetDate
+        );
 }

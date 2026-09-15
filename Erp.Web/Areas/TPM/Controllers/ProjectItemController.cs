@@ -18,6 +18,13 @@ namespace Erp.Web.Areas.TPM.Controllers
             var dto = await _projectItemService.GetCompanyAsync();
             return View(dto);
         }
+        public async Task<IActionResult> ProjectDashBoard()
+        {
+            var projectDashboard = await _projectItemService.GetAllProjectsWithTasksAsync();
+            if (projectDashboard == null) return NotFound();
+
+            return View(projectDashboard);
+        }
         [HttpGet]
         public IActionResult Create()
         {

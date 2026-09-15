@@ -4,6 +4,7 @@ using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Repositories;
 using Erp.Modules.TPM.Entities;
 using Erp.Modules.TPM.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,13 @@ namespace Erp.Infrastructure.Repositories.TPM
     {
         public ProjectItemRepository(AppDbContext context) : base(context)
         {
+        }
+
+        public async Task<List<ProjectItem>> GetAllProjectItemWithTasks()
+        {
+            return await _context.ProjectItems
+                .Include(x => x.ProjectTasks)
+                .ToListAsync();
         }
     }
 }

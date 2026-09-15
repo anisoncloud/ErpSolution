@@ -3,6 +3,7 @@ using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Entities;
 using Erp.Modules.TPM.MappingDto;
 using Erp.Modules.TPM.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -65,6 +66,12 @@ namespace Erp.Modules.TPM.Services
         {
             var model = await _uow.ProjectItems.GetAllAsync();
             return model.ToListDto();
+        }
+
+        public async Task<List<ProjectDashboardDto>> GetAllProjectsWithTasksAsync()
+        {
+            var projectItems = await _uow.ProjectItems.GetAllProjectItemWithTasks();
+            return projectItems.Select(p => p.ToDashboardDto()).ToList();
         }
     }
 }
