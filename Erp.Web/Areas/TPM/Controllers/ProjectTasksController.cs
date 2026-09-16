@@ -23,6 +23,15 @@ namespace Erp.Web.Areas.TPM.Controllers
         {
 
         }*/
+        public async Task<IActionResult> CreateTask(TaskCreateDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+
+            await _projectTaskService.CreateTaskAsync(dto);
+
+            // Redirect back to the project's task logs page
+            return RedirectToAction("TaskLogs", "ProjectItem", new { id = dto.ProjectId });
+        }
         // GET: Tasks/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int id)

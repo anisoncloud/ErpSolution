@@ -114,7 +114,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form asp-controller="Projects" asp-action="CreateTask" method="post">
+            <form asp-controller="ProjectTasks" asp-action="CreateTask" method="post">
                 <div class="modal-body p-4">
                     <!-- Hidden Foreign Key Property referencing the parent Project -->
                     <input type="hidden" name="ProjectId" value="@Model.Id" />
