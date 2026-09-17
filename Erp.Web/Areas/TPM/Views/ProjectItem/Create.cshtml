@@ -17,27 +17,27 @@
         <div class="col">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="Name"></label>
-                <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="@Html.DisplayNameFor(m => m.Name)">
+                <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="@Html.DisplayNameFor(m => m.Name)" required>
                 <span asp-validation-for="Name" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="WorkOrderDate"></label>
-                <input type="date"  asp-for="WorkOrderDate" class="form-control" id="exampleFormControlInput1">
+                <input asp-for="WorkOrderDate" class="form-control datepicker" id="WorkOrderDate" type="text" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
                 <span asp-validation-for="WorkOrderDate" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="DemoStartDate"></label>
-                <input asp-for="DemoStartDate" type="date" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="DemoStartDate" type="text" class="form-control datepicker" id="DemoStartDate" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
                 <span asp-validation-for="DemoStartDate" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectDeliveryDate"></label>
-                <input asp-for="ProjectDeliveryDate" type="date" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="ProjectDeliveryDate" type="text" class="form-control datepicker" id="ProjectDeliveryDate" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
                 <span asp-validation-for="ProjectDeliveryDate" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectValue"></label>
-                <input asp-for="ProjectValue" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="ProjectValue" type="number" class="form-control" id="exampleFormControlInput1" placeholder="" required>
                 <span asp-validation-for="ProjectValue" class="text-danger small"></span>
             </div>
             
@@ -45,12 +45,12 @@
         <div class="col">
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="Advanced"></label>
-                <input asp-for="Advanced" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="Advanced" type="number" class="form-control" id="exampleFormControlInput1" placeholder="" required>
                 <span asp-validation-for="Advanced" class="text-danger small"></span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label" asp-for="ProjectDays"></label>
-                <input asp-for="ProjectDays" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Company Code be goes in here">
+                <input asp-for="ProjectDays" type="number" class="form-control" id="exampleFormControlInput1" placeholder="" required>
                 <span asp-validation-for="ProjectDays" class="text-danger small"></span>
             </div>
             <div class="mb-3">
@@ -78,3 +78,19 @@
     </div>
     <button type="submit" class="btn btn-primary">Create Project</button>
 </form>
+@section Scripts {
+    
+
+    <!-- 3. Load jQuery UI Library -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd MM yy', // Note: jQuery UI uses 'yy' for 4-digit years
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+}

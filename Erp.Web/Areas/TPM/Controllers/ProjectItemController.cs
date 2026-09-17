@@ -15,7 +15,7 @@ namespace Erp.Web.Areas.TPM.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var dto = await _projectItemService.GetCompanyAsync();
+            var dto = await _projectItemService.GetProjectsAsync();
             return View(dto);
         }
         public async Task<IActionResult> ProjectDashBoard()

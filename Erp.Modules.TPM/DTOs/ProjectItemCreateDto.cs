@@ -15,7 +15,7 @@ namespace Erp.Modules.TPM.DTOs
         public string Name { get; set; } = string.Empty;
         [DisplayName("Demo Start Date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateOnly? DemoStartDate { get; set; }
         [Display(Name="Work Order Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
