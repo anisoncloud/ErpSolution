@@ -1,4 +1,5 @@
 ﻿using Erp.Core;
+using Erp.Modules.TPM.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,7 @@ namespace Erp.Modules.TPM.Entities
     public class ProjectItem : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
         public DateOnly? DemoStartDate { get; set; }
         public DateOnly? WorkOrderDate { get; set; }
         public int? ProjectDays { get; set; }
@@ -29,6 +31,8 @@ namespace Erp.Modules.TPM.Entities
         public string? Proposal { get; set; }
         public string? WorkOrder { get; set; }
         public string? SoftwareRequirement { get; set; }
+        public ProjectItemType? ProjectItemType { get; set; }
+        public ProjectItemStatus? ProjectItemStatus { get; set; }
         public ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
     }
 }

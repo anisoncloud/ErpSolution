@@ -30,6 +30,7 @@ namespace Erp.Modules.TPM.DTOs
         public string? Proposal { get; set; }
         public string? WorkOrder { get; set; }
         public string? SoftwareRequirement { get; set; }
-        public ProjectTaskStatus Status { get; set; }
+        public ProjectItemType ProjectItemType { get; set; }
+        public ProjectItemStatus ProjectStatus { get; set; }
     }
 }

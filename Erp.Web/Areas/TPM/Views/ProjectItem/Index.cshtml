@@ -13,8 +13,8 @@
             <th>Project Name</th>
             <th>WODate</th>
             <th>Value</th>
-            <th>Advanced </th>
-            <th>Due Payment</th>
+            @* <th>Advanced </th>
+            <th>Due Payment</th> *@
             <th>Days</th>
             <th>DeliveryDate</th>
             <th>Proposal</th>
@@ -38,20 +38,29 @@
                     }
                 </td> *@
                 <td>@project.WorkOrderDate?.ToString("dd MMM yyyy")</td>
-                <td>@project.ProjectValue</td>
+                <td>@project.ProjectValue</td>@* 
                 <td>@project.Advanced</td>
-                <td>@project.DuePayment</td>
+                <td>@project.DuePayment</td> *@
                 <td>@project.ProjectDays</td>
                 <td>@project.ProjectDeliveryDate?.ToString("dd MMM yyyy")</td>
                 <td><a target="_blank" href="@project.Proposal">Proposal</a></td>
                 <td><a target="_blank" href="@project.WorkOrder">Work Order</a></td>
                 <td><a target="_blank" href="@project.SoftwareRequirement">Requirement</a></td>
-                <td>Status</td>
+                <td>@project.Status</td>
                 <td>
-                    <a class="btn btn-warning btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Edit</a>
-                    <a class="btn btn-primary btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Details</a>
-                    <a class="btn btn-danger btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Devs</a>
-                    <a class="btn btn-danger btn-sm p-1" asp-action="TaskLogs" asp-route-id="@project.Id">Task Logs</a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="btn btn-warning btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Edit</a></li>
+                                <li><a class="btn btn-primary btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Details</a></li>
+                                <li><a class="btn btn-danger btn-sm p-1" asp-action="PeopleAssign" asp-route-id="">Devs</a></li>
+                                <li><a class="btn btn-danger btn-sm p-1" asp-action="TaskLogs" asp-route-id="@project.Id">Task Logs</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         }
@@ -61,8 +70,8 @@
             <th>Project Name</th>
             <th>WODate</th>
             <th>@Model.Sum(p => p.ProjectValue)</th>
-            <th>@Model.Sum(p => p.Advanced) </th>
-            <th>@Model.Sum(p => p.DuePayment)</th>
+            @* <th>@Model.Sum(p => p.Advanced) </th>
+            <th>@Model.Sum(p => p.DuePayment)</th> *@
             <th>Days</th>
             <th>DeliveryDate</th>
             <th>Proposal</th>
