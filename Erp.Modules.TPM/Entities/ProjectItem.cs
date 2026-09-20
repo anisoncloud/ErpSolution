@@ -34,5 +34,11 @@ namespace Erp.Modules.TPM.Entities
         public ProjectItemType? ProjectItemType { get; set; }
         public ProjectItemStatus? ProjectItemStatus { get; set; }
         public ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
+        public bool? LiveOnServer { get; set; }
+        public DateOnly? LiveServerDate {  get; set; }
+        public bool? Maintenance { get; set; }
+        public DateOnly? MaintStartDate { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MaintValue { get; set; }
     }
 }
