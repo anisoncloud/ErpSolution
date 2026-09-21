@@ -59,5 +59,36 @@ namespace Erp.Web.Areas.TPM.Controllers
 
             return View(projectDashboard);
         }
+
+        // GET: Projects/TransitionToMaintenance/5
+        [HttpGet]
+        public async Task<IActionResult> TransitionToMaintenance(int id)
+        {
+            var dto = await _projectItemService.GetProjectForMaintenanceEditAsync(id);
+            if (dto == null)
+            {
+                return NotFound();
+            }
+            return View(dto);
+        }
+
+        // POST: Projects/TransitionToMaintenance
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TransitionToMaintenance(ProjectItemMaintenanceEditDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+
+            var success = await _projectItemService.UpdateProjectToMaintenanceAsync(dto);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
+
 }

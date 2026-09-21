@@ -3,6 +3,7 @@ using Erp.Modules.TPM.Entities;
 using Erp.Modules.TPM.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Erp.Modules.TPM.MappingDto
@@ -70,6 +71,18 @@ namespace Erp.Modules.TPM.MappingDto
                 TasksDetails: project.ProjectTasks != null
                     ? project.ProjectTasks.Select(t => t.ToDetailsDto()).ToList()
                     : new List<TaskDetailsDto>()
+            );
+        }
+
+        public static ProjectItemMaintenanceEditDto ToMaintenanceEditDto(this ProjectItem projectItem)
+        {
+            return new ProjectItemMaintenanceEditDto(
+                Id: projectItem.Id,
+                Name: projectItem.Name,
+                Description: projectItem.Description,
+                LiveServerDate: projectItem.LiveServerDate,
+                MaintenanceStartDate: projectItem.MaintStartDate,
+                MaintenanceAmount: projectItem.MaintValue ?? 0
             );
         }
     }

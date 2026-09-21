@@ -1,0 +1,90 @@
+﻿@model Erp.Modules.TPM.DTOs.ProjectItemMaintenanceEditDto
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <a asp-action="TaskLogs" asp-route-id="@Model.Id" class="text-decoration-none text-muted d-inline-block mb-3">
+                ← Cancel & Return to Task Logs
+            </a>
+
+            <div class="card shadow border-0 rounded-3">
+                <div class="card-header bg-danger text-white p-4">
+                    <h3 class="mb-0 fw-bold">🔧 Transition Workspace to Maintenance</h3>
+                    <small class="text-light-50 text-white-50">Provide live server deployments and contract values to transition project state.</small>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="TransitionToMaintenance" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Core Project Info (Editable) -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Project Name</label>
+                            <input asp-for="Name" class="form-control border-2" required />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Scope Summary</label>
+                            <textarea asp-for="Description" class="form-control border-2" rows="3" required></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="bg-light p-3 rounded-3 border mb-4">
+                            <h5 class="fw-bold text-dark mb-3">📋 Milestone Metrics</h5>
+
+                            <div class="row">
+                                <!-- Field: Live Server Date -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold text-secondary">Live Server Date</label>
+                                    <input type="date" name="LiveServerDate" class="form-control border-2"
+                                           value="@Model.LiveServerDate?.ToString("yyyy-MM-dd")" required />
+                                    <span asp-validation-for="LiveServerDate" class="text-danger small"></span>
+                                </div>
+
+                                <!-- Field: Maintenance Start Date -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold text-secondary">Maintenance Start Date</label>
+                                    <input type="date" name="MaintenanceStartDate" class="form-control border-2"
+                                           value="@Model.MaintenanceStartDate?.ToString("yyyy-MM-dd")" required />
+                                    <span asp-validation-for="MaintenanceStartDate" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Field: Maintenance Amount -->
+                            <div class="mb-2">
+                                <label class="form-label fw-bold text-secondary">Maintenance Contract Amount (BDT / USD)</label>
+                                <div class="input-group border-2">
+                                    <span class="input-group-text bg-white border-end-0 fw-bold text-muted">$</span>
+                                    <input type="number" step="0.01" name="MaintenanceAmount" class="form-control border-start-0 ps-1"
+                                           value="@Model.MaintenanceAmount" placeholder="0.00" required />
+                                </div>
+                                <span class="text-danger small" data-valmsg-for="MaintenanceAmount"></span>
+                            </div>
+                        </div>
+
+                        <!-- Form Controls -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-action="TaskLogs" asp-route-id="@Model.Id" class="btn btn-outline-secondary px-4">
+                                Keep Active
+                            </a>
+                            <button type="submit" class="btn btn-danger px-4 shadow-sm fw-bold">
+                                🔒 Confirm & Save Maintenance Status
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,6 +1,7 @@
 ﻿using Erp.Core.Interfaces;
 using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Entities;
+using Erp.Modules.TPM.Enums;
 using Erp.Modules.TPM.MappingDto;
 using Erp.Modules.TPM.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -107,6 +108,31 @@ namespace Erp.Modules.TPM.Services
                 return null;
             }
             return projectItem.ToDashboardDto();
+        }
+
+        public async Task<ProjectItemMaintenanceEditDto?> GetProjectForMaintenanceEditAsync(int projectId)
+        {
+            var projectItem = await _uow.ProjectItems.GetByIdAsync(projectId);
+            if (projectItem==null)
+            {
+                return null;
+            }
+            return projectItem.ToMaintenanceEditDto();
+        }
+
+        public async Task<bool> UpdateProjectToMaintenanceAsync(ProjectItemMaintenanceEditDto dto)
+        {
+            var projectItem = await _uow.ProjectItems.GetByIdAsync(dto.Id);
+            if (projectItem == null) return false;
+            // Apply fields and transition status
+            projectItem.ProjectItemStatus = ProjectItemStatus.Maintenance;
+            projectItem.LiveServerDate = dto.LiveServerDate;
+            projectItem.MaintStartDate = dto.MaintenanceStartDate;
+            projectItem.MaintValue = dto.MaintenanceAmount;
+
+            await _uow.ProjectItems.UpdateAsync(projectItem);
+            await _uow.SaveChangesAsync();
+            return true;
         }
     }
 }
