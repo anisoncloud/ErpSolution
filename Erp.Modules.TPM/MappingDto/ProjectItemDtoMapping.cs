@@ -33,6 +33,11 @@ namespace Erp.Modules.TPM.MappingDto
             return model.Select(x => x.ToDto()).ToList();
         }
 
+        public static List<ProjectItemDto> ToListIqDto(this IQueryable<ProjectItem> model)
+        {
+            return model.Select(x => x.ToDto()).ToList();
+        }
+
         public static ProjectItemUpdateDto ToEditDto(this ProjectItem model)
         {
             return new()

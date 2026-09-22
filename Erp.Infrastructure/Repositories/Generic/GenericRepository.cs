@@ -40,10 +40,10 @@ namespace Erp.Infrastructure.Repositories.Generic
             return await _dbSet.FirstOrDefaultAsync();
         }
 
-        /*public async Task<IEnumerable<T>> GetAllAsync()
+        public IQueryable<T> GetAllWithOutFilter()
         {
-            return await _dbSet.ToListAsync();
-        }*/
+            return _dbSet;
+        }
         public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
         {
             IQueryable<T> query = _dbSet;
@@ -55,6 +55,7 @@ namespace Erp.Infrastructure.Repositories.Generic
 
             return await query.ToListAsync();
         }
+
 
 
         public async Task<T?> GetByIdGuidAsync(Guid id)

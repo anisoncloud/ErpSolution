@@ -15,7 +15,8 @@ namespace Erp.Web.Areas.TPM.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var dto = await _projectItemService.GetProjectsAsync();
+            //var dto = await _projectItemService.GetProjectsAsync();
+            var dto = _projectItemService.GetAllProjectWithOutFilter();
             return View(dto);
         }
         public async Task<IActionResult> ProjectDashBoard()
