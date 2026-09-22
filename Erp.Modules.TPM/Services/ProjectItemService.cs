@@ -95,17 +95,13 @@ namespace Erp.Modules.TPM.Services
             return model.ToListDto();
         }
 
-        public async Task<List<ProjectItemDto>> GetAllProjectWithOutFilter()
+        public async Task<IEnumerable<ProjectItemDto>> GetAllProjectWithOutMaintenance()
         {
             var model = await _uow.ProjectItems.GetAllWithOutFilter()
-                .Where(x=>x.ProjectItemStatus==ProjectItemStatus.Maintenance)
-                .OrderByDescending(x=>x.CreatedAt)
-                .Select(x=> new ProjectItemDto
-                {
-                    Name = x.Name,
-                })
+                .Where(x=>x.ProjectItemStatus != ProjectItemStatus.Maintenance)
+                .OrderByDescending(x=>x.CreatedAt)                
                 .ToListAsync();
-            return model;
+            return model.ToListDto();
         }
         public async Task<List<ProjectDashboardDto>> GetAllProjectsWithTasksAsync()
         {

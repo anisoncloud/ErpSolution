@@ -13,6 +13,6 @@ namespace Erp.Modules.TPM.Services
         Task<ProjectDashboardDto?> GetProjectTaskLogsAsync(int id);
         Task<ProjectItemMaintenanceEditDto?> GetProjectForMaintenanceEditAsync(int projectId);
         Task<bool> UpdateProjectToMaintenanceAsync(ProjectItemMaintenanceEditDto dto);
-        Task<List<ProjectItemDto>> GetAllProjectWithOutFilter();
+        Task<IEnumerable<ProjectItemDto>> GetAllProjectWithOutMaintenance();
     }
 }
