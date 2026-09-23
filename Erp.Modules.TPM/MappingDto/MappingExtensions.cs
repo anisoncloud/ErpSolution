@@ -85,5 +85,20 @@ namespace Erp.Modules.TPM.MappingDto
                 MaintenanceAmount: projectItem.MaintValue ?? 0
             );
         }
+
+        public static ProjectMaintenanceDto ToMaintenanceProject(this  ProjectItem projectItem)
+        {
+            return new ProjectMaintenanceDto(
+                Name: projectItem.Name,
+                MaintStartDate: projectItem.MaintStartDate,
+                MaintVale: projectItem.MaintValue,
+                LiveServerDate:projectItem.LiveServerDate
+                );
+        }
+
+        public static List<ProjectMaintenanceDto> ToListMaintenanceDto(this IEnumerable<ProjectItem> model)
+        {
+            return model.Select(x => x.ToMaintenanceProject()).ToList();
+        }
     }
 }

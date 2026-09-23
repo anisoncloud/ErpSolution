@@ -103,6 +103,16 @@ namespace Erp.Modules.TPM.Services
                 .ToListAsync();
             return model.ToListDto();
         }
+
+        // Get Projects only under Maintenance
+        public async Task<IEnumerable<ProjectMaintenanceDto>> GetAllMaintenanceProjects()
+        {
+            var model = await _uow.ProjectItems.GetAllWithOutFilter()
+                .Where(x=>x.ProjectItemStatus == ProjectItemStatus.Maintenance)
+                .OrderByDescending(x=>x.CreatedAt)                
+                .ToListAsync();
+            return model.ToListMaintenanceDto();
+        }
         public async Task<List<ProjectDashboardDto>> GetAllProjectsWithTasksAsync()
         {
             var projectItems = await _uow.ProjectItems.GetAllProjectItemWithTasks();

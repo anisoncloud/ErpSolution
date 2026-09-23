@@ -14,12 +14,16 @@
     <ProjectReference Include="..\Erp.Core\Erp.Core.csproj" />
     <ProjectReference Include="..\Erp.Infrastructure\Erp.Infrastructure.csproj" />
     <ProjectReference Include="..\Erp.Modules.Accounting\Erp.Modules.Accounting.csproj" />
+    <ProjectReference Include="..\Erp.Modules.CRM\Erp.Modules.CRM.csproj" />
     <ProjectReference Include="..\Erp.Modules.HRM\Erp.Modules.HRM.csproj" />
     <ProjectReference Include="..\Erp.Modules.Inventory\Erp.Modules.Inventory.csproj" />
     <ProjectReference Include="..\Erp.Modules.TPM\Erp.Modules.TPM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\CRM\Controllers\" />
+    <Folder Include="Areas\CRM\Models\" />
+    <Folder Include="Areas\CRM\Views\" />
     <Folder Include="Areas\TPM\Models\" />
     <Folder Include="Views\Shared\Account\" />
   </ItemGroup>

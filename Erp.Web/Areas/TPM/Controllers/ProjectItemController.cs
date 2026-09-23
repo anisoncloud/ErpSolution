@@ -19,6 +19,13 @@ namespace Erp.Web.Areas.TPM.Controllers
             var dto = await _projectItemService.GetAllProjectWithOutMaintenance();
             return View(dto);
         }
+
+        public async Task<IActionResult> MaintenanceProject()
+        {
+            //var dto = await _projectItemService.GetProjectsAsync();
+            var dto = await _projectItemService.GetAllMaintenanceProjects();
+            return View(dto);
+        }
         public async Task<IActionResult> ProjectDashBoard()
         {
             var projectDashboard = await _projectItemService.GetAllProjectsWithTasksAsync();
