@@ -10,6 +10,7 @@ using Erp.Modules.HRM.Data;
 using Microsoft.CodeAnalysis;
 using Erp.Modules.TPM.Data;
 using Erp.Modules.TPM.Entities;
+using Erp.Modules.CRM.Data;
 
 namespace Erp.Infrastructure.Data
 {
@@ -46,6 +47,7 @@ namespace Erp.Infrastructure.Data
             
             builder.ApplyHrmModule();
             builder.ApplyTpmModule();
+            builder.ApplyCrmModule();
         }
     }    
 
