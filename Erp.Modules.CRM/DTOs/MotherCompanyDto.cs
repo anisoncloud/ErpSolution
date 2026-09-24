@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Erp.Modules.CRM.DTOs
+{
+    public record MotherCompanyDto(
+        int Id,
+        string Name,
+        string Description
+        );    
+}

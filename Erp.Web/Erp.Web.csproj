@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\CRM\Controllers\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\CRM\Views\" />
     <Folder Include="Areas\TPM\Models\" />

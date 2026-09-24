@@ -22,9 +22,9 @@ namespace Erp.Modules.CRM.Entities
         public DateTime? ExpireDate { get; set; }
         public string? Dns { get; set; }
         public string? Analytics { get; set; }
-        /*public int? CompanyId { get; set; }
+        public int? CompanyId { get; set; }
         [ForeignKey("CompanyId")]
-        public CrmCompany? CrmCompany { get; set; }*/
+        public Company? Company { get; set; }
         public string? Comments { get; set; }
     }
 }

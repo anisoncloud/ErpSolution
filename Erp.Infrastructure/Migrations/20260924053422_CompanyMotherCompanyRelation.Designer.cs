@@ -4,6 +4,7 @@ using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Erp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260924053422_CompanyMotherCompanyRelation")]
+    partial class CompanyMotherCompanyRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,64 +206,6 @@ namespace Erp.Infrastructure.Migrations
                     b.ToTable("Company", "crm");
                 });
 
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CrmCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Photo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CrmCompanyId");
-
-                    b.ToTable("Contact", "crm");
-                });
-
             modelBuilder.Entity("Erp.Modules.CRM.Entities.Domains", b =>
                 {
                     b.Property<int>("Id")
@@ -274,9 +219,6 @@ namespace Erp.Infrastructure.Migrations
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -326,74 +268,7 @@ namespace Erp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.ToTable("Domains", "crm");
-                });
-
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Hosting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DomainId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DomainsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HostingDuration")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("HostingExpireDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HostingStartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HostingUpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Package")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PricePerYear")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("DomainsId");
-
-                    b.ToTable("Hosting", "crm");
                 });
 
             modelBuilder.Entity("Erp.Modules.CRM.Entities.MotherCompany", b =>
@@ -1039,41 +914,6 @@ namespace Erp.Infrastructure.Migrations
                     b.Navigation("MotherCompany");
                 });
 
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Contact", b =>
-                {
-                    b.HasOne("Erp.Modules.CRM.Entities.Company", "Company")
-                        .WithMany("Contacts")
-                        .HasForeignKey("CrmCompanyId");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Domains", b =>
-                {
-                    b.HasOne("Erp.Modules.CRM.Entities.Company", "Company")
-                        .WithMany("Domains")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Hosting", b =>
-                {
-                    b.HasOne("Erp.Modules.CRM.Entities.Company", "Company")
-                        .WithMany("Hostings")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Erp.Modules.CRM.Entities.Domains", "Domains")
-                        .WithMany()
-                        .HasForeignKey("DomainsId");
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Domains");
-                });
-
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Employee", b =>
                 {
                     b.HasOne("Erp.Modules.HRM.Entities.Company", "Company")
@@ -1195,15 +1035,6 @@ namespace Erp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Erp.Modules.CRM.Entities.Company", b =>
-                {
-                    b.Navigation("Contacts");
-
-                    b.Navigation("Domains");
-
-                    b.Navigation("Hostings");
                 });
 
             modelBuilder.Entity("Erp.Modules.CRM.Entities.MotherCompany", b =>

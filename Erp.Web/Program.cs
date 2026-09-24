@@ -4,6 +4,8 @@ using Erp.Core.Services;
 using Erp.Infrastructure.Data;
 using Erp.Infrastructure.Repositories.Generic;
 using Erp.Infrastructure.Repositories.HRM;
+using Erp.Modules.CRM.Repositories;
+using Erp.Modules.CRM.Services;
 using Erp.Modules.HRM.Repositories;
 using Erp.Modules.HRM.Services;
 using Erp.Modules.TPM.Repositories;
@@ -44,8 +46,10 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 builder.Services.AddScoped<IHrmUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITpmUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICrmUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<IHrmUnitOfWork>());
 builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<ITpmUnitOfWork>());
+builder.Services.AddScoped<Erp.Core.Interfaces.IUnitOfWork>(sp => sp.GetRequiredService<ICrmUnitOfWork>());
 
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
@@ -55,6 +59,7 @@ builder.Services.AddScoped<IProjectItemService, ProjectItemService>();
 builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
 builder.Services.AddScoped<ITaskRevisionService, TaskRevisionService>();
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+builder.Services.AddScoped<IMotherCompanyService, MotherCompanyService>();
 
 var app = builder.Build();
 
