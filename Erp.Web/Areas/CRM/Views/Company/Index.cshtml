@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Erp.Modules.CRM.DTOs.CompanyDto>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{   
+    Layout = "_Layout";
+}
+
+<h1>All Companies</h1>
+<a asp-action="Create">Create Company</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var serial = 1;
+        }
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@serial</td>
+                <td>@company.Name</td>
+                <td></td>
+                <td></td>
+                <td><a asp-action="Create" asp-controller="CrmContacts" asp-route-id="@company.Id">Add Contact</a></td>
+            </tr>
+            serial++;
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>

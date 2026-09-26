@@ -1,0 +1,41 @@
+﻿@model Erp.Modules.CRM.ViewModels.CompanyFormViewModel
+
+@{
+    Layout = "_Layout";
+}
+<h1>Create Company</h1>
+<hr />
+<form asp-action="Create">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+    <div class="mb-3">
+        <label>Mother Company</label>
+        <select asp-for="MotherCompanyId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.MotherCompanies, "Id", "Name"))">
+            <option value="">-- Select Company --</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Description</label>
+        <input asp-for="Description" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Email</label>
+        <input asp-for="CompanyEmail" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="CompanyEmail" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
+        <input asp-for="CompanyAddress" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="CompanyAddress" class="text-danger small"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

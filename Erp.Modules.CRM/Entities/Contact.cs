@@ -14,7 +14,7 @@ namespace Erp.Modules.CRM.Entities
         public string? Phone { get; set; }
         public string? Photo { get; set; }
         public string? Comments { get; set; }
-        public int CompanyId { get; set; }
+        public int CrmCompanyId { get; set; }
         [ForeignKey("CrmCompanyId")]
         public Company? Company { get; set; }
     }

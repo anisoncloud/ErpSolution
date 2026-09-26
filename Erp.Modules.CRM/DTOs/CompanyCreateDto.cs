@@ -6,7 +6,11 @@ namespace Erp.Modules.CRM.DTOs
 {
     public record CompanyCreateDto(
         string Name,
-        string Description
+        string Description,
+        int MotherCompanyId,
+        string CompanyEmail,
+        string CompanyPhone,
+        string CompanyAddress
         );
     
 }

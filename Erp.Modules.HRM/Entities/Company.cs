@@ -10,6 +10,7 @@ namespace Erp.Modules.HRM.Entities
     public class Company : BaseEntity
     {
         public string Name { get; set; } = default!;
+        public string NormalizedName { get; set; } = string.Empty;
         public string? CompanyCode { get; set; }
         public string? Description { get; set; }
         public string? CompanyLogo {  get; set; }

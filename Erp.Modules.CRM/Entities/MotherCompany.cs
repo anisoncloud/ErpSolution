@@ -7,7 +7,8 @@ namespace Erp.Modules.CRM.Entities
 {
     public class MotherCompany : BaseEntity
     {
-        public string Name {  get; set; }
+        public string Name {  get; set; } = string.Empty;
+        public string NormalizedName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public ICollection<Company>? Companys { get; set; }
     }

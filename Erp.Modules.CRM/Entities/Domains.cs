@@ -9,7 +9,8 @@ namespace Erp.Modules.CRM.Entities
 {
     public class Domains : BaseEntity
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string NormalizedName {get; set; } = string.Empty;
         public string? IpAddress { get; set; }
         public string? Hosting { get; set; }
         public string? DomainRegistrant { get; set; }

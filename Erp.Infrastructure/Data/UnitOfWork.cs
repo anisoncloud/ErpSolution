@@ -25,6 +25,7 @@ namespace Erp.Infrastructure.Data
         public IProjectTaskRepository ProjectTasks { get; }
         public ITaskRevisionRepository TaskRevisions { get; }
         public IMotherCompanyRepository MotherCompanys { get; }
+        public ICrmCompanyRepository CrmCompanies { get; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -36,6 +37,7 @@ namespace Erp.Infrastructure.Data
             ProjectTasks = new ProjectTaskRepository(context);
             TaskRevisions = new TaskRevisionRepository(context);
             MotherCompanys = new MotherCompanyRepository(context);
+            CrmCompanies = new CrmCompanyRepository(context);
         }
 
         public Task<int> SaveChangesAsync()

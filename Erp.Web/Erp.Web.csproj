@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\CRM\Models\" />
-    <Folder Include="Areas\CRM\Views\" />
     <Folder Include="Areas\TPM\Models\" />
     <Folder Include="Views\Shared\Account\" />
   </ItemGroup>

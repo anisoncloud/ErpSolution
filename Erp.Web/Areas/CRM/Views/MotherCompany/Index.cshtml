@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Erp.Modules.CRM.DTOs.MotherCompanyDto>
+@{
+    Layout = "_Layout";
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="d-flex">
+    <h5> All Mother Companies</h5>
+    <a class="btn btn-primary ms-auto" asp-action="Create" asp-area="hrm">Create</a>
+</div>
+<hr />
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["success"]
+        <button type="button" class="btn-close"
+                data-bs-dismiss="alert"></button>
+    </div>
+}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>@item.Name</td>
+                <td>@item.Description</td>               
+            </tr>
+        }
+    </tbody>
+</table>

@@ -8,5 +8,6 @@ namespace Erp.Modules.CRM.Repositories
     public interface ICrmUnitOfWork : IUnitOfWork
     {
         IMotherCompanyRepository MotherCompanys { get; }
+        ICrmCompanyRepository CrmCompanies { get; }
     }
 }

@@ -60,6 +60,7 @@ builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
 builder.Services.AddScoped<ITaskRevisionService, TaskRevisionService>();
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 builder.Services.AddScoped<IMotherCompanyService, MotherCompanyService>();
+builder.Services.AddScoped<ICrmCompanyService, CrmCompanyService>();
 
 var app = builder.Build();
 

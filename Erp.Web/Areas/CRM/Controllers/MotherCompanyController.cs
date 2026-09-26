@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Web.Areas.CRM.Controllers
 {
+    [Area("CRM")]
     public class MotherCompanyController : Controller
     {
         private readonly IMotherCompanyService _motherCompanyService;
@@ -13,9 +14,10 @@ namespace Erp.Web.Areas.CRM.Controllers
             _motherCompanyService = motherCompanyService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var dto = await _motherCompanyService.GetMotherCompanyAsync();
+            return View(dto);
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@ namespace Erp.Web.Areas.CRM.Controllers
             try
             {
                 await _motherCompanyService.CreateMotherCompany(dto);
-                TempData["Success"] = $"Department '{dto.Name}' created successfully.";
+                TempData["Success"] = $"Mother Company '{dto.Name}' created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (InvalidOperationException ex)

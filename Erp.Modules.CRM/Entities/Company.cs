@@ -7,9 +7,10 @@ namespace Erp.Modules.CRM.Entities
 {
     public class Company : BaseEntity
     {
-        public string Name { get; set; }
-        public int MotherCompanyId {  get; set; }
-        public MotherCompanyDto? MotherCompany { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string NormalizedName { get; set; } = string.Empty;
+        public int? MotherCompanyId {  get; set; }
+        public MotherCompany? MotherCompany { get; set; }
         public string? Description { get; set; }
         public string? CompanyEmail { get; set; }
         public string? CompanyPhone { get; set; }

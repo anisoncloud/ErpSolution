@@ -9,7 +9,7 @@ namespace Erp.Modules.CRM.Data
 {
     public class CrmConfiguration :
         IEntityTypeConfiguration<Domains>,
-        IEntityTypeConfiguration<MotherCompanyDto>,
+        IEntityTypeConfiguration<MotherCompany>,
         IEntityTypeConfiguration<Company>,
         IEntityTypeConfiguration<Contact>,
         IEntityTypeConfiguration<Hosting>
@@ -18,7 +18,7 @@ namespace Erp.Modules.CRM.Data
         {
             builder.ToTable("Domains", "crm");
         }
-        public void Configure(EntityTypeBuilder<MotherCompanyDto> builder) 
+        public void Configure(EntityTypeBuilder<MotherCompany> builder) 
         {
             builder.ToTable("MotherCompany", "crm");
         }
