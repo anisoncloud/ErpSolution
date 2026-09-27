@@ -56,7 +56,7 @@ namespace Erp.Modules.CRM.Services
             return model.ToListDto();
         }
 
-        public async Task<PagedResult<CompanyDto>> GetAllCompanyListAsync(GridQueryParameters parameters)
+        public async Task<PagedResult<CompanyListItemDto>> GetAllCompanyListAsync(GridQueryParameters parameters)
         {
             var paged = await _uow.CrmCompanies.GetAllCompaniesPagedAsync(parameters);
 
@@ -70,7 +70,8 @@ namespace Erp.Modules.CRM.Services
                     Id = e.Id,
                     Name = e.Name,
                     CompanyEmail = e.CompanyEmail,
-                    CompanyPhone = e.CompanyPhone
+                    CompanyPhone = e.CompanyPhone,
+                    NormalizedName = e.NormalizedName
                 }).ToList(),
                 TotalCount = paged.TotalCount,
                 PageNumber = paged.PageNumber,

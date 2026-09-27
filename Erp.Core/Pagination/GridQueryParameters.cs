@@ -7,7 +7,7 @@ namespace Erp.Core.Pagination
     public class GridQueryParameters
     {
         private int _pageNumber = 1;
-        private int _pageSize = 10;
+        private int _pageSize = 25;
 
         public int PageNumber
         {

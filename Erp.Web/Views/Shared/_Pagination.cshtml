@@ -1,0 +1,40 @@
+﻿@using Erp.Core.Pagination
+@model IPagedResult
+@{
+    // Preserve every existing querystring value (search, sort, pageSize...)
+    // and only change pageNumber per link. Works for ANY list view.
+    var routeData = new Dictionary<string, string>();
+    foreach (var kv in Context.Request.Query)
+    {
+        routeData[kv.Key] = kv.Value.ToString();
+    }
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                @{
+                    routeData["pageNumber"] = (Model.PageNumber - 1).ToString();
+                }
+                <a class="page-link" asp-all-route-data="routeData">Previous</a>
+            </li>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                routeData["pageNumber"] = i.ToString();
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" asp-all-route-data="routeData">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                @{
+                    routeData["pageNumber"] = (Model.PageNumber + 1).ToString();
+                }
+                <a class="page-link" asp-all-route-data="routeData">Next</a>
+            </li>
+        </ul>
+    </nav>
+}

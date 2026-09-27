@@ -1,4 +1,5 @@
-﻿using Erp.Modules.CRM.DTOs;
+﻿using Erp.Core.Pagination;
+using Erp.Modules.CRM.DTOs;
 using Erp.Modules.CRM.MappingDto;
 using Erp.Modules.CRM.Services;
 using Erp.Modules.CRM.ViewModels;
@@ -16,11 +17,31 @@ namespace Erp.Web.Areas.CRM.Controllers
             _crmCompanyService = crmCompanyService;
             _motherCompanyService = motherCompanyService;
         }
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             var dto = await _crmCompanyService.GetAllCompanys();
             return View(dto);
+        }*/
+        // GET /Employee?searchTerm=&sortColumn=FullName&sortDirection=asc&pageNumber=1&pageSize=10
+        // [FromQuery] binds GridQueryParameters straight off the querystring —
+        // this same signature is what every other list controller will look like.
+        public async Task<IActionResult> Index([FromQuery] GridQueryParameters parameters)
+        {
+            parameters.SortColumn ??= "Name";
+
+            var result = await _crmCompanyService.GetAllCompanyListAsync(parameters);
+            return View(result);
         }
+
+        // Optional: same data as JSON, e.g. for an AJAX-refreshed table
+        // instead of a full page reload. Delete if you don't need it.
+        [HttpGet]
+        public async Task<IActionResult> IndexJson([FromQuery] GridQueryParameters parameters)
+        {
+            var result = await _crmCompanyService.GetAllCompanyListAsync(parameters);
+            return Json(result);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()

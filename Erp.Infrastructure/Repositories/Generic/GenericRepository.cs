@@ -1,12 +1,14 @@
 ﻿using Erp.Core;
 using Erp.Core.Interfaces;
-using Erp.Core.Pagination;
 using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using Erp.Core.Pagination;
+
 
 namespace Erp.Infrastructure.Repositories.Generic
 {
@@ -89,7 +91,7 @@ namespace Erp.Infrastructure.Repositories.Generic
         ///
         public IQueryable<T> Query() => _dbSet.AsQueryable();
 
-        public async Task<PagedResult<T>> GetAllItemsAsync(
+        public async Task<Core.Pagination.PagedResult<T>> GetAllItemsAsync(
             GridQueryParameters parameters,
             Expression<Func<T, bool>>? searchPredicate = null,
             IQueryable<T>? baseQuery = null)
@@ -122,7 +124,7 @@ namespace Erp.Infrastructure.Repositories.Generic
 
                 if (validProperty != null)
                 {
-                    //query = query.OrderBy($"{validProperty.Name} {direction}");
+                    query = query.OrderBy($"{validProperty.Name} {direction}");
                 }
             }
 
@@ -133,7 +135,7 @@ namespace Erp.Infrastructure.Repositories.Generic
                 .Take(parameters.PageSize)
                 .ToListAsync();
 
-            return new PagedResult<T>
+            return new Core.Pagination.PagedResult<T>
             {
                 Items = items,
                 TotalCount = totalCount,
