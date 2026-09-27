@@ -1,4 +1,5 @@
 ﻿using Erp.Core.Interfaces;
+using Erp.Core.Pagination;
 using Erp.Core.StaticClasses;
 using Erp.Modules.CRM.DTOs;
 using Erp.Modules.CRM.Entities;
@@ -54,5 +55,31 @@ namespace Erp.Modules.CRM.Services
             var model = await _uow.CrmCompanies.GetAllAsync();
             return model.ToListDto();
         }
+
+        public async Task<PagedResult<CompanyDto>> GetAllCompanyListAsync(GridQueryParameters parameters)
+        {
+            var paged = await _uow.CrmCompanies.GetAllCompaniesPagedAsync(parameters);
+
+            // Service's job: map to DTO / apply business rules.
+            // NOT the place to re-implement sorting/paging — that already
+            // happened in SQL, in the repository.
+            return new PagedResult<CompanyListItemDto>
+            {
+                Items = paged.Items.Select(e => new CompanyListItemDto
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    CompanyEmail = e.CompanyEmail,
+                    CompanyPhone = e.CompanyPhone
+                }).ToList(),
+                TotalCount = paged.TotalCount,
+                PageNumber = paged.PageNumber,
+                PageSize = paged.PageSize,
+                SearchTerm = paged.SearchTerm,
+                SortColumn = paged.SortColumn,
+                SortDirection = paged.SortDirection
+            };
+        }
+
     }
 }

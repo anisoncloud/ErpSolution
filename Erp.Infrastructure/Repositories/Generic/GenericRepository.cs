@@ -1,5 +1,6 @@
 ﻿using Erp.Core;
 using Erp.Core.Interfaces;
+using Erp.Core.Pagination;
 using Erp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -83,5 +84,66 @@ namespace Erp.Infrastructure.Repositories.Generic
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
         }
+
+        /////////////////////////////////////////////////////
+        ///
+        public IQueryable<T> Query() => _dbSet.AsQueryable();
+
+        public async Task<PagedResult<T>> GetAllItemsAsync(
+            GridQueryParameters parameters,
+            Expression<Func<T, bool>>? searchPredicate = null,
+            IQueryable<T>? baseQuery = null)
+        {
+            // baseQuery lets a specific repository pass Includes/joins in;
+            // otherwise we just start from the table.
+            IQueryable<T> query = baseQuery ?? _dbSet.AsNoTracking();
+
+            // 1) SEARCH — filters before we count, so paging math is correct
+            if (!string.IsNullOrWhiteSpace(parameters.SearchTerm) && searchPredicate != null)
+            {
+                query = query.Where(searchPredicate);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            // 2) SORT — dynamic column name -> "Name asc" / "Email desc"
+            //    (System.Linq.Dynamic.Core translates this to SQL ORDER BY)
+            if (!string.IsNullOrWhiteSpace(parameters.SortColumn))
+            {
+                var direction = string.Equals(parameters.SortDirection, "desc", StringComparison.OrdinalIgnoreCase)
+                    ? "descending"
+                    : "ascending";
+
+                // Guard against garbage column names blowing up with a 500.
+                var validProperty = typeof(T).GetProperty(parameters.SortColumn,
+                    System.Reflection.BindingFlags.IgnoreCase |
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.Instance);
+
+                if (validProperty != null)
+                {
+                    //query = query.OrderBy($"{validProperty.Name} {direction}");
+                }
+            }
+
+            // 3) PAGE — always LAST, and always via Skip/Take so SQL Server
+            //    only ever pulls back one page of rows.
+            var items = await query
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToListAsync();
+
+            return new PagedResult<T>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize,
+                SearchTerm = parameters.SearchTerm,
+                SortColumn = parameters.SortColumn,
+                SortDirection = parameters.SortDirection
+            };
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Erp.Core.Pagination;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,5 +18,15 @@ namespace Erp.Core.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
+
+        // Exposed so entity-specific repositories can build a custom
+        // search predicate or apply Include()/Where() before paging.
+        IQueryable<T> Query();
+
+        Task<PagedResult<T>> GetAllItemsAsync(
+            GridQueryParameters parameters,
+            Expression<Func<T, bool>>? searchPredicate = null,
+            IQueryable<T>? baseQuery = null);
+
     }
 }
