@@ -48,5 +48,28 @@ namespace Erp.Modules.CRM.MappingDto
                 CompanyAddress: vm.CompanyAddress
                 );
         }
+
+
+        public static CrmContactDto ToDto(this Contact model)
+        {
+            return new CrmContactDto
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Designation = model.Designation,
+                Phone = model.Phone,
+                Email = model.Email,
+                Comments = model.Comments,
+                Photo = model.Photo,
+                CrmCompanyId = model.CrmCompanyId,
+                Company = model.Company
+            };
+            
+        }
+
+        public static List<CrmContactDto> ToListDto(this IEnumerable<Contact> model)
+        {
+            return model.Select(x => x.ToDto()).ToList();
+        }
     }
 }
