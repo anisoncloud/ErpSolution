@@ -82,5 +82,11 @@ namespace Erp.Modules.CRM.Services
             };
         }
 
+        public async Task<IEnumerable<CompanyDto>> GetCompaniesWithContactsAsync()
+        {
+            var dto = await _uow.CrmCompanies.GetCompaniesWithContactsAsync();
+            return dto.ToListDto();
+        }
+
     }
 }

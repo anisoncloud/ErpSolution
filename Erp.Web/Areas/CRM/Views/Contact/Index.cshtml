@@ -1,5 +1,5 @@
 ﻿@* @model IEnumerable<MyErp.Models.CrmContact> *@
-@model IEnumerable<Erp.Modules.CRM.DTOs.CrmContactDto>
+@model IEnumerable<Erp.Modules.CRM.DTOs.CompanyDto>
 @{
     Layout = "_Layout";
 }
@@ -35,9 +35,12 @@
                 <tr>
                     <td scope="row">@serial</td>
                     <td>@item.Name</td>
-                    <td>@item.Designation</td>
-                    <td>@item.Company.Name</td>
-                    <td>@item.Phone</td>                           
+                    <td>@foreach (var c in item.Contacts)
+                {
+                    <div>@c.Name — @c.Phone - @c.Email</div>
+                }</td>
+                    <td></td>
+                    <td></td>                           
                 </tr>
                 serial++;
             }

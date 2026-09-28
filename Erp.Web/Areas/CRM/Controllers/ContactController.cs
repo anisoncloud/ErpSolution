@@ -7,13 +7,16 @@ namespace Erp.Web.Areas.CRM.Controllers
     public class ContactController : Controller
     {
         private readonly ICrmContactService _crmContactService;
-        public ContactController(ICrmContactService crmContactService)
+        private readonly ICrmCompanyService _crmCompanyService;
+        public ContactController(ICrmContactService crmContactService, ICrmCompanyService crmCompanyService)
         {
             _crmContactService = crmContactService;
+            _crmCompanyService = crmCompanyService;
         }
         public async Task<IActionResult> Index()
         {
-            var dtos = await _crmContactService.GetAllContactsAsync();
+            //var dtos = await _crmContactService.GetAllContactsAsync();
+            var dtos = await _crmCompanyService.GetCompaniesWithContactsAsync();
             return View(dtos);
         }
     }

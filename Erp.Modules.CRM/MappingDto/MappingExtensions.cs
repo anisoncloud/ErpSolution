@@ -30,7 +30,8 @@ namespace Erp.Modules.CRM.MappingDto
                 Description: model.Description,
                 CompanyEmail: model.CompanyEmail,
                 CompanyPhone: model.CompanyPhone,
-                CompanyAddress: model.CompanyAddress
+                CompanyAddress: model.CompanyAddress,
+                Contacts: model.Contacts.Select(x => x.ToDto()).ToList()                
                 );
         }
         public static List<CompanyDto> ToListDto(this IEnumerable<Company> model)

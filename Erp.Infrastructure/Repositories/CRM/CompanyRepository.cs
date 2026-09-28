@@ -3,6 +3,7 @@ using Erp.Infrastructure.Data;
 using Erp.Infrastructure.Repositories.Generic;
 using Erp.Modules.CRM.Entities;
 using Erp.Modules.CRM.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -32,5 +33,10 @@ namespace Erp.Infrastructure.Repositories.CRM
             return await GetAllItemsAsync(parameters, searchPredicate);
         }
 
+        public async Task<IEnumerable<Company>> GetCompaniesWithContactsAsync()
+        {
+            var companies = await _dbSet.Include(x=>x.Contacts).ToListAsync();
+            return companies;
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Erp.Modules.CRM.Services
         Task<CompanyDto> CreateCompany(CompanyCreateDto dto);
         Task<IEnumerable<CompanyDto>> GetAllCompanys();
         Task<PagedResult<CompanyListItemDto>> GetAllCompanyListAsync(GridQueryParameters parameters);
+        Task<IEnumerable<CompanyDto>> GetCompaniesWithContactsAsync();
     }
 }

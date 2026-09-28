@@ -10,7 +10,8 @@ namespace Erp.Modules.CRM.DTOs
         string Description,        
         string CompanyEmail,
         string CompanyPhone,
-        string CompanyAddress
+        string CompanyAddress,
+        List<CrmContactDto> Contacts
         );
     
 }

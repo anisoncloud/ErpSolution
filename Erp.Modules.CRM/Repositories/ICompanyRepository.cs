@@ -10,5 +10,6 @@ namespace Erp.Modules.CRM.Repositories
     public interface ICrmCompanyRepository : IGenericRepository<Company>
     {
         Task<PagedResult<Company>> GetAllCompaniesPagedAsync(GridQueryParameters parameters);
+        Task<IEnumerable<Company>> GetCompaniesWithContactsAsync();
     }
 }
