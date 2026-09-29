@@ -11,7 +11,7 @@ namespace Erp.Modules.CRM.DTOs
         string CompanyEmail,
         string CompanyPhone,
         string CompanyAddress,
-        List<CrmContactDto> Contacts
+        List<CrmContactDto> Contacts = null
         );
     
 }

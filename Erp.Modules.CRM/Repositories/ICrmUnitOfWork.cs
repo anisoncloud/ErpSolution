@@ -10,5 +10,6 @@ namespace Erp.Modules.CRM.Repositories
         IMotherCompanyRepository MotherCompanys { get; }
         ICrmCompanyRepository CrmCompanies { get; }
         ICrmContactRepository CrmContacts { get; }
+        IDomainRepository Domains {  get; }
     }
 }

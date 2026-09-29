@@ -20,8 +20,7 @@ namespace Erp.Modules.CRM.Services
         }
 
         public async Task<IEnumerable<CrmContactDto>> GetAllContactsAsync()
-        {
-          
+        {          
             var model = await _uow.CrmContacts.GetAllContactWithCompany();
             return model.ToListDto();
         }

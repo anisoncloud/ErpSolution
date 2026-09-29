@@ -1,0 +1,50 @@
+﻿@model Erp.Modules.CRM.ViewModels.DomainFormViewModel
+
+@{
+    Layout = "_Layout";
+}
+<h1>Create Company</h1>
+<hr />
+<form asp-action="Create">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div>
+    <div class="mb-3">
+        <label>Mother Company</label>
+        <select asp-for="CompanyId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Companies, "Id", "Name"))">
+            <option value="">-- Select Company --</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Description</label>
+        <input asp-for="IpAddress" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="IpAddress" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Email</label>
+        <input asp-for="Hosting" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="Hosting" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
+        <input asp-for="DomainRegistrant" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="DomainRegistrant" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
+        <input asp-for="RegistarDate" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="RegistarDate" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
+        <input asp-for="LastUpdated" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <span asp-validation-for="LastUpdated" class="text-danger small"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

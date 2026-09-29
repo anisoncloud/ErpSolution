@@ -62,6 +62,7 @@ builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 builder.Services.AddScoped<IMotherCompanyService, MotherCompanyService>();
 builder.Services.AddScoped<ICrmCompanyService, CrmCompanyService>();
 builder.Services.AddScoped<ICrmContactService, CrmContactService>();
+builder.Services.AddScoped<IDomainService, DomainService>();
 
 var app = builder.Build();
 

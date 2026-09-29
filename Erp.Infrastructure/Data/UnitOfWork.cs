@@ -27,6 +27,7 @@ namespace Erp.Infrastructure.Data
         public IMotherCompanyRepository MotherCompanys { get; }
         public ICrmCompanyRepository CrmCompanies { get; }
         public ICrmContactRepository CrmContacts { get; }
+        public IDomainRepository Domains {  get; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -40,6 +41,7 @@ namespace Erp.Infrastructure.Data
             MotherCompanys = new MotherCompanyRepository(context);
             CrmCompanies = new CrmCompanyRepository(context);
             CrmContacts = new CrmContactRepository(context);
+            Domains = new DomainRepository(context);
         }
 
         public Task<int> SaveChangesAsync()
