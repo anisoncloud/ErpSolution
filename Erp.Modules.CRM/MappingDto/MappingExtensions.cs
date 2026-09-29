@@ -53,13 +53,10 @@ namespace Erp.Modules.CRM.MappingDto
                 Contacts: model.Contacts.Select(x => x.ToDto()).ToList()
                 );
         }
-        public static CompanyDto ToDtoListWithContacts(this Company model)
+        public static List<CompanyDto> ToDtoListWithContacts(this IEnumerable<Company> model)
         {
-            return
-                model.ToDtoWithContact() with
-                {
-                    Contacts = model.Contacts.Select(x => x.ToDto()).ToList()
-                };                
+            return model.Select(c=>c.ToDtoWithContact()).ToList();
+                                
         }
         public static CompanyCreateDto ToCreateDto(this CompanyFormViewModel vm)
         {

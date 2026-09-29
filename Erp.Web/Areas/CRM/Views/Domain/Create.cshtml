@@ -21,30 +21,70 @@
         <span asp-validation-for="Name" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Description</label>
+        <label for="exampleFormControlInput1" class="form-label">Ip Address</label>
         <input asp-for="IpAddress" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
         <span asp-validation-for="IpAddress" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Company Email</label>
+        <label for="exampleFormControlInput1" class="form-label">Hosting</label>
         <input asp-for="Hosting" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
         <span asp-validation-for="Hosting" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
+        <label for="exampleFormControlInput1" class="form-label">Domain Registrant</label>
         <input asp-for="DomainRegistrant" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
         <span asp-validation-for="DomainRegistrant" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
-        <input asp-for="RegistarDate" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <label for="exampleFormControlInput1" class="form-label">Registar Date</label>
+        <input asp-for="RegistarDate" type="text" class="form-control datepicker" id="RegistarDate" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
         <span asp-validation-for="RegistarDate" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Company Address</label>
-        <input asp-for="LastUpdated" type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <label for="exampleFormControlInput1" class="form-label">Last Updated</label>
+        <input asp-for="LastUpdated" type="text" class="form-control datepicker" id="LastUpdated" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
         <span asp-validation-for="LastUpdated" class="text-danger small"></span>
     </div>
-
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label" asp-for="ExpireDate"></label>
+        <input asp-for="ExpireDate" type="text" class="form-control datepicker" id="DemoStartDate" asp-format="{0:dd/MM/yyyy}" placeholder="dd/mm/yyyy" required>
+        <span asp-validation-for="ExpireDate" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label" asp-for="ForYear "></label>
+        <input asp-for="ForYear" type="text" class="form-control" id="ForYear">
+        <span asp-validation-for="ExpireDate" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label" asp-for="Dns"></label>
+        <input asp-for="Dns" type="text" class="form-control" id="dns">
+        <span asp-validation-for="Dns" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label" asp-for="Analytics"></label>
+        <input asp-for="Analytics" type="text" class="form-control" id="analytics">
+        <span asp-validation-for="Analytics" class="text-danger small"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label" asp-for="Comments"></label>
+        <input asp-for="Comments" type="text" class="form-control" id="comments">
+        <span asp-validation-for="Comments" class="text-danger small"></span>
+    </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
+@section Scripts {
+
+    
+    <!-- 3. Load jQuery UI Library -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        $('.datepicker').datepicker({
+        dateFormat: 'dd MM yy', // Note: jQuery UI uses 'yy' for 4-digit years
+        changeMonth: true,
+        changeYear: true
+        });
+        });
+    </script>
+}
