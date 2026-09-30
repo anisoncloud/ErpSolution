@@ -17,9 +17,10 @@ namespace Erp.Web.Areas.CRM.Controllers
             _domainService = domainService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var dto = await _domainService.GetAllAsync();
+            return View(dto);
         }
 
 
@@ -27,7 +28,7 @@ namespace Erp.Web.Areas.CRM.Controllers
         public async Task<IActionResult> Create()
         {
             await PopulaeDropDowns();
-            return View();
+            return View(new DomainFormViewModel());
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -35,6 +36,7 @@ namespace Erp.Web.Areas.CRM.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await PopulaeDropDowns();
                 return View(vm);
             }
             try
@@ -47,6 +49,7 @@ namespace Erp.Web.Areas.CRM.Controllers
             catch (InvalidOperationException ex)
             {
                 ModelState.AddModelError(nameof(vm.Name), ex.Message);
+                await PopulaeDropDowns();
                 return View(vm);
             }
         }

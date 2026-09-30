@@ -8,5 +8,6 @@ namespace Erp.Modules.CRM.Services
     public interface IDomainService
     {
         Task<DomainDto> CreateCompany(DomainCreateDto dto);
+        Task<IEnumerable<DomainDto>> GetAllAsync();
     }
 }

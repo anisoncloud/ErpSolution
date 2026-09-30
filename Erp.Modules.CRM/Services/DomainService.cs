@@ -24,14 +24,14 @@ namespace Erp.Modules.CRM.Services
             }
             if (string.IsNullOrWhiteSpace(dto.Name))
             {
-                throw new ArgumentException("Company name can not be empty", nameof(dto.Name));
+                throw new ArgumentException("Domain name can not be empty", nameof(dto.Name));
             }
             string NormalizedName = NameNormalizer.Normalize(dto.Name);
             var isExists = await _uow.Domains.ExistsAsync(c => c.NormalizedName == NormalizedName);
             if (isExists == true)
             {
                 throw new InvalidOperationException(
-                   $"A Company with the name {dto.Name.ToUpper()} is already exists!");
+                   $"A Domain with the name {dto.Name.ToUpper()} is already exists!");
             }
             var model = new Domains
             {
@@ -47,11 +47,18 @@ namespace Erp.Modules.CRM.Services
                 Dns = dto.Dns,
                 Analytics = dto.Analytics,
                 CompanyId = dto.CompanyId,
+                Company = dto.Company,
                 Comments = dto.Comments
             };
             await _uow.Domains.AddAsync(model);
             await _uow.SaveChangesAsync();
             return model.ToDto();
+        }
+
+        public async Task<IEnumerable<DomainDto>> GetAllAsync()
+        {
+            var domains = await _uow.Domains.GetAllAsync();
+            return domains.ToListDto();
         }
     }
 }

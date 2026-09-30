@@ -9,6 +9,7 @@ namespace Erp.Modules.CRM.ViewModels
 {
     public class DomainFormViewModel
     {
+        [Display(Name ="Domain Name")]
         public string Name { get; set; } = string.Empty;
         public string NormalizedName { get; set; } = string.Empty;
         public string? IpAddress { get; set; }
@@ -24,7 +25,6 @@ namespace Erp.Modules.CRM.ViewModels
         public string? Dns { get; set; }
         public string? Analytics { get; set; }
         public int? CompanyId { get; set; }
-        [ForeignKey("CompanyId")]
         public Company? Company { get; set; }
         public string? Comments { get; set; }
     }

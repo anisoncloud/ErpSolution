@@ -1,0 +1,57 @@
+﻿@* @model IEnumerable<MyErp.Models.CrmContact> *@
+@model IEnumerable<Erp.Modules.CRM.DTOs.DomainDto>
+@{
+    Layout = "_Layout";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@section Styles {
+    <link href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
+}
+<h1 class="display-3">Domains</h1> <a asp-action="Create" asp-controller="Domain">Create</a>
+<table id="example" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Ip</th>
+            <th scope="col">Expire</th>
+            <th scope="col">Register</th>
+            <th scope="col">Dns</th>
+            <th scope="col">Analytics</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var serial = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="row">@serial</td>
+                <td>@item.Name</td>
+                <td>@item.IpAddress</td>
+                <td>@item.ExpireDate?.ToString("dd MMM yyyy")</td>
+                <td>@item.RegistarDate?.ToString("dd MMM yyyy")</td>
+                <td>@item.Dns</td>
+                <td>@item.Analytics</td>
+            </tr>
+            serial++;
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+    <script>
+        new DataTable('#example');
+    </script>
+
+}
