@@ -1,4 +1,5 @@
-﻿using Erp.Core.StaticClasses;
+﻿using Erp.Core.Contracts.Crm;
+using Erp.Core.StaticClasses;
 using Erp.Modules.CRM.DTOs;
 using Erp.Modules.CRM.Entities;
 using Erp.Modules.CRM.MappingDto;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Erp.Modules.CRM.Services
 {
-    public class DomainService : IDomainService
+    public class DomainService : IDomainService, ICrmLookupService
     {
         private readonly ICrmUnitOfWork _uow;
         public DomainService(ICrmUnitOfWork uow)
@@ -59,6 +60,12 @@ namespace Erp.Modules.CRM.Services
         {
             var domains = await _uow.Domains.GetAllAsync();
             return domains.ToListDto();
+        }
+
+        public async Task<IEnumerable<DomainLookupDto>> GetCrmDomainAsync()
+        {
+            var domains = await _uow.Domains.GetAllAsync();
+            return domains.ToListLookupDto();
         }
     }
 }

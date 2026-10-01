@@ -1,4 +1,5 @@
-﻿using Erp.Modules.CRM.DTOs;
+﻿using Erp.Core.Contracts.Crm;
+using Erp.Modules.CRM.DTOs;
 using Erp.Modules.CRM.Entities;
 using Erp.Modules.CRM.ViewModels;
 using System;
@@ -141,6 +142,20 @@ namespace Erp.Modules.CRM.MappingDto
                 Comments: model.Comments
             );
         }
-        
+
+        // 
+        public static DomainLookupDto ToLookupDto(this Domains model)
+        {
+            return new DomainLookupDto
+            (
+                Id: model.Id,
+                Name: model.Name
+            );
+        }
+        public static List<DomainLookupDto> ToListLookupDto(this IEnumerable<Domains> model)
+        {
+            return model.Select(x => x.ToLookupDto()).ToList();
+        }
+
     }
 }
