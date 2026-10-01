@@ -1,4 +1,5 @@
 ﻿using Erp.Modules.HRM.DTOs;
+using Erp.Core.Contracts.Crm;
 using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,11 @@ namespace Erp.Web.Areas.TPM.Controllers
     public class ProjectItemController : Controller
     {
         private readonly IProjectItemService _projectItemService;
-        public ProjectItemController(IProjectItemService projectItemService)
+        private readonly ICrmLookupService _crmLookupService;
+        public ProjectItemController(IProjectItemService projectItemService, ICrmLookupService crmLookupService)
         {
             _projectItemService = projectItemService;
+            _crmLookupService = crmLookupService;
         }
         public async Task<IActionResult> Index()
         {
@@ -96,6 +99,40 @@ namespace Erp.Web.Areas.TPM.Controllers
                 return NotFound();
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Projects/TransitionToMaintenance/5
+        [HttpGet]
+        public async Task<IActionResult> TransitionToLive(int id)
+        {
+            var dto = await _projectItemService.GetProjectForMaintenanceEditAsync(id);
+            if (dto == null)
+            {
+                return NotFound();
+            }
+            return View(dto);
+        }
+        // POST: Projects/TransitionToMaintenance
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TransitionToLive(ProjectItemMaintenanceEditDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+
+            var success = await _projectItemService.UpdateProjectToMaintenanceAsync(dto);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task PopulaeDropDowns()
+        {
+            ViewBag.Companies = await _crmLookupService.GetCrmDomainAsync();
         }
     }
 

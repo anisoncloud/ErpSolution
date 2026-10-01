@@ -40,5 +40,7 @@ namespace Erp.Modules.TPM.Entities
         public DateOnly? MaintStartDate { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? MaintValue { get; set; }
+        public int? DomainsId { get; set; }
+
     }
 }
