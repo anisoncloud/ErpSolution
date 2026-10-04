@@ -28,7 +28,20 @@
                             <input asp-for="Name" class="form-control border-2" required />
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
-                        
+                        <div class="mb-3">
+                            <label>Select Company</label>
+                            @* <select asp-for="DomainsId" class="form-control" asp-items="@((SelectList)ViewBag.Domains)">
+                                <option value="">-- Select Company --</option>
+                            </select> *@
+                            <select asp-for="DomainsId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.Domains, "Id", "Name"))">
+                                <option value="">-- Select Company --</option>
+                            </select>
+                            @* <select asp-for="DomainsId" class="form-control"
+                                    asp-items="@(new List<SelectListItem> { new("Test", "1") })">
+                                <option value="">-- Select Company --</option>
+                            </select> *@
+                        </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold text-secondary">Scope Summary</label>
                             <textarea asp-for="Description" class="form-control border-2" rows="3" required></textarea>

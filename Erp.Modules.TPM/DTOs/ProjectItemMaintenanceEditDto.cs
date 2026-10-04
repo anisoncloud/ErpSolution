@@ -17,7 +17,8 @@ namespace Erp.Modules.TPM.DTOs
         DateOnly? MaintenanceStartDate,
         [Required(ErrorMessage = "Maintenance cost valuation is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
-        decimal? MaintenanceAmount
+        decimal? MaintenanceAmount,
+        int DomainsId
         );
     
 }

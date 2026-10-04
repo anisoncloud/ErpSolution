@@ -1,8 +1,9 @@
-﻿using Erp.Modules.HRM.DTOs;
-using Erp.Core.Contracts.Crm;
+﻿using Erp.Core.Contracts.Crm;
+using Erp.Modules.HRM.DTOs;
 using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Erp.Web.Areas.TPM.Controllers
 {
@@ -131,9 +132,19 @@ namespace Erp.Web.Areas.TPM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task PopulaeDropDowns()
+        private async Task PopulaeDropDowns() //int? selectedId = null
         {
             ViewBag.Domains = await _crmLookupService.GetCrmDomainAsync();
+            //var domains = await _crmLookupService.GetCrmDomainAsync();
+            //ViewBag.Domains = new SelectList(domains, "Id", "Name", selectedId);
+            /*ViewBag.Domains = domains
+            .Select(d => new SelectListItem
+            {
+                Value = d.Id.ToString(),
+                Text = d.Name,
+                Selected = d.Id == selectedId
+            })
+            .ToList();*/
         }
     }
 

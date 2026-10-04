@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Erp.Core.Contracts.Crm
 {
-    public class DomainLookupDto
+    public record DomainLookupDto
     (
         int Id,
         string Name

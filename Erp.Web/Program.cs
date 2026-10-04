@@ -1,3 +1,4 @@
+using Erp.Core.Contracts.Crm;
 using Erp.Core.Identity;
 using Erp.Core.Interfaces;
 using Erp.Core.Services;
@@ -63,6 +64,7 @@ builder.Services.AddScoped<IMotherCompanyService, MotherCompanyService>();
 builder.Services.AddScoped<ICrmCompanyService, CrmCompanyService>();
 builder.Services.AddScoped<ICrmContactService, CrmContactService>();
 builder.Services.AddScoped<IDomainService, DomainService>();
+builder.Services.AddScoped<ICrmLookupService, DomainService>();
 
 var app = builder.Build();
 

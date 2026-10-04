@@ -82,7 +82,8 @@ namespace Erp.Modules.TPM.MappingDto
                 Description: projectItem.Description,
                 LiveServerDate: projectItem.LiveServerDate,
                 MaintenanceStartDate: projectItem.MaintStartDate,
-                MaintenanceAmount: projectItem.MaintValue ?? 0
+                MaintenanceAmount: projectItem.MaintValue ?? 0,
+                DomainsId:projectItem.DomainsId ?? 0
             );
         }
 
