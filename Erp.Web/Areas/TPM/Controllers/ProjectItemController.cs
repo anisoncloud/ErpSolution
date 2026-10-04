@@ -105,6 +105,7 @@ namespace Erp.Web.Areas.TPM.Controllers
         [HttpGet]
         public async Task<IActionResult> TransitionToLive(int id)
         {
+            await PopulaeDropDowns();
             var dto = await _projectItemService.GetProjectForMaintenanceEditAsync(id);
             if (dto == null)
             {
@@ -132,7 +133,7 @@ namespace Erp.Web.Areas.TPM.Controllers
 
         private async Task PopulaeDropDowns()
         {
-            ViewBag.Companies = await _crmLookupService.GetCrmDomainAsync();
+            ViewBag.Domains = await _crmLookupService.GetCrmDomainAsync();
         }
     }
 
