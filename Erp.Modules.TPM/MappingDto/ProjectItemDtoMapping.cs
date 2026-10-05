@@ -23,7 +23,8 @@ namespace Erp.Modules.TPM.MappingDto
                 ProjectDetails = model.ProjectDetails,
                 Proposal = model.Proposal,
                 WorkOrder = model.WorkOrder,
-                SoftwareRequirement = model.SoftwareRequirement
+                SoftwareRequirement = model.SoftwareRequirement,
+                ProjectStatus = model.ProjectItemStatus.Value
             };
         }
 

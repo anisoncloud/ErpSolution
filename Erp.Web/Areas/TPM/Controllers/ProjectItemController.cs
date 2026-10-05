@@ -121,10 +121,11 @@ namespace Erp.Web.Areas.TPM.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await PopulaeDropDowns();
                 return View(dto);
             }
 
-            var success = await _projectItemService.UpdateProjectToMaintenanceAsync(dto);
+            var success = await _projectItemService.UpdateProjectToLiveAsync(dto);
             if (!success)
             {
                 return NotFound();

@@ -152,5 +152,17 @@ namespace Erp.Modules.TPM.Services
             await _uow.SaveChangesAsync();
             return true;
         }
+        public async Task<bool> UpdateProjectToLiveAsync(ProjectItemMaintenanceEditDto dto)
+        {
+            var projectItem = await _uow.ProjectItems.GetByIdAsync(dto.Id);
+            if (projectItem == null) return false;
+            // Apply fields and transition status
+            projectItem.ProjectItemStatus = ProjectItemStatus.Live;
+            projectItem.LiveServerDate = dto.LiveServerDate;
+
+            await _uow.ProjectItems.UpdateAsync(projectItem);
+            await _uow.SaveChangesAsync();
+            return true;
+        }
     }
 }

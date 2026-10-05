@@ -11,6 +11,7 @@ namespace Erp.Modules.TPM.Enums
         Design = 3,
         Development = 4,
         UAT= 5,
-        Maintenance = 6
+        Maintenance = 6,
+        Live = 7
     }
 }

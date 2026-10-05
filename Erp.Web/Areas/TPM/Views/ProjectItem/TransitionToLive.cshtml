@@ -13,12 +13,12 @@
 
             <div class="card shadow border-0 rounded-3">
                 <div class="card-header bg-danger text-white p-4">
-                    <h3 class="mb-0 fw-bold">🔧 Transition Workspace to Maintenance</h3>
+                    <h3 class="mb-0 fw-bold">🔧 Transition Workspace to Live</h3>
                     <small class="text-light-50 text-white-50">Provide live server deployments and contract values to transition project state.</small>
                 </div>
 
                 <div class="card-body p-4">
-                    <form asp-action="TransitionToMaintenance" method="post">
+                    <form asp-action="TransitionToLive" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="Id" />
 
@@ -29,13 +29,13 @@
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
                         <div class="mb-3">
-                            <label>Select Company</label>
+                            <label>Select Domain</label>
                             @* <select asp-for="DomainsId" class="form-control" asp-items="@((SelectList)ViewBag.Domains)">
                                 <option value="">-- Select Company --</option>
                             </select> *@
                             <select asp-for="DomainsId" class="form-control"
                                     asp-items="@(new SelectList(ViewBag.Domains, "Id", "Name"))">
-                                <option value="">-- Select Company --</option>
+                                <option value="">-- Select Domain --</option>
                             </select>
                             @* <select asp-for="DomainsId" class="form-control"
                                     asp-items="@(new List<SelectListItem> { new("Test", "1") })">
@@ -60,16 +60,16 @@
                                     <span asp-validation-for="LiveServerDate" class="text-danger small"></span>
                                 </div>
 
-                                <!-- Field: Maintenance Start Date -->
+                                @* <!-- Field: Maintenance Start Date -->
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold text-secondary">Maintenance Start Date</label>
                                     <input type="date" name="MaintenanceStartDate" class="form-control border-2"
                                            value="@Model.MaintenanceStartDate?.ToString("yyyy-MM-dd")" required />
                                     <span asp-validation-for="MaintenanceStartDate" class="text-danger small"></span>
-                                </div>
+                                </div> *@
                             </div>
 
-                            <!-- Field: Maintenance Amount -->
+                            @* <!-- Field: Maintenance Amount -->
                             <div class="mb-2">
                                 <label class="form-label fw-bold text-secondary">Maintenance Contract Amount (BDT / USD)</label>
                                 <div class="input-group border-2">
@@ -78,7 +78,7 @@
                                            value="@Model.MaintenanceAmount" placeholder="0.00" required />
                                 </div>
                                 <span class="text-danger small" data-valmsg-for="MaintenanceAmount"></span>
-                            </div>
+                            </div> *@
                         </div>
 
                         <!-- Form Controls -->
@@ -87,7 +87,7 @@
                                 Keep Active
                             </a>
                             <button type="submit" class="btn btn-danger px-4 shadow-sm fw-bold">
-                                🔒 Confirm & Save Maintenance Status
+                                🔒 Confirm & Save Live Server Status
                             </button>
                         </div>
                     </form>
