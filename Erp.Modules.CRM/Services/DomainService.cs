@@ -58,7 +58,7 @@ namespace Erp.Modules.CRM.Services
 
         public async Task<IEnumerable<DomainDto>> GetAllAsync()
         {
-            var domains = await _uow.Domains.GetAllAsync();
+            var domains = await _uow.Domains.GetAllAsync(x=>x.OrderBy(x=>x.Name));
             return domains.ToListDto();
         }
 

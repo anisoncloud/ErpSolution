@@ -52,7 +52,7 @@ namespace Erp.Modules.CRM.Services
 
         public async Task<IEnumerable<CompanyDto>> GetAllCompanys()
         {
-            var model = await _uow.CrmCompanies.GetAllAsync();
+            var model = await _uow.CrmCompanies.GetAllAsync(x=>x.OrderBy(x=>x.Name));
             return model.ToListDto();
         }
 

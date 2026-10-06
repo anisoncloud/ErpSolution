@@ -119,6 +119,8 @@ namespace Erp.Web.Areas.TPM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TransitionToLive(ProjectItemMaintenanceEditDto dto)
         {
+            ModelState.Remove(nameof(dto.MaintenanceAmount));
+            ModelState.Remove(nameof(dto.MaintenanceStartDate));
             if (!ModelState.IsValid)
             {
                 await PopulaeDropDowns();
