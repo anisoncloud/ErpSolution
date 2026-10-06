@@ -7,5 +7,6 @@ namespace Erp.Core.Contracts.Crm
     public interface ICrmLookupService
     {
         Task<IEnumerable<DomainLookupDto>> GetCrmDomainAsync();
+        Task<DomainLookupDto?>GetCrmDomainByIdAsync(int id);
     }
 }

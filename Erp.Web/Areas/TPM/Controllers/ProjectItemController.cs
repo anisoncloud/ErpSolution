@@ -149,6 +149,14 @@ namespace Erp.Web.Areas.TPM.Controllers
             })
             .ToList();*/
         }
+
+        [HttpGet]
+        public async Task Details(int id)
+        {
+            var projectItem = await _projectItemService.GetProjectItemByIdAsync(id);
+
+        }
+
     }
 
 }

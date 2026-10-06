@@ -21,6 +21,8 @@ namespace Erp.Modules.TPM.Services
             _uow = uow;
             _fileStorageService = fileStorageService; 
         }
+        
+        //Creating a project
         public async Task<ProjectItemDto> CreateProjectItem(ProjectItemCreateDto dto)
         {
             string? proposalFileUrl = null;
@@ -89,12 +91,16 @@ namespace Erp.Modules.TPM.Services
             await _uow.SaveChangesAsync();
             return model.ToDto();
         }
+
+        //Get All Project
         public async Task<IEnumerable<ProjectItemDto>> GetProjectsAsync()
         {
             var model = await _uow.ProjectItems.GetAllAsync(x=>x.OrderByDescending(x=>x.CreatedAt));
             return model.ToListDto();
         }
-
+        
+        
+        //Get all project Under Development and Live
         public async Task<IEnumerable<ProjectItemDto>> GetAllProjectWithOutMaintenance()
         {
             var model = await _uow.ProjectItems.GetAllWithOutFilter()
@@ -104,7 +110,7 @@ namespace Erp.Modules.TPM.Services
             return model.ToListDto();
         }
 
-        // Get Projects only under Maintenance
+        // Get Projects only Under Maintenance
         public async Task<IEnumerable<ProjectMaintenanceDto>> GetAllMaintenanceProjects()
         {
             var model = await _uow.ProjectItems.GetAllWithOutFilter()
@@ -113,6 +119,8 @@ namespace Erp.Modules.TPM.Services
                 .ToListAsync();
             return model.ToListMaintenanceDto();
         }
+
+        // Project Dashboard Get all Project with Tasks
         public async Task<List<ProjectDashboardDto>> GetAllProjectsWithTasksAsync()
         {
             var projectItems = await _uow.ProjectItems.GetAllProjectItemWithTasks();
@@ -163,6 +171,11 @@ namespace Erp.Modules.TPM.Services
             await _uow.ProjectItems.UpdateAsync(projectItem);
             await _uow.SaveChangesAsync();
             return true;
+        }
+        public async Task<ProjectItemDto?> GetProjectItemByIdAsync(int projectId)
+        {
+            var projectItem = await _uow.ProjectItems.GetByIdAsync(projectId);
+            return projectItem.ToDto();
         }
     }
 }

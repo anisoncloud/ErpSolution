@@ -16,5 +16,6 @@ namespace Erp.Modules.TPM.Services
         Task<IEnumerable<ProjectItemDto>> GetAllProjectWithOutMaintenance();
         Task<IEnumerable<ProjectMaintenanceDto>> GetAllMaintenanceProjects();
         Task<bool> UpdateProjectToLiveAsync(ProjectItemMaintenanceEditDto dto);
+        Task<ProjectItemDto?> GetProjectItemByIdAsync(int projectId);
     }
 }

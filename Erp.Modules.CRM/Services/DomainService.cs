@@ -67,5 +67,10 @@ namespace Erp.Modules.CRM.Services
             var domains = await _uow.Domains.GetAllAsync();
             return domains.ToListLookupDto();
         }
+        public async Task<DomainLookupDto?> GetCrmDomainByIdAsync(int id)
+        {
+            var domain = await _uow.Domains.GetByIdAsync(id);
+            return domain.ToLookupDto();
+        }
     }
 }
