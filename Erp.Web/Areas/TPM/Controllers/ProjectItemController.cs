@@ -2,6 +2,7 @@
 using Erp.Modules.HRM.DTOs;
 using Erp.Modules.TPM.DTOs;
 using Erp.Modules.TPM.Services;
+using Erp.Modules.TPM.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -151,10 +152,28 @@ namespace Erp.Web.Areas.TPM.Controllers
         }
 
         [HttpGet]
-        public async Task Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var projectItem = await _projectItemService.GetProjectItemByIdAsync(id);
-
+            var vm = new ProjectItemDetailsViewModel
+            {
+                Name = projectItem.Name,
+                DemoStartDate = projectItem.DemoStartDate,
+                WorkOrderDate = projectItem.WorkOrderDate,
+                ProjectDays = projectItem.ProjectDays,
+                ProjectDeliveryDate = projectItem.ProjectDeliveryDate,
+                ProjectValue = projectItem.ProjectValue,
+                Advanced = projectItem.Advanced,
+                ProjectDetails = projectItem.ProjectDetails,
+                Comments = projectItem.Comments,
+                Proposal = projectItem.Proposal,
+                WorkOrder = projectItem.WorkOrder,
+                SoftwareRequirement = projectItem.SoftwareRequirement,
+                ProjectItemType = projectItem.ProjectItemType,
+                ProjectItemStatus = projectItem.ProjectStatus,
+                LiveServerDate = projectItem.dat
+            };
+            return View(vm);
         }
 
     }

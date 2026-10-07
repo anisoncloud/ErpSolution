@@ -28,7 +28,7 @@
         @foreach (var project in Model)
         {
             <tr>
-                <td>@project.Name</td>
+                <td><a asp-action="Details" asp-route-id="@project.Id">@project.Name</a></td>
                 @* <td>@project.PeopleProjects.Count()</td>
                 <td>
                     @foreach (var people in project.PeopleProjects)

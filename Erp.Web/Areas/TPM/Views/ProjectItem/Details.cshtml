@@ -1,0 +1,18 @@
+﻿@model Erp.Modules.TPM.DTOs.ProjectItemDto
+
+@{
+    Layout = "_Layout";
+}
+<h1>@Model.Name</h1>
+<hr />
+<table class="table table-striped">
+    <tr><th>Name</th><td>@Model.ProjectDeliveryDate</td></tr>
+    <tr><th>Advanced</th><td>@Model.Advanced</td></tr>
+    <tr><th>Demo Start Date</th><td>@Model.DemoStartDate</td></tr>
+    <tr><th>Due Payment</th><td>@Model.DuePayment</td></tr>
+    <tr><th>Comments</th><td>@Model.Comments</td></tr>
+    <tr><th>Project Days</th><td>@Model.ProjectDays</td></tr>
+    <tr><th>Project Status</th><td>@Model.ProjectStatus</td></tr>
+    <tr><th>Project WO</th><td>@Model.WorkOrderDate</td></tr>
+</table>
+
