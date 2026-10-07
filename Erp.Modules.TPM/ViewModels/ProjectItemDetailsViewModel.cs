@@ -43,7 +43,7 @@ namespace Erp.Modules.TPM.ViewModels
         [Column(TypeName = "decimal(18,2)")]
         public decimal? MaintValue { get; set; }
         public int? DomainsId { get; set; }
-        public string DomainName { get; set; } = string.Empty;
+        public string DomainName { get; set; } 
         public string? IpAddress { get; set; }
         public string? Hosting { get; set; }
         public string? DomainRegistrant { get; set; }

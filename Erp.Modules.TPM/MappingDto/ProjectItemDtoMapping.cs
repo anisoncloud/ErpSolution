@@ -24,7 +24,11 @@ namespace Erp.Modules.TPM.MappingDto
                 Proposal = model.Proposal,
                 WorkOrder = model.WorkOrder,
                 SoftwareRequirement = model.SoftwareRequirement,
-                ProjectStatus = model.ProjectItemStatus.Value
+                ProjectStatus = model.ProjectItemStatus.Value,
+                LiveServerDate = model.LiveServerDate,
+                MaintStartDate = model.MaintStartDate,
+                MaintValue = model.MaintValue,
+                DomainsId = model.DomainsId??0                
             };
         }
 

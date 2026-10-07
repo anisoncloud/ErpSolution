@@ -1,4 +1,4 @@
-﻿@model Erp.Modules.TPM.DTOs.ProjectItemDto
+﻿@model Erp.Modules.TPM.ViewModels.ProjectItemDetailsViewModel
 
 @{
     Layout = "_Layout";
@@ -12,7 +12,8 @@
     <tr><th>Due Payment</th><td>@Model.DuePayment</td></tr>
     <tr><th>Comments</th><td>@Model.Comments</td></tr>
     <tr><th>Project Days</th><td>@Model.ProjectDays</td></tr>
-    <tr><th>Project Status</th><td>@Model.ProjectStatus</td></tr>
+    <tr><th>Project Status</th><td>@Model.ProjectItemStatus</td></tr>
     <tr><th>Project WO</th><td>@Model.WorkOrderDate</td></tr>
+    <tr><th>Domain Name</th><td>@Model.DomainName</td></tr>
 </table>
 

@@ -5,6 +5,7 @@ using Erp.Modules.TPM.Services;
 using Erp.Modules.TPM.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Runtime.InteropServices;
 
 namespace Erp.Web.Areas.TPM.Controllers
 {
@@ -155,6 +156,8 @@ namespace Erp.Web.Areas.TPM.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var projectItem = await _projectItemService.GetProjectItemByIdAsync(id);
+            var domain = await _crmLookupService.GetCrmDomainByIdAsync(projectItem.DomainsId ?? 0);
+
             var vm = new ProjectItemDetailsViewModel
             {
                 Name = projectItem.Name,
@@ -171,7 +174,10 @@ namespace Erp.Web.Areas.TPM.Controllers
                 SoftwareRequirement = projectItem.SoftwareRequirement,
                 ProjectItemType = projectItem.ProjectItemType,
                 ProjectItemStatus = projectItem.ProjectStatus,
-                LiveServerDate = projectItem.dat
+                LiveServerDate = projectItem.LiveServerDate,
+                MaintValue = projectItem.MaintValue,
+                MaintStartDate = projectItem.MaintStartDate,
+                DomainName = domain.Name
             };
             return View(vm);
         }

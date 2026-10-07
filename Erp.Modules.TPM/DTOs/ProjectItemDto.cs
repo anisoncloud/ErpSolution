@@ -32,5 +32,10 @@ namespace Erp.Modules.TPM.DTOs
         public string? SoftwareRequirement { get; set; }
         public ProjectItemType ProjectItemType { get; set; }
         public ProjectItemStatus ProjectStatus { get; set; }
+        public DateOnly? LiveServerDate { get; set; }
+        public DateOnly? MaintStartDate { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MaintValue { get; set; }
+        public int? DomainsId { get; set; }
     }
 }
