@@ -167,6 +167,7 @@ namespace Erp.Modules.TPM.Services
             // Apply fields and transition status
             projectItem.ProjectItemStatus = ProjectItemStatus.Live;
             projectItem.LiveServerDate = dto.LiveServerDate;
+            projectItem.DomainsId = dto.DomainsId;
 
             await _uow.ProjectItems.UpdateAsync(projectItem);
             await _uow.SaveChangesAsync();
