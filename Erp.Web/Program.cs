@@ -95,7 +95,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-// Seed default roles/admin on startup
+// IdentitySeeder Seed default roles/admin on startup. at fresh installation the software require a default user to create users.
 using (var scope = app.Services.CreateScope())
 {
     await Erp.Infrastructure.Seed.IdentitySeeder.SeedAsync(scope.ServiceProvider);

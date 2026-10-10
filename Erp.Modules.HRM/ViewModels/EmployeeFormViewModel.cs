@@ -1,4 +1,5 @@
 ﻿using Erp.Modules.HRM.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,5 +33,12 @@ namespace Erp.Modules.HRM.ViewModels
         public string TemporaryPassword { get; set; } = "Password@123";
         public EmployeeType EmployeeType { get; set; }
         public DutyType DutyType { get; set; }
+        // Captures the role ID or role name selected by the admin/user
+        [Required(ErrorMessage = "Please select a role.")]
+        [Display(Name = "User Role")]
+        public string SelectedRole { get; set; }
+
+        // Holds the list of roles to populate the HTML dropdown
+        public List<SelectListItem>? RolesList { get; set; }
     }
 }

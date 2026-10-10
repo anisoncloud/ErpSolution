@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Erp.Infrastructure.Seed
 {
-    public class IdentitySeeder
+    public class IdentitySeeder //This is initialized in the progra.cs file at the bottom line for default user
     {
         public static async Task SeedAsync(IServiceProvider services)
         {

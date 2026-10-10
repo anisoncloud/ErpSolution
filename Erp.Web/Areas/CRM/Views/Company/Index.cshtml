@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <h2>All Company</h2>
-
+<a asp-action="Create" class="btn btn-primary mb-3">+ Create New </a>
 <form method="get" class="d-flex gap-2 mb-3">
     <input type="text" name="searchTerm" value="@Model.SearchTerm"
            class="form-control" placeholder="Search employees..." />

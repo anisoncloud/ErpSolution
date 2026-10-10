@@ -157,50 +157,32 @@ namespace Erp.Web.Areas.TPM.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var vm = new ProjectItemDetailsViewModel();
+            
             var projectItem = await _projectItemService.GetProjectItemByIdAsync(id);
-            if(projectItem.DomainsId != 0)
+            var vm = new ProjectItemDetailsViewModel
             {
+                Name = projectItem.Name,
+                DemoStartDate = projectItem.DemoStartDate,
+                WorkOrderDate = projectItem.WorkOrderDate,
+                ProjectDays = projectItem.ProjectDays,
+                ProjectDeliveryDate = projectItem.ProjectDeliveryDate,
+                ProjectValue = projectItem.ProjectValue,
+                Advanced = projectItem.Advanced,
+                ProjectDetails = projectItem.ProjectDetails,
+                Comments = projectItem.Comments,
+                Proposal = projectItem.Proposal,
+                WorkOrder = projectItem.WorkOrder,
+                SoftwareRequirement = projectItem.SoftwareRequirement,
+                ProjectItemType = projectItem.ProjectItemType,
+                ProjectItemStatus = projectItem.ProjectStatus,
+                LiveServerDate = projectItem.LiveServerDate,
+                MaintValue = projectItem.MaintValue,
+                MaintStartDate = projectItem.MaintStartDate,
+            };
+            if (projectItem.DomainsId > 0) {
                 var domain = await _crmLookupService.GetCrmDomainByIdAsync(projectItem.DomainsId ?? 0);
-                vm.Name = projectItem.Name;
-                vm.DemoStartDate = projectItem.DemoStartDate;
-                vm.WorkOrderDate = projectItem.WorkOrderDate;
-                vm.ProjectDays = projectItem.ProjectDays;
-                vm.ProjectDeliveryDate = projectItem.ProjectDeliveryDate;
-                vm.ProjectValue = projectItem.ProjectValue;
-                vm.Advanced = projectItem.Advanced;
-                vm.ProjectDetails = projectItem.ProjectDetails;
-                vm.Comments = projectItem.Comments;
-                vm.Proposal = projectItem.Proposal;
-                vm.WorkOrder = projectItem.WorkOrder;
-                vm.SoftwareRequirement = projectItem.SoftwareRequirement;
-                vm.ProjectItemType = projectItem.ProjectItemType;
-                vm.ProjectItemStatus = projectItem.ProjectStatus;
-                vm.LiveServerDate = projectItem.LiveServerDate;
-                vm.MaintValue = projectItem.MaintValue;
-                vm.MaintStartDate = projectItem.MaintStartDate;
                 vm.DomainName = domain.Name;
             }
-            else
-            {
-                vm.Name = projectItem.Name;
-                vm.DemoStartDate = projectItem.DemoStartDate;
-                vm.WorkOrderDate = projectItem.WorkOrderDate;
-                vm.ProjectDays = projectItem.ProjectDays;
-                vm.ProjectDeliveryDate = projectItem.ProjectDeliveryDate;
-                vm.ProjectValue = projectItem.ProjectValue;
-                vm.Advanced = projectItem.Advanced;
-                vm.ProjectDetails = projectItem.ProjectDetails;
-                vm.Comments = projectItem.Comments;
-                vm.Proposal = projectItem.Proposal;
-                vm.WorkOrder = projectItem.WorkOrder;
-                vm.SoftwareRequirement = projectItem.SoftwareRequirement;
-                vm.ProjectItemType = projectItem.ProjectItemType;
-                vm.ProjectItemStatus = projectItem.ProjectStatus;
-                vm.LiveServerDate = projectItem.LiveServerDate;
-                vm.MaintValue = projectItem.MaintValue;
-                vm.MaintStartDate = projectItem.MaintStartDate;
-            }            
             return View(vm);
         }
 

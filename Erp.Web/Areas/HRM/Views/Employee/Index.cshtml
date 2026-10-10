@@ -20,7 +20,7 @@
         @foreach (var e in Model)
         {
             <tr>
-                <td>@e.EmployeeCode</td>
+                <td>@e.Company.CompanyCode@e.EmployeeCode</td>
                 <td>@e.FullName</td>
                 <td>@e.Department?.Name</td>
                 <td>@e.Designation?.Title</td>

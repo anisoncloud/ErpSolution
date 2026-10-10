@@ -9,7 +9,9 @@ using Erp.Modules.HRM.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace Erp.Web.Areas.HRM.Controllers
 {
@@ -19,12 +21,14 @@ namespace Erp.Web.Areas.HRM.Controllers
         
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IEmployeeService _employeeService;
         private readonly ICompanyService _companyService;
         private readonly IDepartmentService _departmentSerive;
         private readonly IDesignationService _designationService;
         public EmployeeController(AppDbContext db, 
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             IEmployeeService employeeService,
             ICompanyService companyService,
             IDepartmentService departmentService,
@@ -34,6 +38,7 @@ namespace Erp.Web.Areas.HRM.Controllers
         {
             _db = db;
             _userManager = userManager;
+            _roleManager = roleManager;
             _employeeService = employeeService;
             _companyService = companyService;
             _departmentSerive = departmentService;
@@ -48,6 +53,7 @@ namespace Erp.Web.Areas.HRM.Controllers
                 var employees = await _db.Employees
                 .Include(e => e.Department)
                 .Include(e => e.Designation)
+                .Include(e=>e.Company)
                 .OrderBy(e => e.FullName)
                 .ToListAsync();
                 return View(employees);
@@ -106,8 +112,17 @@ namespace Erp.Web.Areas.HRM.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var model = new EmployeeFormViewModel
+            {
+                RolesList = await _roleManager.Roles
+                .Select(r => new SelectListItem
+                {
+                    Text = r.Name,
+                    Value = r.Name
+                }).ToListAsync()
+            };
             await PopulateDropdows();
-            return View();
+            return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -143,8 +158,16 @@ namespace Erp.Web.Areas.HRM.Controllers
             }
 
             // 2. Assign the Identity role based on selected level (drives section access)
-            var rollName = model.Level == EmployeeLevel.Manager ? "Manager" : "Executive";
-            await _userManager.AddToRoleAsync(user, rollName);
+            /*var rollName = model.Level == EmployeeLevel.Manager ? "Manager" : "Executive";
+            await _userManager.AddToRoleAsync(user, rollName);*/
+            if (createResult.Succeeded)
+            {
+                // 2. Assign the selected role using _userManager
+                if (!string.IsNullOrEmpty(model.SelectedRole))
+                {
+                    await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                }
+            }
             model.UserId = user.Id;
             var dto = model.ToCreateDto();
             await _employeeService.CreateEmployeeAsync(dto);

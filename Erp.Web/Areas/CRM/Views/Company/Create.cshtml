@@ -14,6 +14,7 @@
                 asp-items="@(new SelectList(ViewBag.MotherCompanies, "Id", "Name"))">
             <option value="">-- Select Company --</option>
         </select>
+        <a asp-action="Create" asp-controller="MotherCompany" class="mb-3">+ Create New </a>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Name</label>
