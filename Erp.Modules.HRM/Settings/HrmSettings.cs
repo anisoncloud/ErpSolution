@@ -30,5 +30,8 @@ namespace Erp.Modules.HRM.Settings
             [LeaveType.Pilgrimage] = 30
         };
         public IReadOnlySet<DayOfWeek> WeeklyHolidaySet => WeeklyHolidays.ToHashSet();
+
+        /// this is the HRM Settings
+
     }
 }
