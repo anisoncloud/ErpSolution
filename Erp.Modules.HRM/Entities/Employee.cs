@@ -25,7 +25,7 @@ namespace Erp.Modules.HRM.Entities
         public string? Phone { get; set; }
         public string? EmployeePhoto {  get; set; }
         public int? EmpManagerId { get; set; }
-        public ApplicationUser? Manager { get; set; }
+        public Employee? Manager { get; set; }
         public string? ManagerEmail {  get; set; }
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
