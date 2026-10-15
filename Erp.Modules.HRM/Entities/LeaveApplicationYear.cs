@@ -8,7 +8,7 @@ namespace Erp.Modules.HRM.Entities
     public class LeaveApplicationYear : BaseEntity
     {
         public int LeaveApplicationId {  get; set; }
-        public LeaveApplication? LeaveApplication { get; set; }
+        public LeaveApplication? Application { get; set; }
         public int Year {  get; set; }
         public int Days { get; set; }
         public int WorkingDays {  get; set; }

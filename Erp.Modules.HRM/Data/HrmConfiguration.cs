@@ -51,6 +51,10 @@ namespace Erp.Modules.HRM.Data
                 .WithOne(p=>p.Employee)
                 .HasForeignKey(p=>p.EmployeeId)
                 .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Manager).WithMany().HasForeignKey(e => e.EmpManagerId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(x => x.EmployeeCode).IsRequired();
+            builder.HasIndex(x=> x.EmployeeCode).IsUnique();
         }
         public void Configure(EntityTypeBuilder<EmployeeAttendance> builder)
         {

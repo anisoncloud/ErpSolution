@@ -19,12 +19,51 @@ namespace Erp.Modules.HRM.Data
         {
             builder.ToTable("LeavePolicies", "hrm");
             builder.Property(x => x.LeaveType).HasConversion<int>();
-            builder.Property(x=>x.RequiredGender).HasConversion<int>();
+            builder.Property(x => x.RequiredGender).HasConversion<int>();
             builder.HasIndex(x => x.LeaveType).IsUnique();
         }
         public void Configure(EntityTypeBuilder<LeaveEntitlement> builder)
         {
             builder.ToTable("LeaveEntitlements", "hrm");
+            builder.Property(x => x.LeaveType).HasConversion<int>();
+            builder.Property(x => x.EmployeeType).HasConversion<int>();
+            builder.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(x => new { x.Year, x.EmployeeId, x.LeaveType }).IsUnique();
+        }
+        public void Configure(EntityTypeBuilder<LeaveApplication> builder)
+        {
+            builder.ToTable("LeaveApplications", "hrm");
+            builder.Property(x => x.LeaveType).HasConversion<int>();
+            builder.Property(x=>x.LeaveStatus).HasConversion<int>();
+            builder.Property(x => x.ManagerComment).HasMaxLength(1000);
+            builder.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x=>x.DecidedBy).WithMany().HasForeignKey(y => y.DecidedById)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(x => x.Years).WithOne(x => x.Application).HasForeignKey(x => x.LeaveApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasIndex(x => new { x.EmployeeId, x.LeaveType, x.LeaveStatus });
+        }
+        public void Configure(EntityTypeBuilder<LeaveApplicationYear> builder)
+        {
+            builder.ToTable("LeaveApplicationYears", "hrm");
+            builder.HasIndex(x => new {x.Year, x.LeaveApplicationId});
+        }
+        public void Configure(EntityTypeBuilder<CompensationGrant> builder)
+        {
+            builder.ToTable("CompensationGrants", "hrm");
+            builder.Property(x => x.Reason).HasMaxLength(500);
+            builder.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.GrantedBy).WithMany().HasForeignKey(x=>x.GrantedById)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+        public void Configure(EntityTypeBuilder<Holiday> builder)
+        {
+            builder.ToTable("Holidays", "hrm");
+            builder.Property(x => x.Name).HasMaxLength(500);
+            builder.HasIndex(x => x.Date).IsUnique().HasFilter("[IsDeleted]=0");
         }
     }
 }

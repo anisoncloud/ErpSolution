@@ -20,6 +20,7 @@ namespace Erp.Modules.HRM.Entities
         public LeaveStatus LeaveStatus { get; set; } = LeaveStatus.Pending;
         public int DecidedById { get; set;  }
         public Employee? DecidedBy {  get; set; }
+        public string? ManagerComment { get; set; }
         public ICollection<LeaveApplicationYear> Years { get; set; } = new List<LeaveApplicationYear>();
 
     }
