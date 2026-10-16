@@ -42,13 +42,13 @@ namespace Erp.Infrastructure.Repositories.HRM
             var clearCode = code.Replace(" ", "").ToLower().TrimEnd('.');
             return await _dbSet
                 .FirstOrDefaultAsync(b =>
-                        (b.DesignationCode.Replace(" ", "").ToLower().EndsWith(".")
+                        b.DesignationCode != null &&  (b.DesignationCode.Replace(" ", "").ToLower().EndsWith(".")
                         ? b.DesignationCode.Replace(" ", "").ToLower().Substring(0, b.DesignationCode.Replace(" ", "").Length - 1)
                         : b.DesignationCode.Replace(" ", "").ToLower())
                             == clearCode);
         }
 
-        public async Task<Designation?> GetByIdAsync(int id)
+        public async Task<Designation?> GetDesignationByIdAsync(int id)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         }

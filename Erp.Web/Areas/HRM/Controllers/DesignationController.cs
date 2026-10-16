@@ -50,6 +50,10 @@ namespace Erp.Web.Areas.HRM.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var company = await _designationService.GetDesignationByIdAsync(id);
+            if (company==null)
+            {
+                return NotFound();
+            }
             var dto = new DesignationUpdateDto
             {
                 Id = id,

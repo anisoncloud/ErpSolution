@@ -1,5 +1,6 @@
 ﻿using Erp.Modules.HRM.DTOs;
 using Erp.Modules.HRM.Services;
+using Erp.Modules.TPM.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Web.Areas.HRM.Controllers
@@ -50,6 +51,10 @@ namespace Erp.Web.Areas.HRM.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var company = await _companyService.GetCompanyByIdAsync(id);
+            if (company == null)
+            {
+                return NotFound();
+            }
             var dto = new CompanyUpdateDto
             {
                 Id = id,

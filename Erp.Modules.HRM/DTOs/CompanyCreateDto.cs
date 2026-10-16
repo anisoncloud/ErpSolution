@@ -13,8 +13,8 @@ namespace Erp.Modules.HRM.DTOs
         public string Name { get; set; } = default!;
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Special characters are not allowed.")]
-        public string? CompanyCode { get; set; }
-        public string? Description { get; set; }
+        public string CompanyCode { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public string? CompanyLogo { get; set; }
         
     }

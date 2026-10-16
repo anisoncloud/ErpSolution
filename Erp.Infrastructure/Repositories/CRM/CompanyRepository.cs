@@ -26,8 +26,7 @@ namespace Erp.Infrastructure.Repositories.CRM
             {
                 var term = parameters.SearchTerm.Trim().ToLower();
                 searchPredicate = e =>
-                    e.Name.ToLower().Contains(term) ||
-                    e.CompanyPhone.ToLower().Contains(term) ||
+                    e.Name.ToLower().Contains(term) ||                    
                     (e.CompanyPhone != null && e.CompanyPhone.ToLower().Contains(term));
             }
             return await GetAllItemsAsync(parameters, searchPredicate);

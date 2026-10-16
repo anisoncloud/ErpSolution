@@ -7,7 +7,7 @@ namespace Erp.Modules.TPM.DTOs
     public record TaskRevisionDto(
         int Id, 
         string FeedbackNotes, 
-        string CreatedBy, 
+        string? CreatedBy, 
         DateTime CreatedAt, 
         bool IsResolved
         );

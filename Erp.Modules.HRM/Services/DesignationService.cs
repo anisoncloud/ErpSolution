@@ -32,11 +32,14 @@ namespace Erp.Modules.HRM.Services
                 throw new InvalidOperationException(
                    $"A Company with the name {dto.Title.ToUpper()} is already exists!");
             }
-            var isCodeExists = await _uow.Designations.GetByCodeAsync(dto.DesignationCode);
-            if (isCodeExists != null)
+            if (dto.DesignationCode != null)
             {
-                throw new InvalidOperationException(
-                   $"A Company Code with the name {dto.DesignationCode.ToUpper()} is already exists!");
+                var isCodeExists = await _uow.Designations.GetByCodeAsync(dto.DesignationCode);
+                if (isCodeExists != null)
+                {
+                    throw new InvalidOperationException(
+                       $"A Company Code with the name {dto.DesignationCode.ToUpper()} is already exists!");
+                }
             }
             var model = new Designation
             {
@@ -62,13 +65,22 @@ namespace Erp.Modules.HRM.Services
         }
         public async Task<DesignationDto?> GetDesignationByIdAsync(int id)
         {
-            var model = await _uow.Designations.GetByIdAsync(id);
+            var model = await _uow.Designations.GetDesignationByIdAsync(id);
+            if (model==null)
+            {
+                return null;
+            }
             return model.ToDto();
         }
 
         public async Task<DesignationDto> UpdateDesignationAsync(int id, DesignationUpdateDto dto)
         {
-            var designation = await _uow.Designations.GetByIdAsync(id);
+            var designation = await _uow.Designations.GetDesignationByIdAsync(id);
+            if (designation == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Designation with ID {id} was not found.");
+            }
             designation.Title = dto.Title.Trim();
             designation.DesignationCode = dto.DesignationCode;
             designation.IsActive = dto.IsActive;

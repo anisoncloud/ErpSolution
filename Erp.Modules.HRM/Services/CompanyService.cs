@@ -32,20 +32,24 @@ namespace Erp.Modules.HRM.Services
                 throw new InvalidOperationException(
                    $"A Company with the name {dto.Name.ToUpper()} is already exists!");
             }
-            var isCodeExists = await _uow.Companies.GetByCodeAsync(dto.CompanyCode);
-            if (isCodeExists != null)
-            {
-                throw new InvalidOperationException(
-                   $"A Company Code with the name {dto.CompanyCode.ToUpper()} is already exists!");
-            }
-            var model = new Company
-            {
-                Name = dto.Name.Trim(),
-                CompanyCode = dto.CompanyCode.Trim(),
-                Description = dto.Description.Trim()
-            };
-            await _uow.Companies.AddAsync(model);
-            await _uow.SaveChangesAsync();
+            
+
+                var isCodeExists = await _uow.Companies.GetByCodeAsync(dto.CompanyCode);
+                if (isCodeExists != null)
+                {
+                    throw new InvalidOperationException(
+                       $"A Company Code with the name {dto.CompanyCode.ToUpper()} is already exists!");
+                }
+
+                var model = new Company
+                {
+                    Name = dto.Name.Trim(),
+                    CompanyCode = dto.CompanyCode.Trim(),
+                    Description = dto.Description.Trim()
+                };
+                await _uow.Companies.AddAsync(model);
+                await _uow.SaveChangesAsync();
+            
             return model.ToDto();
         }
 
@@ -62,13 +66,22 @@ namespace Erp.Modules.HRM.Services
         }
         public async Task<CompanyDto?> GetCompanyByIdAsync(int id)
         {
-            var model = await _uow.Companies.GetByIdAsync(id);
+            var model = await _uow.Companies.GetCompanyByIdAsync(id);
+            if (model == null)
+            {
+                return null;
+            }
             return model.ToDto();
         }
 
         public async Task<CompanyDto> UpdateCompanyAsync(int id, CompanyUpdateDto dto)
         {
-            var company = await _uow.Companies.GetByIdAsync(id);
+            var company = await _uow.Companies.GetCompanyByIdAsync(id);
+            if (company is null)
+            {
+                throw new KeyNotFoundException(
+                    $"Company with ID {id} was not found.");
+            }
             company.Name = dto.Name.Trim();
             company.Description = dto.Description;
             company.CompanyCode = dto.CompanyCode;

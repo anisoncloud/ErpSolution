@@ -7,11 +7,11 @@ namespace Erp.Modules.CRM.DTOs
     public record CompanyDto(
         int Id,
         string Name,
-        string Description,        
-        string CompanyEmail,
-        string CompanyPhone,
-        string CompanyAddress,
-        List<CrmContactDto> Contacts = null
+        string? Description,        
+        string? CompanyEmail,
+        string? CompanyPhone,
+        string? CompanyAddress,
+        List<CrmContactDto>? Contacts = null
         );
     
 }

@@ -9,14 +9,14 @@ namespace Erp.Modules.HRM.Entities
 {
     public class SalaryPositionHistory : BaseEntity
     {
-        public string UserId { get; set; } // FK to EmployeeProfile
-        public string JobTitle { get; set; }
-        public string Department { get; set; }
+        public int EmployeeId { get; set; } // FK to EmployeeProfile
+        public string? JobTitle { get; set; }
+        public string? Department { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? BasicSalary { get; set; }
         public decimal HouseRent { get; set; }
         public DateTime EffectiveDate { get; set; }
-        public string Notes { get; set; }
-        public virtual Employee Employee { get; set; }
+        public string? Notes { get; set; }
+        public virtual Employee? Employee { get; set; }
     }
 }

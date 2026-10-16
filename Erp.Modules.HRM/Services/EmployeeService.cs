@@ -27,7 +27,7 @@ namespace Erp.Modules.HRM.Services
             {
                 return (false, "Employee code is already exists", Guid.Empty);
             }
-            if (await _uow.Departments.GetByIdAsync(dto.DepartmentId)==null)
+            if (await _uow.Departments.GetDepartmentByIdAsync(dto.DepartmentId)==null)
             {
                 return (false, "Selected department does not exist.", Guid.Empty);
             }

@@ -16,8 +16,9 @@ namespace Erp.Modules.HRM.Data
         public static void ApplyHrmModule(this ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(HrmModuleExtensions).Assembly);
-            builder.ApplyConfigurationsFromAssembly(typeof(HrmLeaveConfiguration).Assembly,
-    t => t == typeof(HrmLeaveConfiguration) || t == typeof(EmployeeLeaveLinkConfiguration));
+            builder.ApplyConfigurationsFromAssembly(typeof(HrmLeaveConfiguration).Assembly);
+            /*builder.ApplyConfigurationsFromAssembly(typeof(HrmLeaveConfiguration).Assembly,
+            t => t == typeof(HrmLeaveConfiguration) || t == typeof(EmployeeLeaveLinkConfiguration));*/
         }
     }
 }

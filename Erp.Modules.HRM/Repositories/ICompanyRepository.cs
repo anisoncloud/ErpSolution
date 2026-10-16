@@ -9,7 +9,7 @@ namespace Erp.Modules.HRM.Repositories
     public interface ICompanyRepository : IGenericRepository<Company>
     {
         Task<Company?> GetCompanyWithAllEmployee(int id);
-        Task<Company?> GetByIdAsync(int id);
+        Task<Company?> GetCompanyByIdAsync(int id);
         Task<Company?> GetByNameAsync(string name);
         Task<Company?> GetByCodeAsync(string code);
         //Task<IEnumerable<Company>> GetCompaniesOrderByName(string name);

@@ -32,7 +32,7 @@ namespace Erp.Modules.TPM.Entities
         public string? WorkOrder { get; set; }
         public string? SoftwareRequirement { get; set; }
         public ProjectItemType? ProjectItemType { get; set; }
-        public ProjectItemStatus? ProjectItemStatus { get; set; }
+        public ProjectItemStatus ProjectItemStatus { get; set; } = ProjectItemStatus.Demo;
         public ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
         public bool? LiveOnServer { get; set; }
         public DateOnly? LiveServerDate {  get; set; }

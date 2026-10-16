@@ -53,6 +53,10 @@ namespace Erp.Web.Areas.HRM.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var department = await _departmentService.GetDepartmentByIdAsync(id);
+            if (department == null)
+            {
+                return NotFound();
+            }
             var dto = new DepartmentUpdateDto
             {
                 Id = id,

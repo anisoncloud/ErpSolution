@@ -47,7 +47,7 @@ namespace Erp.Infrastructure.Repositories.Generic
         {
             return _dbSet;
         }
-        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
         {
             IQueryable<T> query = _dbSet;
 

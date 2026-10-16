@@ -7,6 +7,6 @@ namespace Erp.Modules.CRM.DTOs
     public record MotherCompanyDto(
         int Id,
         string Name,
-        string Description
+        string? Description
         );    
 }

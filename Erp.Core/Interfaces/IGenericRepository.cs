@@ -11,7 +11,7 @@ namespace Erp.Core.Interfaces
         Task<T?> GetByIdGuidAsync(Guid id);
         Task<T?> GetByIdAsync(int id);
         IQueryable<T> GetAllWithOutFilter();        
-        Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);        
+        Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);        
         Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);

@@ -35,10 +35,14 @@
                 <tr>
                     <td scope="row">@serial</td>
                     <td>@item.Name</td>
-                    <td>@foreach (var c in item.Contacts)
+                @if (item.Contacts != null && item.Contacts.Any())
                 {
-                    <div>@c.Name — @c.Phone - @c.Email</div>
-                }</td>
+                    <td>@foreach (var c in item.Contacts)
+                        {
+                            <div>@c.Name — @c.Phone - @c.Email</div>
+                    }
+                    </td>
+                }
                     <td></td>
                     <td></td>                           
                 </tr>

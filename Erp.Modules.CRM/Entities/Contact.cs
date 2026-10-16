@@ -8,7 +8,7 @@ namespace Erp.Modules.CRM.Entities
 {
     public class Contact : BaseEntity
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string? Designation { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }

@@ -36,7 +36,7 @@ namespace Erp.Modules.HRM.ViewModels
         // Captures the role ID or role name selected by the admin/user
         [Required(ErrorMessage = "Please select a role.")]
         [Display(Name = "User Role")]
-        public string SelectedRole { get; set; }
+        public string? SelectedRole { get; set; }
 
         // Holds the list of roles to populate the HTML dropdown
         public List<SelectListItem>? RolesList { get; set; }

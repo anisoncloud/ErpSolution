@@ -159,6 +159,10 @@ namespace Erp.Web.Areas.TPM.Controllers
         {
             
             var projectItem = await _projectItemService.GetProjectItemByIdAsync(id);
+            if (projectItem == null)
+            {
+                return NotFound();
+            }
             var vm = new ProjectItemDetailsViewModel
             {
                 Name = projectItem.Name,
@@ -181,6 +185,10 @@ namespace Erp.Web.Areas.TPM.Controllers
             };
             if (projectItem.DomainsId > 0) {
                 var domain = await _crmLookupService.GetCrmDomainByIdAsync(projectItem.DomainsId ?? 0);
+                if (domain==null)
+                {
+                    return NotFound();
+                }
                 vm.DomainName = domain.Name;
             }
             return View(vm);

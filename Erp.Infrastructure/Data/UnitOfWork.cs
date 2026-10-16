@@ -16,7 +16,7 @@ namespace Erp.Infrastructure.Data
     public class UnitOfWork : IHrmUnitOfWork, ITpmUnitOfWork, ICrmUnitOfWork, IDisposable
     {
         private readonly AppDbContext _context;
-        private IDbContextTransaction _transaction;
+        private IDbContextTransaction? _transaction;
         public IDesignationRepository Designations { get; }
         public IDepartmentRepository Departments { get; }
         public IEmployeeRepository Employees { get; }

@@ -70,6 +70,10 @@ namespace Erp.Modules.CRM.Services
         public async Task<DomainLookupDto?> GetCrmDomainByIdAsync(int id)
         {
             var domain = await _uow.Domains.GetByIdAsync(id);
+            if (domain == null)
+            {
+                return null;
+            }
             return domain.ToLookupDto();
         }
     }

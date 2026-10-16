@@ -9,8 +9,8 @@ namespace Erp.Modules.HRM.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;
-        public string? CompanyCode { get; set; }
-        public string? Description { get; set; }
+        public string? CompanyCode { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         public string? CompanyLogo { get; set; }
         public bool IsActive {  get; set; }
         public ICollection<EmployeeDto> Employees { get; set; } = new List<EmployeeDto>();

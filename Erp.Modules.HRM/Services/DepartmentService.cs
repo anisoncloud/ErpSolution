@@ -2,9 +2,11 @@
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.MappingDto;
 using Erp.Modules.HRM.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Erp.Modules.HRM.Services
 {
@@ -61,13 +63,22 @@ namespace Erp.Modules.HRM.Services
         }
         public async Task<DepartmentDto?> GetDepartmentByIdAsync(int id)
         {
-            var model = await _uow.Departments.GetByIdAsync(id);
+            var model = await _uow.Departments.GetDepartmentByIdAsync(id);
+            if (model==null)
+            {
+                return null;
+            }
             return model.ToDto();
         }
 
         public async Task<DepartmentDto> UpdateDepartmentAsync(int id, DepartmentUpdateDto dto)
         {
-            var department = await _uow.Departments.GetByIdAsync(id);
+            var department = await _uow.Departments.GetDepartmentByIdAsync(id);
+            if (department is null)
+            {
+                throw new KeyNotFoundException(
+                    $"Department with ID {id} was not found.");
+            }
             department.Name = dto.Name.Trim();
             department.Description = dto.Description;
             department.DepartmentCode = dto.DepartmentCode;

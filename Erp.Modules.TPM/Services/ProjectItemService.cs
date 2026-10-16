@@ -176,6 +176,10 @@ namespace Erp.Modules.TPM.Services
         public async Task<ProjectItemDto?> GetProjectItemByIdAsync(int projectId)
         {
             var projectItem = await _uow.ProjectItems.GetByIdAsync(projectId);
+            if (projectItem == null)
+            {
+                return null;
+            }                
             return projectItem.ToDto();
         }
     }
