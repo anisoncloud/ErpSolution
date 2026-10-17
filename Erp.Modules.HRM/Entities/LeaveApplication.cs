@@ -17,7 +17,7 @@ namespace Erp.Modules.HRM.Entities
         public DateOnly ReturnDate {  get; set; }
         /// <summary>Total days counted for this application.</summary>
         public int TotalDays {  get; set; }
-        public LeaveStatus LeaveStatus { get; set; } = LeaveStatus.Pending;
+        public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
         public int DecidedById { get; set;  }
         public Employee? DecidedBy {  get; set; }
         public string? ManagerComment { get; set; }

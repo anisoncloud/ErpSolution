@@ -872,9 +872,6 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LeaveStatus")
-                        .HasColumnType("int");
-
                     b.Property<int>("LeaveType")
                         .HasColumnType("int");
 
@@ -884,6 +881,9 @@ namespace Erp.Infrastructure.Migrations
 
                     b.Property<DateOnly>("ReturnDate")
                         .HasColumnType("date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalDays")
                         .HasColumnType("int");
@@ -898,7 +898,7 @@ namespace Erp.Infrastructure.Migrations
 
                     b.HasIndex("DecidedById");
 
-                    b.HasIndex("EmployeeId", "LeaveType", "LeaveStatus");
+                    b.HasIndex("EmployeeId", "LeaveType", "Status");
 
                     b.ToTable("LeaveApplications", "hrm");
                 });

@@ -35,7 +35,7 @@ namespace Erp.Modules.HRM.Data
         {
             builder.ToTable("LeaveApplications", "hrm");
             builder.Property(x => x.LeaveType).HasConversion<int>();
-            builder.Property(x=>x.LeaveStatus).HasConversion<int>();
+            builder.Property(x=>x.Status).HasConversion<int>();
             builder.Property(x => x.ManagerComment).HasMaxLength(1000);
             builder.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -43,7 +43,7 @@ namespace Erp.Modules.HRM.Data
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(x => x.Years).WithOne(x => x.Application).HasForeignKey(x => x.LeaveApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasIndex(x => new { x.EmployeeId, x.LeaveType, x.LeaveStatus });
+            builder.HasIndex(x => new { x.EmployeeId, x.LeaveType, x.Status });
         }
         public void Configure(EntityTypeBuilder<LeaveApplicationYear> builder)
         {
