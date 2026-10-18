@@ -7,6 +7,7 @@ using Erp.Infrastructure.Repositories.Generic;
 using Erp.Infrastructure.Repositories.HRM;
 using Erp.Modules.CRM.Repositories;
 using Erp.Modules.CRM.Services;
+using Erp.Modules.HRM.Data;
 using Erp.Modules.HRM.Repositories;
 using Erp.Modules.HRM.Services;
 using Erp.Modules.TPM.Repositories;
@@ -42,6 +43,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromHours(8);
 });
+builder.Services.AddHrmModule(builder.Configuration);   // services, calculator, clock, yearly background job
 // ---- Generic repository ----
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

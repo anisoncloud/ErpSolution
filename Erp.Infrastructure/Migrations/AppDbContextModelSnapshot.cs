@@ -857,6 +857,9 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DecidedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DecidedById")
                         .HasColumnType("int");
 
@@ -911,10 +914,10 @@ namespace Erp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BridgePublicDays")
+                    b.Property<int>("BridgedPublicDays")
                         .HasColumnType("int");
 
-                    b.Property<int>("BridgeWeeklyDays")
+                    b.Property<int>("BridgedWeeklyDays")
                         .HasColumnType("int");
 
                     b.Property<int>("CarryForwardDays")

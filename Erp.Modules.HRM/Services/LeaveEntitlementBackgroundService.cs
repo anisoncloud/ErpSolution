@@ -29,12 +29,38 @@ namespace Erp.Modules.HRM.Services
                 try
                 {
                     using var scope = _scops.CreateScope();
-                    //var policies = scope.ServiceProvider.GetRequiredService<ILeavePolicySer>
-                }
-                catch (Exception)
-                {
+                    var policies = scope.ServiceProvider.GetRequiredService<ILeavePolicyService>();
+                    var leave = scope.ServiceProvider.GetRequiredService<ILeaveService>();
 
-                    throw;
+                    var seeded = await policies.EnsureDefaultsAsync();
+                    if (seeded>0)
+                    {
+                        _log.LogInformation("Seeded {Count} default leave policies.", seeded);
+                    }
+                    var year = _clock.Today.Year;
+                    var added = await leave.EnsureEntitlementsForYearAsync(year);
+                    if (added>0)
+                    {
+                        _log.LogInformation("Created {Count} leave entytelment rows for {Year}.", added, year);
+                    }
+                    var now = _clock.Now;
+                    delay = now.Date.AddDays(1).AddMinutes(1) - now;
+                    if (delay > TimeSpan.FromHours(6))
+                    {
+                        delay = TimeSpan.FromHours(6);
+                    }
+                }
+                catch (Exception ex) when(ex is not OperationCanceledException)
+                {
+                    _log.LogError(ex, "Leave entitlement reset failed; will retry.");
+                }
+                try
+                {
+                    await Task.Delay(delay, stoppingToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
                 }
             }
         }

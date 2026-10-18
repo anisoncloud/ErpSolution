@@ -66,5 +66,41 @@ namespace Erp.Infrastructure.Repositories.HRM
         {
             throw new NotImplementedException();
         }*/
+
+
+        // Leave Management
+        public async Task<EmployeeRef?> GetRefByUserIdAsync(Guid userId)
+        {
+            var e = await _dbSet.Where(x => x.UserId == userId && !x.IsDeleted)
+                .Select(x => new { x.Id, x.FullName, x.EmpManagerId, x.Gender }).FirstOrDefaultAsync();
+            return e is null ? null : new EmployeeRef(e.Id, e.FullName, e.EmpManagerId, e.Gender);
+        }
+
+        public async Task<EmployeeRef?> GetRefAsync(int employeeId)
+        {
+            var e = await _dbSet.Where(x => x.Id == employeeId && !x.IsDeleted)
+                .Select(x => new { x.Id, x.FullName, x.EmpManagerId, x.Gender }).FirstOrDefaultAsync();
+            return e is null ? null : new EmployeeRef(e.Id, e.FullName, e.EmpManagerId, e.Gender);
+        }
+
+        public Task<List<int>> GetActiveIdsAsync() =>
+            _dbSet.Where(e => e.IsActive && !e.IsDeleted).Select(e => e.Id).ToListAsync();
+
+        public async Task<List<EmployeeRef>> GetRefsAsync()
+        {
+            var rows = await _dbSet.Where(x => !x.IsDeleted).OrderBy(x => x.FullName)
+                .Select(x => new { x.Id, x.FullName, x.EmpManagerId, x.Gender }).ToListAsync();
+            return rows.Select(e => new EmployeeRef(e.Id, e.FullName, e.EmpManagerId, e.Gender)).ToList();
+        }
+
+        public async Task<List<EmployeeRef>> GetTeamRefsAsync(int managerEmployeeId)
+        {
+            var rows = await _dbSet.Where(x => !x.IsDeleted && x.IsActive && x.EmpManagerId == managerEmployeeId)
+                .OrderBy(x => x.FullName)
+                .Select(x => new { x.Id, x.FullName, x.EmpManagerId, x.Gender }).ToListAsync();
+            return rows.Select(e => new EmployeeRef(e.Id, e.FullName, e.EmpManagerId, e.Gender)).ToList();
+        }
+        // End Leave management
+
     }
 }

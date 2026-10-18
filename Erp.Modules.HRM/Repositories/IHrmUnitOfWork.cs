@@ -1,4 +1,5 @@
 ﻿using Erp.Core.Interfaces;
+using Erp.Modules.HRM.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +17,10 @@ namespace Erp.Modules.HRM.Repositories
         IDepartmentRepository Departments { get; }
         IDesignationRepository Designations { get; }
         ICompanyRepository Companies {  get; }
+        ILeavePolicyRepository LeavePolicies { get; }
+        ILeaveEntitlementRepository LeaveEntitlements { get; }
+        ILeaveApplicationRepository LeaveApplications { get; }
+        IHolidayRepository Holidays { get; }
+        IGenericRepository<CompensationGrant> CompensationGrants { get; } // no extra queries, so no dedicated class
     }
 }

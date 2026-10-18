@@ -12,8 +12,8 @@ namespace Erp.Modules.HRM.Entities
         public int Year {  get; set; }
         public int Days { get; set; }
         public int WorkingDays {  get; set; }
-        public int BridgeWeeklyDays {  get; set; }
-        public int BridgePublicDays { get; set; }
+        public int BridgedWeeklyDays {  get; set; }
+        public int BridgedPublicDays { get; set; }
         /// <summary>Of <see cref="Days"/>, how many were taken from the Earned CF balance (Earned leave only).</summary>
         public int CarryForwardDays {  get; set; }
     }

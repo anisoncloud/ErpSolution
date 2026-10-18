@@ -1,0 +1,71 @@
+﻿@model Erp.Web.Areas.HRM.Models.LeavePolicyViewModel
+@using Erp.Modules.HRM.Enums
+@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "Edit Leave Policy";
+}
+
+<div class="container mt-4" style="max-width: 640px;">
+    <h3>@Model.LeaveType.ToString() policy</h3>
+
+    <form asp-area="HRM" asp-controller="LeavePolicy" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="LeaveType" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="YearlyDays" class="form-label"></label>
+            <input asp-for="YearlyDays" class="form-control" />
+            <div class="form-text">Default days per calendar year. Leave 0 for job-life types and for Compensation (set by managers).</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LifetimeMaxTimes" class="form-label"></label>
+            <input asp-for="LifetimeMaxTimes" class="form-control" />
+            <div class="form-text">Pilgrimage 1, Maternity 2, Paternity 2. Needs Fixed days.</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="FixedDays" class="form-label"></label>
+            <input asp-for="FixedDays" class="form-control" />
+            <div class="form-text">When set, the employee only picks the From date; days and return date are automatic.</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="MinDays" class="form-label"></label>
+            <input asp-for="MinDays" class="form-control" />
+        </div>
+        <div class="form-check mb-2">
+            <input asp-for="CountAllCalendarDays" class="form-check-input" />
+            <label asp-for="CountAllCalendarDays" class="form-check-label"></label>
+        </div>
+        <div class="form-check mb-3">
+            <input asp-for="SplitByYear" class="form-check-input" />
+            <label asp-for="SplitByYear" class="form-check-label"></label>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RequiredGender" class="form-label"></label>
+            <select asp-for="RequiredGender" class="form-select" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option value="">Anyone</option>
+            </select>
+        </div>
+        @if (Model.LeaveType == LeaveType.Earned)
+        {
+            <div class="mb-3">
+                <label asp-for="CarryForwardCap" class="form-label"></label>
+                <input asp-for="CarryForwardCap" class="form-control" />
+                <div class="form-text">The most Earned CF an employee can hold. 0 turns carry forward off.</div>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="CarryForwardCap" value="0" />
+        }
+
+        <button class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

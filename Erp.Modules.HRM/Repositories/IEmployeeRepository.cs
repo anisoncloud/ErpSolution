@@ -15,5 +15,13 @@ namespace Erp.Modules.HRM.Repositories
         Task<IReadOnlyList<Employee>> GetByManagerIdAsync(int managerId); // future: team view
         Task<bool> EmployeeCodeExistsAsync(string code);
         //Task<Employee> AddAsync(Employee entity);
+
+
+        // Leave management
+        Task<EmployeeRef?> GetRefByUserIdAsync(Guid userId);
+        Task<EmployeeRef?> GetRefAsync(int employeeId);
+        Task<List<int>> GetActiveIdsAsync();
+        Task<List<EmployeeRef>> GetRefsAsync();
+        Task<List<EmployeeRef>> GetTeamRefsAsync(int managerEmployeeId);
     }
 }

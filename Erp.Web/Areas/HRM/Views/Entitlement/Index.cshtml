@@ -1,0 +1,29 @@
+﻿@model Erp.Web.Areas.HRM.Models.EntitlementIndexViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Leave Entitlements";
+}
+
+<div class="container mt-4" style="max-width: 760px;">
+    <h3>Leave Entitlements - @Model.Year</h3>
+
+    @if (TempData["Success"] is string ok) { <div class="alert alert-success">@ok</div> }
+
+    <form method="get" class="mb-3">
+        <input type="number" name="year" value="@Model.Year" class="form-control d-inline-block" style="width:120px" />
+        <button class="btn btn-outline-secondary">Show</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead><tr><th>Employee</th><th style="width:100px"></th></tr></thead>
+        <tbody>
+        @foreach (var e in Model.Employees)
+        {
+            <tr>
+                <td>@e.FullName</td>
+                <td><a asp-action="Edit" asp-route-employeeId="@e.Id" asp-route-year="@Model.Year" class="btn btn-sm btn-outline-primary">Edit</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,8 +1,10 @@
 ﻿using Erp.Core.Interfaces;
 using Erp.Infrastructure.Repositories.CRM;
+using Erp.Infrastructure.Repositories.Generic;
 using Erp.Infrastructure.Repositories.HRM;
 using Erp.Infrastructure.Repositories.TPM;
 using Erp.Modules.CRM.Repositories;
+using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Repositories;
 using Erp.Modules.TPM.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,12 @@ namespace Erp.Infrastructure.Data
         public ICrmCompanyRepository CrmCompanies { get; }
         public ICrmContactRepository CrmContacts { get; }
         public IDomainRepository Domains {  get; }
+
+        private ILeavePolicyRepository? _leavePolicies;
+        private ILeaveEntitlementRepository? _leaveEntitlements;
+        private ILeaveApplicationRepository? _leaveApplications;
+        private IHolidayRepository? _holidays;
+        private IGenericRepository<CompensationGrant>? _compensationGrants;
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -43,7 +51,11 @@ namespace Erp.Infrastructure.Data
             CrmContacts = new CrmContactRepository(context);
             Domains = new DomainRepository(context);
         }
-
+        public ILeavePolicyRepository LeavePolicies => _leavePolicies ??= new LeavePolicyRepository(_context);
+        public ILeaveEntitlementRepository LeaveEntitlements => _leaveEntitlements ??= new LeaveEntitlementRepository(_context);
+        public ILeaveApplicationRepository LeaveApplications => _leaveApplications ??= new LeaveApplicationRepository(_context);
+        public IHolidayRepository Holidays => _holidays ??= new HolidayRepository(_context);
+        public IGenericRepository<CompensationGrant> CompensationGrants => _compensationGrants ??= new GenericRepository<CompensationGrant>(_context);
         public Task<int> SaveChangesAsync()
         {
             return _context.SaveChangesAsync();

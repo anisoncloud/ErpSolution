@@ -13,7 +13,7 @@ namespace Erp.Modules.HRM.Settings
         public DayOfWeek[] WeeklyHolidays { get; set;  } = {DayOfWeek.Friday, DayOfWeek.Saturday};
 
         /// <summary>An application must be submitted within this many days of its date.</summary>
-        public int ApplicaWindowsDays { get; set; } = 15;
+        public int ApplicationWindowDays { get; set; } = 15;
 
         /// <summary>Time zone used for "today" (IANA or Windows id).</summary>
         /// 

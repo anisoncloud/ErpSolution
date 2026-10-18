@@ -1,0 +1,40 @@
+﻿@model IReadOnlyList<Erp.Modules.HRM.Services.LeavePolicyDto>
+@using Erp.Modules.HRM.Entities
+@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "Leave Policies";
+}
+
+<div class="container mt-4">
+    <h3>Leave Policies</h3>
+    <p class="text-muted">Rules for each leave type. Changes apply to new applications and new years. Existing yearly balances are edited per employee under Entitlements.</p>
+
+    @if (TempData["Success"] is string ok) { <div class="alert alert-success">@ok</div> }
+
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Type</th><th>Yearly days</th><th>Job-life limit</th><th>Fixed days</th>
+                <th>Min days</th><th>Counting</th><th>Available to</th><th>Earned CF limit</th><th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.LeaveType.ToString()</td>
+                <td>@p.YearlyDays</td>
+                <td>@(p.LifetimeMaxTimes > 0 ? $"{p.LifetimeMaxTimes} time(s)" : "-")</td>
+                <td>@(p.FixedDays > 0 ? p.FixedDays.ToString() : "-")</td>
+                <td>@(p.MinDays > 0 ? p.MinDays.ToString() : "-")</td>
+                <td>@(p.CountAllCalendarDays ? "Every calendar day" : "Bridge holidays")@(p.SplitByYear ? ", split per year" : ", no split")</td>
+                <td>@(p.RequiredGender?.ToString() ?? "Anyone")</td>
+                <td>@(p.CarryForwardCap > 0 ? p.CarryForwardCap.ToString() : "-")</td>
+                <td><a asp-action="Edit" asp-route-id="@((int)p.LeaveType)" class="btn btn-sm btn-outline-primary">Edit</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

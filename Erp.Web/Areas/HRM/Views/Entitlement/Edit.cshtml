@@ -1,0 +1,39 @@
+﻿@model Erp.Web.Areas.HRM.Models.EntitlementEditViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit Entitlements";
+}
+
+<div class="container mt-4" style="max-width: 520px;">
+    <h3>@Model.EmployeeName - @Model.Year</h3>
+    <p class="text-muted">Pilgrimage, Maternity and Paternity are job-life leaves set in Leave Policies, so they are not listed here.</p>
+
+    <form asp-area="HRM" asp-controller="Entitlement" asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="EmployeeId" />
+        <input type="hidden" asp-for="EmployeeName" />
+        <input type="hidden" asp-for="Year" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3"><label asp-for="Casual" class="form-label"></label><input asp-for="Casual" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="Sick" class="form-label"></label><input asp-for="Sick" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="Earned" class="form-label"></label><input asp-for="Earned" class="form-control" /></div>
+        <div class="mb-3">
+            <label asp-for="EarnedCarryForward" class="form-label"></label>
+            <input asp-for="EarnedCarryForward" class="form-control" />
+            <div class="form-text">Carried forward automatically each 1 January. Edit here for an opening balance or a correction; it cannot exceed the Earned CF limit.</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Compensation" class="form-label"></label>
+            <input asp-for="Compensation" class="form-control" />
+            <div class="form-text">Normally set by the employee's manager.</div>
+        </div>
+
+        <button class="btn btn-primary">Save</button>
+        <a asp-action="Index" asp-route-year="@Model.Year" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

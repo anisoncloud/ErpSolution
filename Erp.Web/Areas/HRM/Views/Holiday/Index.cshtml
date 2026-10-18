@@ -1,0 +1,62 @@
+﻿@model Erp.Web.Areas.HRM.Models.HolidayIndexViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Public Holidays";
+}
+
+<div class="container mt-4" style="max-width: 760px;">
+    <h3>Public Holidays - @Model.Year</h3>
+
+    @if (TempData["Success"] is string ok)
+    {
+        <div class="alert alert-success">@ok</div>
+    }
+    @if (TempData["Error"] is string err)
+    {
+        <div class="alert alert-danger">@err</div>
+    }
+
+    <form method="get" class="mb-3">
+        <input type="number" name="year" value="@Model.Year" class="form-control d-inline-block" style="width:120px" />
+        <button class="btn btn-outline-secondary">Show</button>
+    </form>
+
+    <form asp-area="HRM" asp-controller="Holiday" asp-action="Create" method="post" class="row g-2 mb-4">
+        @Html.AntiForgeryToken()
+        <div class="col-auto">
+            <input name="NewHoliday.Date" type="date" class="form-control" required />
+        </div>
+        <div class="col">
+            <input name="NewHoliday.Name" class="form-control" placeholder="Holiday name" maxlength="150" required />
+        </div>
+        <div class="col-auto"><button class="btn btn-primary">Add</button></div>
+    </form>
+
+    <table class="table table-striped">
+        <thead><tr><th>Date</th><th>Day</th><th>Name</th><th style="width:160px"></th></tr></thead>
+        <tbody>
+            @if (!Model.Holidays.Any())
+            {
+                <tr><td colspan="4" class="text-muted">No holidays defined for @Model.Year.</td></tr>
+            }
+            @foreach (var h in Model.Holidays)
+            {
+                <tr>
+                    <td>@h.Date.ToString("dd MMM yyyy")</td>
+                    <td>@h.Date.DayOfWeek</td>
+                    <td>@h.Name</td>
+                    <td class="d-flex gap-1">
+                        <a asp-action="Edit" asp-route-id="@h.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form asp-action="Delete" method="post" onsubmit="return confirm('Delete this holiday?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@h.Id" />
+                            <input type="hidden" name="year" value="@Model.Year" />
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
