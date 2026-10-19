@@ -32,5 +32,6 @@ namespace Erp.Modules.HRM.DTOs
         public Guid UserId { get; set; }   // set after Identity user is created
         public bool IsActive {  get; set; }
         public DateTime CreatedAt {  get; set; }
+        public int ManagerId { get; set; }
     }
 }

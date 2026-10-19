@@ -1,0 +1,109 @@
+﻿@model Erp.Web.Areas.HRM.Models.LeaveConfirmViewModel
+@using Erp.Modules.HRM.Entities
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Confirm Leave Application";
+    var r = Model.Preview.Result!;
+    var multiYear = r.ByYear.Count > 1;
+    var usesCf = Model.Preview.Balances.Any(b => b.FromCarryForward > 0);
+}
+
+<div class="container mt-4" style="max-width: 760px;">
+    <h3>Confirm Leave Application</h3>
+
+    <table class="table table-bordered">
+        <tr><th style="width:30%">Leave type</th><td>@r.Type.ToString()</td></tr>
+        <tr><th>From</th><td>@r.From.ToString("ddd, dd MMM yyyy")</td></tr>
+        <tr><th>Return (back at work)</th><td>@Model.Preview.ReturnDate!.Value.ToString("ddd, dd MMM yyyy")</td></tr>
+        <tr>
+            <th>Days count</th>
+            <td>
+                @* Calculated by the server; shown read-only and never read back from the form. *@
+                <input type="text" class="form-control-plaintext fw-bold" readonly tabindex="-1" value="@r.TotalDays" />
+            </td>
+        </tr>
+    </table>
+
+    <h5>Day breakdown</h5>
+    <table class="table table-sm table-bordered">
+        <thead class="table-light">
+            <tr>
+                @if (multiYear)
+                {
+                    <th>Year</th>
+                }
+                <th>Working days</th>
+                <th>Bridged weekly holidays</th>
+                <th>Public holidays included</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var y in r.ByYear)
+            {
+                <tr>
+                    @if (multiYear)
+                    {
+                        <td>@y.Year</td>
+                    }
+                    <td>@y.Working</td>
+                    <td>@y.BridgedWeekly</td>
+                    <td>@y.BridgedPublic</td>
+                    <td>@y.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5>Balance</h5>
+    <table class="table table-sm table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Scope</th>
+                <th>Allocated</th>
+                <th>Enjoyed</th>
+                <th>Pending</th>
+                <th>Remaining before</th>
+                <th>Remaining after</th>
+                @if (usesCf)
+                {
+                    <th>Taken from Earned CF</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model.Preview.Balances)
+            {
+                <tr>
+                    <td>@b.Scope</td>
+                    <td>@b.Total</td>
+                    <td>@b.Used</td>
+                    <td>@b.Pending</td>
+                    <td>@b.RemainingBefore</td>
+                    <td>@b.RemainingAfter</td>
+                    @if (usesCf)
+                    {
+                        <td>@b.FromCarryForward</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex gap-2">
+        <form asp-area="HRM" asp-controller="Leave" asp-action="Confirm" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="LeaveType" value="@((int)Model.Input.LeaveType!.Value)" />
+            <input type="hidden" name="FromDate" value="@Model.Input.FromDate!.Value.ToString("yyyy-MM-dd")" />
+            <input type="hidden" name="ReturnDate" value="@Model.Preview.ReturnDate!.Value.ToString("yyyy-MM-dd")" />
+            <button type="submit" class="btn btn-success">Confirm / Apply</button>
+        </form>
+        <form asp-area="HRM" asp-controller="Leave" asp-action="Back" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="LeaveType" value="@((int)Model.Input.LeaveType!.Value)" />
+            <input type="hidden" name="FromDate" value="@Model.Input.FromDate!.Value.ToString("yyyy-MM-dd")" />
+            <input type="hidden" name="ReturnDate" value="@Model.Preview.ReturnDate!.Value.ToString("yyyy-MM-dd")" />
+            <button type="submit" class="btn btn-outline-secondary">Back</button>
+        </form>
+    </div>
+</div>

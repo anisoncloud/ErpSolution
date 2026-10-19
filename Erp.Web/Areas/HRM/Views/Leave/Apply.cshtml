@@ -1,0 +1,95 @@
+﻿@model Erp.Web.Areas.HRM.Models.LeaveApplyViewModel
+@using Erp.Modules.HRM.Enums
+@using Erp.Modules.HRM.Services
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Apply for Leave";
+    var types = (IReadOnlyList<LeavePolicyDto>)ViewBag.Types;
+}
+
+<div class="container mt-4" style="max-width: 640px;">
+    <h3>Apply for Leave</h3>
+
+    <form asp-area="HRM" asp-controller="Leave" asp-action="Apply" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="LeaveType" class="form-label"></label>
+            <select id="LeaveType" name="LeaveType" class="form-select">
+                <option value="">-- Select --</option>
+                @foreach (var t in types)
+                {
+                    <option value="@((int)t.LeaveType)" data-fixed="@t.FixedDays" data-min="@t.MinDays"
+                            selected="@(Model.LeaveType == t.LeaveType)">
+                        @t.LeaveType.ToString()@(t.FixedDays > 0 ? $" ({t.FixedDays} days)" : "")
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="LeaveType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FromDate" class="form-label"></label>
+            <input asp-for="FromDate" id="FromDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+            <span asp-validation-for="FromDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ReturnDate" class="form-label"></label>
+            <input asp-for="ReturnDate" id="ReturnDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+            <div class="form-text" id="ReturnHint"></div>
+            <span asp-validation-for="ReturnDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="DaysCount" class="form-label">Days count</label>
+            <input id="DaysCount" type="text" class="form-control" readonly tabindex="-1" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Review</button>
+        <a asp-action="Report" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const sel = document.getElementById('LeaveType');
+            const from = document.getElementById('FromDate');
+            const ret = document.getElementById('ReturnDate');
+            const days = document.getElementById('DaysCount');
+            const hint = document.getElementById('ReturnHint');
+
+            function addDays(iso, n) {
+                const d = new Date(iso + 'T00:00:00Z');
+                d.setUTCDate(d.getUTCDate() + n);
+                return d.toISOString().slice(0, 10);
+            }
+
+            function refresh() {
+                const opt = sel.options[sel.selectedIndex];
+                const fixedDays = opt && opt.dataset.fixed ? parseInt(opt.dataset.fixed, 10) : 0;
+                const min = opt && opt.dataset.min ? parseInt(opt.dataset.min, 10) : 0;
+
+                if (fixedDays > 0) {
+                    ret.readOnly = true;
+                    ret.value = from.value ? addDays(from.value, fixedDays) : '';
+                    days.value = fixedDays + ' days (fixed)';
+                    hint.textContent = 'Set automatically: ' + fixedDays + ' days from the From date. This is the day you are back at work.';
+                } else {
+                    if (ret.readOnly) ret.value = '';
+                    ret.readOnly = false;
+                    days.value = 'Calculated on the next step';
+                    hint.textContent = (min > 0 ? 'Minimum ' + min + ' days. ' : '') +
+                        'The first day you are back at work. Your last leave day is the day before.';
+                }
+            }
+
+            sel.addEventListener('change', refresh);
+            from.addEventListener('change', refresh);
+            refresh();
+        })();
+    </script>
+}

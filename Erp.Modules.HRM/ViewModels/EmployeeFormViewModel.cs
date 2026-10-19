@@ -40,5 +40,7 @@ namespace Erp.Modules.HRM.ViewModels
 
         // Holds the list of roles to populate the HTML dropdown
         public List<SelectListItem>? RolesList { get; set; }
+        public int? ManagerId { get; set; }          // match the type of Employee.Id (int / Guid)
+        public string? ManagerEmail { get; set; }    // display only, not saved
     }
 }

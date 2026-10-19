@@ -216,5 +216,17 @@ namespace Erp.Web.Areas.HRM.Controllers
         {
             return User.IsInRole("Admin") || User.IsInRole("HR");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeesByDepartment(int departmentId)
+        {
+            var employees = await _db.Employees
+                .Where(e => e.DepartmentId == departmentId && e.IsActive)
+                .OrderBy(e => e.FullName)
+                .Select(e => new { id = e.Id, name = e.FullName, email = e.Email })
+                .ToListAsync();
+
+            return Json(employees);
+        }
     }
 }

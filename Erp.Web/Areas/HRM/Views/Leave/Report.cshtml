@@ -1,0 +1,106 @@
+﻿@model Erp.Modules.HRM.Services.LeaveReport
+@using Erp.Modules.HRM.Enums
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "My Leave";
+    var thisYear = DateTime.UtcNow.Year;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>My Leave - @Model.Year</h3>
+        <a asp-action="Apply" class="btn btn-primary">Apply for Leave</a>
+    </div>
+
+    @if (TempData["Success"] is string ok)
+    {
+        <div class="alert alert-success">@ok</div>
+    }
+    @if (TempData["Error"] is string err)
+    {
+        <div class="alert alert-danger">@err</div>
+    }
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-auto">
+            <select name="year" class="form-select" onchange="this.form.submit()">
+                @for (var y = thisYear + 1; y >= thisYear - 5; y--)
+                {
+                    <option value="@y" selected="@(y == Model.Year)">@y</option>
+                }
+            </select>
+        </div>
+    </form>
+
+    <table class="table table-bordered align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Leave type</th>
+                <th class="text-end">Allocated</th>
+                <th class="text-end">Enjoyed</th>
+                <th class="text-end">Pending</th>
+                <th class="text-end">Remaining</th>
+                <th class="text-end">Earned CF</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Model.Balances)
+            {
+                <tr>
+                    <td>
+                        @b.Type.ToString();
+                        <div class="small text-muted">@b.Scope</div>
+                    </td>
+                    <td class="text-end">@b.Allocated</td>
+                    <td class="text-end">@b.Used</td>
+                    <td class="text-end">@b.Pending</td>
+                    <td class="text-end"><strong>@b.Remaining</strong></td>
+                    <td class="text-end">
+                        @if (b.CarryForward is { } cf)
+                        {
+                            <strong>@cf.Remaining</strong>
+                            <div class="small text-muted">allocated @cf.Allocated, enjoyed @cf.Used@(cf.Pending > 0 ? $", pending {cf.Pending}" : "")</div>
+                        }
+                        else
+                        {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="small text-muted">Earned CF is shown separately and is not included in the Earned figures. Earned leave uses the year's own Earned days first, then Earned CF.</p>
+
+    <h5 class="mt-4">Applications</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Type</th><th>From</th><th>Return</th><th>Days</th><th>Status</th><th>Manager</th><th>Comment</th></tr>
+        </thead>
+        <tbody>
+            @if (!Model.Applications.Any())
+            {
+                <tr><td colspan="7" class="text-muted">No applications for @Model.Year.</td></tr>
+            }
+            @foreach (var a in Model.Applications)
+            {
+                var badge = a.Status switch { LeaveStatus.Approved => "success", LeaveStatus.Declined => "danger", _ => "warning text-dark" };
+                <tr>
+                    <td>@a.Type.ToString()</td>
+                    <td>@a.From.ToString("dd MMM yyyy")</td>
+                    <td>@a.Return.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @a.DaysInYear
+                        @if (a.DaysInYear != a.TotalDays)
+                        {
+                            <span class="text-muted">(of @a.TotalDays)</span>
+                        }
+                    </td>
+                    <td><span class="badge bg-@badge">@a.Status</span></td>
+                    <td>@a.DecidedByName</td>
+                    <td>@a.ManagerComment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -48,7 +48,8 @@ namespace Erp.Modules.HRM.Services
                 Level = dto.Level,
                 JoiningDate = dto.JoiningDate,
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                EmpManagerId = dto.ManagerId
             };
             // Single-repo write — plain SaveChangesAsync is enough here.
             // (Multi-repo/cross-module orchestration happens one level up, in the controller —

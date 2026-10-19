@@ -6,64 +6,147 @@
 <h2>Create Employee</h2>
 
 <form asp-action="Create" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label>Company</label>
-        <select asp-for="CompanyId" class="form-control"
-                asp-items="@(new SelectList(ViewBag.Companies, "Id", "Name"))">
-            <option value="">-- Select Company --</option>
-        </select>
+    <div class="row">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="col">
+            <div class="mb-3">
+                <label>Company</label>
+                <select asp-for="CompanyId" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.Companies, "Id", "Name"))">
+                    <option value="">-- Select Company --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Department</label>
+                <select asp-for="DepartmentId" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))">
+                    <option value="">-- Select Department --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Designation</label>
+                <select asp-for="DesignationId" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.Designations, "Id", "Title"))">
+                    <option value="">-- Select Designation --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Employee Code</label>
+                <input asp-for="EmployeeCode" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>Full Name</label>
+                <input asp-for="FullName" class="form-control" />
+            </div>
+            
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>Phone</label>
+                <input asp-for="Phone" class="form-control" />
+            </div>   
+            <div class="mb-3">
+                <label asp-for="SelectedRole" class="control-label"></label>
+                <select asp-for="SelectedRole" asp-items="Model.RolesList" class="form-select">
+                    <option value="">-- Select User Role --</option>
+                </select>
+                <span asp-validation-for="SelectedRole" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EmployeeType" class="control-label"></label>
+                <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
+                    <option value="">-- Select Type --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ManagerId" class="control-label">Line Manager</label>
+                <select asp-for="ManagerId" class="form-control">
+                    <option value="">-- Select Manager --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ManagerEmail" class="control-label">Line Manager Email</label>
+                <input asp-for="ManagerEmail" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col">
+            
+            <div class="mb-3">
+                <label asp-for="DutyType" class="control-label"></label>
+                <select asp-for="DutyType" asp-items="Html.GetEnumSelectList<DutyType>()" class="form-control">
+                    <option value="">-- Select Duty Type --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Level (drives access role)</label>
+                <select asp-for="Level" class="form-control"
+                        asp-items="Html.GetEnumSelectList<Erp.Modules.HRM.Enums.EmployeeLevel>()"></select>
+            </div>
+            <div class="mb-3">
+                <label>Joining Date</label>
+                <input asp-for="JoiningDate" class="form-control" type="date" />
+            </div>
+            <div class="mb-3">
+                <label>Salary</label><input asp-for="Salary" class="form-control" />
+                </div>
+            <div class="mb-3">
+                <label>Temporary Password</label>
+                <input asp-for="TemporaryPassword" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create Employee</button>
+        </div>
+        
     </div>
-    <div class="mb-3">
-        <label>Department</label>
-        <select asp-for="DepartmentId" class="form-control"
-                asp-items="@(new SelectList(ViewBag.Departments, "Id", "Name"))">
-            <option value="">-- Select Department --</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Designation</label>
-        <select asp-for="DesignationId" class="form-control"
-                asp-items="@(new SelectList(ViewBag.Designations, "Id", "Title"))">
-            <option value="">-- Select Designation --</option>
-        </select>
-    </div>
-    <div class="mb-3"><label>Employee Code</label><input asp-for="EmployeeCode" class="form-control" /></div>
-    <div class="mb-3"><label>Full Name</label><input asp-for="FullName" class="form-control" /></div>
-    <!-- The Role Dropdown Selection -->
-    <div class="form-group mb-3">
-        <label asp-for="SelectedRole" class="control-label"></label>
-        <select asp-for="SelectedRole" asp-items="Model.RolesList" class="form-select">
-            <option value="">-- Select User Role --</option>
-        </select>
-        <span asp-validation-for="SelectedRole" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmployeeType" class="control-label"></label>
-        <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
-            <option value="">-- Select Type --</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="DutyType" class="control-label"></label>
-        <select asp-for="DutyType" asp-items="Html.GetEnumSelectList<DutyType>()" class="form-control">
-            <option value="">-- Select Duty Type --</option>
-        </select>
-    </div>
-    <div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control" /></div>
-    <div class="mb-3"><label>Phone</label><input asp-for="Phone" class="form-control" /></div>
     
-
-    <div class="mb-3">
-        <label>Level (drives access role)</label>
-        <select asp-for="Level" class="form-control"
-                asp-items="Html.GetEnumSelectList<Erp.Modules.HRM.Enums.EmployeeLevel>()"></select>
-    </div>
-
-    <div class="mb-3"><label>Joining Date</label><input asp-for="JoiningDate" class="form-control" type="date" /></div>
-    <div class="mb-3"><label>Salary</label><input asp-for="Salary" class="form-control" /></div>
-    <div class="mb-3"><label>Temporary Password</label><input asp-for="TemporaryPassword" class="form-control" /></div>
-
-    <button type="submit" class="btn btn-primary">Create Employee</button>
 </form>
+@section Scripts {
+    <script>
+        (function() {
+            const deptSelect = document.getElementById('DepartmentId');
+            const managerSelect = document.getElementById('ManagerId');
+            const managerEmail = document.getElementById('ManagerEmail');
+            const url = '@Url.Action("GetEmployeesByDepartment", "Employee")';
+            const selectedManager = '@Model.ManagerId';   // keeps selection after a validation failure
+
+            function resetManagers() {
+                managerSelect.innerHTML = '<option value="">-- Select Manager --</option>';
+                managerEmail.value = '';
+            }
+
+            async function loadManagers(departmentId, preselect) {
+                resetManagers();
+                if (!departmentId) return;
+
+                const res = await fetch(`${url}?departmentId=${encodeURIComponent(departmentId)}`);
+                if (!res.ok) return;
+                const employees = await res.json();
+
+                employees.forEach(e => {
+                    const opt = document.createElement('option');
+                    opt.value = e.id;
+                    opt.textContent = e.name;
+                    opt.dataset.email = e.email ?? '';
+                    if (preselect && String(e.id) === String(preselect)) {
+                        opt.selected = true;
+                        managerEmail.value = opt.dataset.email;
+                    }
+                    managerSelect.appendChild(opt);
+                });
+            }
+
+            deptSelect.addEventListener('change', () => loadManagers(deptSelect.value));
+
+            managerSelect.addEventListener('change', () => {
+                const opt = managerSelect.options[managerSelect.selectedIndex];
+                managerEmail.value = opt?.dataset.email ?? '';
+            });
+
+            // Page reload after failed validation
+            if (deptSelect.value) loadManagers(deptSelect.value, selectedManager);
+        })();
+    </script>
+}
