@@ -54,7 +54,8 @@ namespace Erp.Modules.HRM.MappingDto
                 JoiningDate = empvm.JoiningDate,
                 Salary = empvm.Salary,
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                EmpManagerId = empvm.EmpManagerId
             };
         }
     }

@@ -12,5 +12,6 @@ namespace Erp.Modules.HRM.Repositories
         Task<Department?> GetDepartmentByIdAsync(int id);
         Task<Department?> GetByNameAsync(string name);
         Task<Department?> GetByCodeAsync(string code);
+        Task<Department?> GetByIdTrackedAsync(int id);
     }
 }

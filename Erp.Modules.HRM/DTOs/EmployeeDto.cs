@@ -21,5 +21,6 @@ namespace Erp.Modules.HRM.DTOs
         public DateTime JoiningDate { get; set; }
         public decimal? Salary { get; set; }
         public bool IsActive { get; set; }
+        public int? EmpManagerId { get; set; }
     }
 }

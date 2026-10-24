@@ -16,7 +16,8 @@ namespace Erp.Modules.HRM.MappingDto
                 Name = model.Name,
                 DepartmentCode = model.DepartmentCode,
                 Description = model.Description,
-                IsActive = model.IsActive
+                IsActive = model.IsActive,
+                HeadEmployeeId = model.HeadEmployeeId
             };
         }
 
@@ -34,8 +35,8 @@ namespace Erp.Modules.HRM.MappingDto
                 Name = model.Name,
                 DepartmentCode = model.DepartmentCode,
                 Description = model.Description,
-                IsActive = model.IsActive
-
+                IsActive = model.IsActive,
+                HeadEmployeeId = model.HeadEmployeeId
             };
         }
     }

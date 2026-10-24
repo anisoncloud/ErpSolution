@@ -63,10 +63,16 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label asp-for="ManagerId" class="control-label">Line Manager</label>
-                <select asp-for="ManagerId" class="form-control">
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input" id="showAllDepts" />
+                    <label class="form-check-label" for="showAllDepts">Show managers from all departments</label>
+                </div>
+                <label asp-for="EmpManagerId" class="control-label">Line Manager</label>
+                <select asp-for="EmpManagerId" class="form-control">
                     <option value="">-- Select Manager --</option>
                 </select>
+                <small id="managerNote" class="text-muted"></small>
+                <span asp-validation-for="EmpManagerId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="ManagerEmail" class="control-label">Line Manager Email</label>
@@ -104,49 +110,72 @@
     
 </form>
 @section Scripts {
-    <script>
-        (function() {
-            const deptSelect = document.getElementById('DepartmentId');
-            const managerSelect = document.getElementById('ManagerId');
-            const managerEmail = document.getElementById('ManagerEmail');
-            const url = '@Url.Action("GetEmployeesByDepartment", "Employee")';
-            const selectedManager = '@Model.ManagerId';   // keeps selection after a validation failure
+<script>
+(function () {
+    const deptSelect    = document.getElementById('DepartmentId');
+    const managerSelect = document.getElementById('EmpManagerId');
+    const managerEmail  = document.getElementById('ManagerEmail');
+    const showAll       = document.getElementById('showAllDepts');
+    const note          = document.getElementById('managerNote');
+    const url           = '@Url.Action("GetManagerCandidates", "Employee")';
+    const postedManager = '@Model.EmpManagerId';   // restores selection after a failed POST
 
-            function resetManagers() {
-                managerSelect.innerHTML = '<option value="">-- Select Manager --</option>';
-                managerEmail.value = '';
-            }
+    let headId = null;
 
-            async function loadManagers(departmentId, preselect) {
-                resetManagers();
-                if (!departmentId) return;
+    function reset() {
+        managerSelect.innerHTML = '<option value="">-- Select Manager --</option>';
+        managerEmail.value = '';
+        note.textContent = '';
+    }
 
-                const res = await fetch(`${url}?departmentId=${encodeURIComponent(departmentId)}`);
-                if (!res.ok) return;
-                const employees = await res.json();
+    function updateInfo() {
+        const opt = managerSelect.options[managerSelect.selectedIndex];
+        managerEmail.value = opt?.dataset.email ?? '';
 
-                employees.forEach(e => {
-                    const opt = document.createElement('option');
-                    opt.value = e.id;
-                    opt.textContent = e.name;
-                    opt.dataset.email = e.email ?? '';
-                    if (preselect && String(e.id) === String(preselect)) {
-                        opt.selected = true;
-                        managerEmail.value = opt.dataset.email;
-                    }
-                    managerSelect.appendChild(opt);
-                });
-            }
+        if (!opt || !opt.value) { note.textContent = ''; return; }
 
-            deptSelect.addEventListener('change', () => loadManagers(deptSelect.value));
+        const isCross = deptSelect.value && opt.dataset.deptId !== deptSelect.value;
+        note.textContent = isCross
+            ? `Cross-department manager (${opt.dataset.dept}).`
+            : (opt.value === String(headId) ? 'Department head selected by default.' : '');
+    }
 
-            managerSelect.addEventListener('change', () => {
-                const opt = managerSelect.options[managerSelect.selectedIndex];
-                managerEmail.value = opt?.dataset.email ?? '';
-            });
+    async function loadManagers(preselect) {
+        reset();
+        if (!deptSelect.value && !showAll.checked) return;
 
-            // Page reload after failed validation
-            if (deptSelect.value) loadManagers(deptSelect.value, selectedManager);
-        })();
-    </script>
+        const qs = new URLSearchParams({ all: showAll.checked });
+        if (deptSelect.value) qs.set('departmentId', deptSelect.value);
+
+        const res = await fetch(`${url}?${qs}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        headId = data.headId;
+
+        data.items.forEach(e => {
+            const opt = document.createElement('option');
+            opt.value = e.id;
+            opt.textContent = showAll.checked ? `${e.name} (${e.department})` : e.name;
+            opt.dataset.email  = e.email ?? '';
+            opt.dataset.deptId = e.departmentId;
+            opt.dataset.dept   = e.department;
+            managerSelect.appendChild(opt);
+        });
+
+        // keep a posted value if still in the list, otherwise default to the head
+        const wanted = preselect || (headId ? String(headId) : '');
+        if (wanted && [...managerSelect.options].some(o => o.value === wanted))
+            managerSelect.value = wanted;
+
+        updateInfo();
+    }
+
+    deptSelect.addEventListener('change', () => loadManagers());
+    showAll.addEventListener('change', () => loadManagers(managerSelect.value));
+    managerSelect.addEventListener('change', updateInfo);
+
+    // initial load / reload after validation failure
+    if (deptSelect.value) loadManagers(postedManager);
+})();
+</script>
 }

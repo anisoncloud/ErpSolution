@@ -109,7 +109,7 @@ namespace Erp.Web.Areas.HRM.Controllers
 
         // ------------------------------------------------------- approvals
 
-        [HttpGet, Authorize(Roles = "Manager")]
+        //[HttpGet, Authorize(Roles = "Manager")]
         public async Task<IActionResult> Approvals()
         {
             var me = await CurrentEmployeeAsync();

@@ -35,6 +35,10 @@ namespace Erp.Modules.HRM.Services
             {
                 return (false, "Selected designation does not exist.", Guid.Empty);
             }
+            if (dto.EmpManagerId.HasValue && !await _uow.Employees.ExistsActiveAsync(dto.EmpManagerId.Value))
+            {
+                return (false, "Selected manager does not exist or is inactive.", Guid.Empty);
+            }
             var employee = new Employee
             {
                 UserId = dto.UserId,
@@ -49,7 +53,7 @@ namespace Erp.Modules.HRM.Services
                 JoiningDate = dto.JoiningDate,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow,
-                EmpManagerId = dto.ManagerId
+                EmpManagerId = dto.EmpManagerId
             };
             // Single-repo write — plain SaveChangesAsync is enough here.
             // (Multi-repo/cross-module orchestration happens one level up, in the controller —
@@ -60,7 +64,8 @@ namespace Erp.Modules.HRM.Services
             return (true, null, employee.PublicId);
         }
 
-        
+        public Task<List<Employee>> GetActiveByDepartmentAsync(int departmentId) =>
+    _uow.Employees.GetActiveByDepartmentAsync(departmentId);
 
         public Task<(bool Success, string? Error)> DeactivateAsync(Guid id)
         {
@@ -91,5 +96,6 @@ namespace Erp.Modules.HRM.Services
         {
             throw new NotImplementedException();
         }
+        
     }
 }

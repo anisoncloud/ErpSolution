@@ -10,6 +10,8 @@ namespace Erp.Modules.HRM.DTOs
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string? DepartmentCode { get; set; }
+        public int? HeadEmployeeId { get; set; }
+        public string? HeadName { get; set; }      // optional, to show the current head
         public bool IsActive { get; set; }
         }
 }

@@ -563,6 +563,9 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("HeadEmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -588,6 +591,10 @@ namespace Erp.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadEmployeeId")
+                        .IsUnique()
+                        .HasFilter("[HeadEmployeeId] IS NOT NULL");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -860,7 +867,7 @@ namespace Erp.Infrastructure.Migrations
                     b.Property<DateTime?>("DecidedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DecidedById")
+                    b.Property<int?>("DecidedById")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
@@ -1443,6 +1450,16 @@ namespace Erp.Infrastructure.Migrations
                     b.Navigation("GrantedBy");
                 });
 
+            modelBuilder.Entity("Erp.Modules.HRM.Entities.Department", b =>
+                {
+                    b.HasOne("Erp.Modules.HRM.Entities.Employee", "Head")
+                        .WithMany()
+                        .HasForeignKey("HeadEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Head");
+                });
+
             modelBuilder.Entity("Erp.Modules.HRM.Entities.Employee", b =>
                 {
                     b.HasOne("Erp.Modules.HRM.Entities.Company", "Company")
@@ -1499,8 +1516,7 @@ namespace Erp.Infrastructure.Migrations
                     b.HasOne("Erp.Modules.HRM.Entities.Employee", "DecidedBy")
                         .WithMany()
                         .HasForeignKey("DecidedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Erp.Modules.HRM.Entities.Employee", "Employee")
                         .WithMany()

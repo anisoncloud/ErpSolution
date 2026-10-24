@@ -17,6 +17,10 @@ namespace Erp.Infrastructure.Repositories.HRM
         {
             return await _dbSet.AnyAsync(x=>x.EmployeeCode == code);
         }
+        public Task<List<Employee>> GetActiveByDepartmentAsync(int departmentId) =>
+        _dbSet.AsNoTracking()
+        .Where(e => e.DepartmentId == departmentId && e.IsActive)
+        .ToListAsync();
 
         public async Task<IReadOnlyList<Employee>> GetAllWithDetailsAsync()
         {
@@ -26,7 +30,10 @@ namespace Erp.Infrastructure.Repositories.HRM
                 .OrderBy(x=>x.FullName)
                 .ToListAsync();
         }
-
+        public Task<Employee?> GetActiveByIdAsync(int id) =>
+        _dbSet.FirstOrDefaultAsync(e => e.Id == id && e.IsActive);
+        public Task<List<Employee>> GetDirectReportsAsync(int managerId) =>
+            _dbSet.Where(e => e.EmpManagerId == managerId).ToListAsync();
         public async Task<Employee?> GetByIdAsync(Guid id)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.UserId == id);
@@ -67,7 +74,8 @@ namespace Erp.Infrastructure.Repositories.HRM
             throw new NotImplementedException();
         }*/
 
-
+        public Task<bool> ExistsActiveAsync(int id) =>
+                _dbSet.AnyAsync(e => e.Id == id && e.IsActive);
         // Leave Management
         public async Task<EmployeeRef?> GetRefByUserIdAsync(Guid userId)
         {

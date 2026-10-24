@@ -18,7 +18,24 @@ namespace Erp.Modules.HRM.Data
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.ToTable("Departments", "hrm");            
+            builder.ToTable("Departments", "hrm");
+            // Existing relationship: Employee belongs to Department
+            builder.HasMany(d => d.Employees)
+               .WithOne(e => e.Department)
+               .HasForeignKey(e => e.DepartmentId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            // New relationship: Department has one head
+            builder.HasOne(d => d.Head)
+                   .WithMany()                          // no inverse navigation
+                   .HasForeignKey(d => d.HeadEmployeeId)
+                   .IsRequired(false)
+                   .OnDelete(DeleteBehavior.Restrict);  // required: SQL Server rejects multiple cascade paths
+
+            // Optional: one employee can head only one department
+            builder.HasIndex(d => d.HeadEmployeeId)
+                   .IsUnique()
+                   .HasFilter("[HeadEmployeeId] IS NOT NULL");
         }
         public void Configure(EntityTypeBuilder<Designation> builder)
         {

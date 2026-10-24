@@ -12,5 +12,7 @@ namespace Erp.Modules.HRM.Services
         Task<DepartmentDto?> GetDepartmentByIdAsync(int id);
         Task<DepartmentDto> UpdateDepartmentAsync(int id, DepartmentUpdateDto dto);
         Task<IEnumerable<DepartmentDto>> GetDepartmentAscSortNameAsync();
+        Task<(bool Success, string? Error, int Moved, int Kept)>ChangeDepartmentHeadAsync(int departmentId, int newHeadId);
+        Task<DepartmentDto?> GetDepartmentDtoByIdAsync(int id);
     }
 }

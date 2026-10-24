@@ -18,7 +18,7 @@ namespace Erp.Modules.HRM.Entities
         /// <summary>Total days counted for this application.</summary>
         public int TotalDays {  get; set; }
         public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
-        public int DecidedById { get; set;  }
+        public int? DecidedById { get; set;  }
         public Employee? DecidedBy {  get; set; }
         public DateTime? DecidedAt { get; set; }
         public string? ManagerComment { get; set; }

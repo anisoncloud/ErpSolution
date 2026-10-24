@@ -88,5 +88,66 @@ namespace Erp.Modules.HRM.Services
             await _uow.SaveChangesAsync();
             return department.ToDto();
         }
+
+        ////
+        ///
+        public async Task<(bool Success, string? Error, int Moved, int Kept)>ChangeDepartmentHeadAsync(int departmentId, int newHeadId)
+        {
+            var dept = await _uow.Departments.GetByIdTrackedAsync(departmentId);
+            if (dept == null)
+                return (false, "Department not found.", 0, 0);
+
+            var newHead = await _uow.Employees.GetActiveByIdAsync(newHeadId);
+            if (newHead == null)
+                return (false, "Selected employee does not exist or is inactive.", 0, 0);
+
+            if (newHead.DepartmentId != departmentId)
+                return (false, "The new head must belong to this department.", 0, 0);
+
+            var oldHeadId = dept.HeadEmployeeId;
+            if (oldHeadId == newHeadId)
+                return (false, "This employee is already the head.", 0, 0);
+
+            int moved = 0, kept = 0;
+
+            if (oldHeadId.HasValue)
+            {
+                var reports = await _uow.Employees.GetDirectReportsAsync(oldHeadId.Value);
+
+                foreach (var e in reports.Where(r => r.Id != newHeadId))
+                {
+                    if (e.DepartmentId == departmentId)
+                    {
+                        e.EmpManagerId = newHeadId;
+                        moved++;
+                    }
+                    else
+                    {
+                        kept++;
+                    }
+                }
+            }
+
+            newHead.EmpManagerId = null;
+            dept.HeadEmployeeId = newHeadId;
+
+            await _uow.SaveChangesAsync();   // one save = atomic
+            return (true, null, moved, kept);
+        }
+
+        // DepartmentService
+        public async Task<DepartmentDto?> GetDepartmentDtoByIdAsync(int id)
+        {
+            var d = await _uow.Departments.GetDepartmentByIdAsync(id);   // your existing method
+            if (d == null) return null;
+
+            return new DepartmentDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                HeadEmployeeId = d.HeadEmployeeId,
+                HeadName = d.Head?.FullName            // needs .Include(x => x.Head) in the repository
+            };
+        }
     }
 }

@@ -14,7 +14,8 @@ namespace Erp.Infrastructure.Repositories.HRM
         public DepartmentRepository(AppDbContext context) : base(context)
         {
         }
-
+        public Task<Department?> GetByIdTrackedAsync(int id) =>
+            _dbSet.FirstOrDefaultAsync(d => d.Id == id);
         public async Task<Department?> GetCompanyWithAllEmployee(int id)
         {
             return await _dbSet.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);

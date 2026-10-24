@@ -1,6 +1,7 @@
 ﻿using Erp.Core.Identity;
 using Erp.Core.Interfaces;
 using Erp.Infrastructure.Data;
+using Erp.Modules.HRM.DTOs;
 using Erp.Modules.HRM.Entities;
 using Erp.Modules.HRM.Enums;
 using Erp.Modules.HRM.MappingDto;
@@ -101,10 +102,7 @@ namespace Erp.Web.Areas.HRM.Controllers
         private async Task PopulateDropdows()
         {
             ViewBag.Companies = await _companyService.GetCompanyAscSortNameAsync();
-            //ViewBag.Companies = await _db.Companies.OrderBy(d=>d.Name).ToListAsync();
-            //ViewBag.Departments = await _db.Departments.OrderBy(d=>d.Name).ToListAsync();
             ViewBag.Departments = await _departmentSerive.GetDepartmentAscSortNameAsync();
-            //ViewBag.Designations = await _db.Designations.OrderBy(d=>d.Title).ToListAsync();
             ViewBag.Designations = await _designationService.GetDesignationAscSortNameAsync();
         }
 
@@ -114,12 +112,7 @@ namespace Erp.Web.Areas.HRM.Controllers
         {
             var model = new EmployeeFormViewModel
             {
-                RolesList = await _roleManager.Roles
-                .Select(r => new SelectListItem
-                {
-                    Text = r.Name,
-                    Value = r.Name
-                }).ToListAsync()
+                RolesList = await GetRolesAsync()
             };
             await PopulateDropdows();
             return View(model);
@@ -128,10 +121,17 @@ namespace Erp.Web.Areas.HRM.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmployeeFormViewModel model)
         {
+            // blank / placeholder manager => null (avoids FK failure on 0)
+            if (model.EmpManagerId is null or <= 0)
+            {
+                model.EmpManagerId = null;
+            }
+                
             if (!ModelState.IsValid)
             {
-                await PopulateDropdows();
-                return View(model);
+                return await ReturnCreateViewAsync(model);
+                //await PopulateDropdows();
+                //return View(model);
             }
             // Begin the transaction block
             using var transaction = await _db.Database.BeginTransactionAsync();
@@ -149,56 +149,46 @@ namespace Erp.Web.Areas.HRM.Controllers
             var createResult = await _userManager.CreateAsync(user, model.TemporaryPassword);
             if (!createResult.Succeeded)
             {
+                await transaction.RollbackAsync();
                 foreach (var err in createResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err.Description);
-                    await PopulateDropdows();
-                    return View(model);
+                    //await PopulateDropdows();
+                    //return View(model);
+                    return await ReturnCreateViewAsync(model);
                 }
             }
 
             // 2. Assign the Identity role based on selected level (drives section access)
             /*var rollName = model.Level == EmployeeLevel.Manager ? "Manager" : "Executive";
             await _userManager.AddToRoleAsync(user, rollName);*/
-            if (createResult.Succeeded)
+            if (!string.IsNullOrEmpty(model.SelectedRole))
             {
-                // 2. Assign the selected role using _userManager
-                if (!string.IsNullOrEmpty(model.SelectedRole))
-                {
-                    await _userManager.AddToRoleAsync(user, model.SelectedRole);
-                }
+                await _userManager.AddToRoleAsync(user, model.SelectedRole);
             }
             model.UserId = user.Id;
             var dto = model.ToCreateDto();
-            await _employeeService.CreateEmployeeAsync(dto);
+            var result = await _employeeService.CreateEmployeeAsync(dto);
 
-            // 3. Create the HRM employee record, linked via UserId
-
-            /*var employee = new Employee
+            /*if (!result.Succeeded)
             {
-                UserId = user.Id,
-                EmployeeCode = model.EmployeeCode,
-                FullName = model.FullName,
-                Email = model.Email,
-                Phone = model.Phone,
-                DepartmentId = model.DepartmentId,
-                DesignationId = model.DesignationId,
-                Level = model.Level,
-                JoiningDate = model.JoiningDate,
-                Salary = model.Salary,
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            };*/
-            //_db.Employees.Add(dto);
-            //await _db.SaveChangesAsync();
-
+                await transaction.RollbackAsync();
+                ModelState.AddModelError(string.Empty, result.Error ?? "Could not create employee.");
+                return await ReturnCreateViewAsync(model);
+            }*/
+            
             // 6. Commit transaction if both steps succeeded
             await transaction.CommitAsync();
 
             TempData["Success"] = "Employee created successfully.";
             return RedirectToAction(nameof(Index));
         }
-
+        private async Task<IActionResult> ReturnCreateViewAsync(EmployeeFormViewModel model)
+        {
+            model.RolesList = await GetRolesAsync();   // otherwise the role dropdown is empty
+            await PopulateDropdows();
+            return View(model);
+        }
         private async Task<Employee?> GetCurrentEmployeeAsync()
         {
             var userId = _userManager.GetUserId(User);
@@ -228,5 +218,92 @@ namespace Erp.Web.Areas.HRM.Controllers
 
             return Json(employees);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetManagerCandidates(int? departmentId, bool all = false)
+        {
+            int? headId = null;
+            if (departmentId.HasValue)
+            {
+                headId = await _db.Departments
+                    .Where(d => d.Id == departmentId.Value)
+                    .Select(d => d.HeadEmployeeId)
+                    .FirstOrDefaultAsync();
+            }
+
+            var query = _db.Employees.AsNoTracking().Where(e => e.IsActive);
+
+            if (!all && departmentId.HasValue)
+                query = query.Where(e => e.DepartmentId == departmentId.Value);
+
+            var items = await query
+                .OrderBy(e => e.Id == headId ? 0 : 1)      // head first
+                .ThenBy(e => e.FullName)
+                //.OrderBy(e => e.FullName)
+                .Select(e => new
+                {
+                    id = e.Id,
+                    name = e.FullName,
+                    email = e.Email,
+                    departmentId = e.DepartmentId,
+                    department = e.Department.Name
+                })
+                .ToListAsync();
+
+            //return Json(new { headId, items });
+            return Json(new { items });
+        }
+        private async Task<List<SelectListItem>> GetRolesAsync()
+        {
+            return await _roleManager.Roles
+                .Select(r => new SelectListItem 
+                { 
+                    Text = r.Name, 
+                    Value = r.Name 
+                }).ToListAsync();
+        }
+
+        ///
+        [HttpGet]
+        public async Task<IActionResult> ChangeHead(int id)
+        {
+            var dept = await _departmentSerive.GetDepartmentDtoByIdAsync(id);   // returns DepartmentDto?
+            if (dept == null) return NotFound();
+
+            ViewBag.Employees = await GetHeadCandidatesAsync(dept);
+            return View(dept);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeHead(int id, int? newHeadId)
+        {
+            if (newHeadId is null or <= 0)
+            {
+                TempData["Error"] = "Select the new head first.";
+                return RedirectToAction(nameof(ChangeHead), new { id });
+            }
+
+            var r = await _departmentSerive.ChangeDepartmentHeadAsync(id, newHeadId.Value);
+            if (!r.Success)
+            {
+                TempData["Error"] = r.Error;
+                return RedirectToAction(nameof(ChangeHead), new { id });
+            }
+
+            TempData["Success"] =
+                $"Head changed. {r.Moved} reports moved, {r.Kept} cross-department reports left unchanged.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<List<SelectListItem>> GetHeadCandidatesAsync(DepartmentDto dept)
+        {
+            var employees = await _employeeService.GetActiveByDepartmentAsync(dept.Id);
+            return employees
+                .Where(e => e.Id != dept.HeadEmployeeId)
+                .OrderBy(e => e.FullName)
+                .Select(e => new SelectListItem(e.FullName, e.Id.ToString()))
+                .ToList();
+        }
+
     }
 }

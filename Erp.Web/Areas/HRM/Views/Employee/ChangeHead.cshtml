@@ -1,0 +1,24 @@
+﻿@model Erp.Modules.HRM.DTOs.DepartmentDto
+@{
+    Layout = "_Layout";
+}
+<h2>Change head: @Model.Name</h2>
+
+<p class="text-muted">
+    Current head: @(string.IsNullOrEmpty(Model.HeadName) ? "None" : Model.HeadName)
+</p>
+
+<form asp-action="ChangeHead" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="mb-3">
+        <label class="control-label">New head</label>
+        <select name="newHeadId" class="form-control"
+                asp-items="@((IEnumerable<SelectListItem>)ViewBag.Employees)">
+            <option value="">-- Select employee --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Change head</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -12,6 +12,8 @@ namespace Erp.Modules.HRM.Entities
         public string NormalizedName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string? DepartmentCode {  get; set; }
+        public int? HeadEmployeeId { get; set; }   // nullable: a new department has no head yet
+        public Employee? Head { get; set; }
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }
