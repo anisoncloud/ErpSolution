@@ -1,0 +1,62 @@
+
+services:
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: myapp-sqlserver
+    hostname: db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+    ports:
+      # Local development access only
+      - "127.0.0.1:1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          /opt/mssql-tools18/bin/sqlcmd
+          -S localhost -U sa
+          -P "$${MSSQL_SA_PASSWORD}"
+          -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp-web
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__ErpSolutionConn: >-
+        Server=db,1433;
+        Database=${MSSQL_DATABASE};
+        User Id=sa;
+        Password=${MSSQL_SA_PASSWORD};
+        Encrypt=True;
+        TrustServerCertificate=True;
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+
+networks:
+  app-network:
+    driver: bridge
